@@ -1,0 +1,3166 @@
+PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 07/27/2020  Time 12:16:51   Page     1
+
+Invocation parameters:
+ LIB,ADATA,EX(ADX(ELAXMGUX))
+
+        IGYOS4090-I   The "LIB" option specification is no longer required.  COBOL library processing is always in effect.
+
+
+PROCESS(CBL) statements:
+ PROCESS NODLL,NODYNAM,TEST(NOSEP),NOCICS,NOSQL,PGMN(LU)
+
+        IGYOS4082-I   The "SEP" suboption in "TEST(NOSEP)" is not supported.  "NOSEP" suboption behavior is always in effect with
+                      "TEST".
+
+
+Options in effect:
+   ADATA
+   ADV
+   AFP(VOLATILE)
+   QUOTE
+   ARCH(7)
+   ARITH(COMPAT)
+ NOAWO
+ NOBLOCK0
+   BUFSIZE(4096)
+ NOCICS
+   CODEPAGE(1140)
+ NOCOMPILE(S)
+ NOCOPYRIGHT
+ NOCURRENCY
+   DATA(31)
+   DBCS
+ NODECK
+ NODIAGTRUNC
+   DISPSIGN(COMPAT)
+ NODLL
+ NODUMP
+ NODYNAM
+   EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(ELAXMGUX),NOMSGEXIT)
+ NOEXPORTALL
+ NOFASTSRT
+   FLAG(I,I)
+ NOFLAGSTD
+   HGPR(PRESERVE)
+   INTDATE(ANSI)
+   LANGUAGE(EN)
+   LINECOUNT(60)
+ NOLIST
+ NOMAP
+   MAXPCF(60000)
+ NOMDECK
+ NONAME
+   NSYMBOL(NATIONAL)
+ NONUMBER
+   NUMPROC(NOPFD)
+   OBJECT
+ NOOFFSET
+   OPTIMIZE(0)
+   OUTDD(SYSOUT)
+   PGMNAME(LONGUPPER)PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 07/27/2020  Time 12:16:51   Page     2
+
+   QUALIFY(COMPAT)
+   RENT
+   RMODE(AUTO)
+ NORULES
+ NOSERVICE
+   SEQUENCE
+   SOURCE
+   SPACE(1)
+ NOSQL
+   SQLCCSID
+ NOSQLIMS
+ NOSSRANGE
+ NOSTGOPT
+   SUPPRESS
+ NOTERM
+   TEST(NOEJPD,SOURCE)
+ NOTHREAD
+   TRUNC(STD)
+ NOVBREF
+   VLR(STANDARD)
+   VSAMOPENFS(COMPAT)
+ NOWORD
+   XMLPARSE(XMLSS)
+   XREF(FULL)
+ NOZONECHECK
+   ZONEDATA(PFD)
+   ZWBPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     3
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* TEST_TEST3
+  000001               *+---------------------------------------------------------------+
+  000002               *| Tepscmor                                                      |
+  000003               *| PRODUCT: IBM DEVELOPER FOR Z/OS                               |
+  000004               *| COMPONENT: IBM Z/OS AUTOMATED UNIT TESTING FRAMEWORK (ZUNIT)  |
+  000005               *|   FOR ENTERPRISE COBOL AND PL/I                               |
+  000006               *| PROGRAM: ENTERPRISE COBOL ZUNIT TEST CASE FOR DYNAMIC RUNNER  |
+  000007               *| DATE GENERATED: 07/27/2020 14:15                              |
+  000008               *| ID: bec0ffa9-6140-4d81-9798-8611ae26c173                      |
+  000009               *+---------------------------------------------------------------+
+  000010               *+---------------------------------------------------------------+
+  000011               *| TEST_TEST3                                                    |
+  000012               *|     THIS PROGRAM IS FOR TEST TEST3                            |
+  000013               *+---------------------------------------------------------------+
+  000014                IDENTIFICATION DIVISION.
+  000015                PROGRAM-ID. 'TEST_TEST3'.
+  000016                DATA DIVISION.
+  000017                WORKING-STORAGE SECTION.
+  000018                01 PROGRAM-NAME   PIC X(8)  VALUE 'EPSCMORT'.
+  000019                01 BZ-ASSERT.
+  000020                  03 MESSAGE-LEN PIC S9(4) COMP-4 VALUE 24.
+  000021                  03 MESSAGE-TXT PIC X(254) VALUE 'HELLO FROM TEST CALLBACK'.
+  000022                01  BZ-P1 PIC S9(9) COMP-4 VALUE 4.
+  000023                01  BZ-P2 PIC S9(9) COMP-4 VALUE 2001.
+  000024                01  BZ-P3 PIC X(3) VALUE 'AZU'.
+  000025                01 BZ-TRACE.
+  000026                  03 TRACE-LEN       PIC S9(4) COMP-4 VALUE 5.
+  000027                  03 TRACE-TXT       PIC X(254) VALUE 'TRACE'.
+  000028                01 BZUASSRT          PIC X(8) VALUE 'BZUASSRT'.
+  000029                01 BZUTRACE          PIC X(8) VALUE 'BZUTRACE'.
+  000030                01 ASSERT-ST.
+  000031                  03 ASSERT-RC PIC 9(9) BINARY VALUE 4.
+  000032                  03 ASSERT-TEXT PIC 9(4) BINARY VALUE 0.
+  000033                01 AZ-TEST-NAME-LEN       PIC S9(9) COMP-5.
+  000034                1 AZ-TEST-EXPECTED-DATA-VALUE.
+  000035                   3 ZUT00000000.
+  000036                     5 PIC X(1) DISPLAY VALUE '3'.
+  000037                   3 ZUT00000001.
+  000038                     5 PIC X(4) VALUE X'00000000'.
+  000039                01 AZ-COMPARE.
+  000040                  03 AZ-COMPARE-ITEM-NAME-PTR  POINTER.
+  000041                  03 AZ-COMPARE-ITEM-NAME-LEN  PIC S9(9) COMP-5.
+  000042                  03 AZ-COMPARE-ITEM-VALUE-PTR POINTER.
+  000043                  03 AZ-COMPARE-ITEM-VALUE-LEN PIC S9(9) COMP-5.
+  000044                  03 AZ-COMPARE-ITEM-EXP-VALUE-PTR POINTER.
+  000045                  03 AZ-COMPARE-ITEM-EXP-VALUE-LEN PIC S9(9) COMP-5.
+  000046                LOCAL-STORAGE SECTION.
+  000047                1 AZ-COMPARE-ITEM-NAMES.
+  000048                  3 ZUT00000002.
+  000049                     5 PIC X(20) DISPLAY VALUE 'PROCESS-INDICATOR OF'.
+  000050                     5 PIC X(12) DISPLAY VALUE ' DFHCOMMAREA'.
+  000051                  3 ZUT00000004.
+  000052                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-PRINCIPLE-DA'.
+  000053                     5 PIC X(17) DISPLAY VALUE 'TA OF DFHCOMMAREA'.
+  000054                  3 ZUT00000006.
+  000055                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-NUMBER-OF-YE'.
+  000056                     5 PIC X(18) DISPLAY VALUE 'ARS OF DFHCOMMAREA'.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     4
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000057                  3 ZUT00000008.
+  000058                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-NUMBER-OF-MO'.
+  000059                     5 PIC X(19) DISPLAY VALUE 'NTHS OF DFHCOMMAREA'.
+  000060                  3 ZUT0000000A.
+  000061                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-QUOTED-INTER'.
+  000062                     5 PIC X(20) DISPLAY VALUE 'EST-RATE OF DFHCOMMA'.
+  000063                     5 PIC X(3) DISPLAY VALUE 'REA'.
+  000064                  3 ZUT0000000C.
+  000065                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-RETURN-MONTH'.
+  000066                     5 PIC X(20) DISPLAY VALUE '-PAYMENT OF DFHCOMMA'.
+  000067                     5 PIC X(3) DISPLAY VALUE 'REA'.
+  000068                  3 ZUT0000000E.
+  000069                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-PROGRAM-RETC'.
+  000070                     5 PIC X(18) DISPLAY VALUE 'ODE OF DFHCOMMAREA'.
+  000071                1 AZ-COMPARE-WORK-ITEMS.
+  000072                   3 ZUT00000003 PIC X(1) OCCURS 2.
+  000073                   3 ZUT00000005 PIC -9(9).9(2) OCCURS 2.
+  000074                   3 ZUT00000007 PIC -9(4) OCCURS 2.
+  000075                   3 ZUT00000009 PIC -9(4) OCCURS 2.
+  000076                   3 ZUT0000000B PIC -9(2).9(3) OCCURS 2.
+  000077                   3 ZUT0000000D PIC -9(7).9(2) OCCURS 2.
+  000078                   3 ZUT0000000F PIC X(8) OCCURS 2.
+  000079                01 AZ-CONVERT.
+  000080                  03 AZ-CONVERT-HEXIN  PIC X(1).
+  000081                  03 AZ-CONVERT-HEXVAL PIC X(2).
+  000082                  03 AZ-HEXSTR PIC X(16) VALUE "0123456789ABCDEF".
+  000083                  03 AZ-DEC  PIC S9(4) COMP VALUE 0.
+  000084                  03 FILLER REDEFINES AZ-DEC.                                             83
+  000085                    05 FILLER PIC X.
+  000086                    05 AZ-DECBYTE PIC X.
+  000087                  03 AZ-I PIC S9(8) COMP.
+  000088                  03 AZ-J PIC S9(8) COMP.
+  000089                  03 AZ-Q PIC S9(8) COMP.
+  000090                  03 AZ-R PIC S9(8) COMP.
+  000091                  03 AZ-Q1 PIC S9(8) COMP.
+  000092                  03 AZ-R1 PIC S9(8) COMP.
+  000093                LINKAGE SECTION.
+  000094                01 AZ-TEST                   PIC X(80).
+  000095                01 AZ-ARG-LIST.
+  000096                  03 ARG-LENGTH PIC 9(4) COMP-4.
+  000097                  03 ARG-DATA PIC X(256).
+  000098                01 AZ-COMPARE-ITEM-NAME      PIC X(254).
+  000099                01 AZ-COMPARE-ITEM-VALUE     PIC X(254).
+  000100                01 AZ-COMPARE-ITEM-EXP-VALUE PIC X(254).
+  000101                1 DFHEIBLK.
+  000102                  2 EIBTIME PICTURE S9(7) USAGE COMPUTATIONAL-3.
+  000103                  2 EIBDATE PICTURE S9(7) USAGE COMPUTATIONAL-3.
+  000104                  2 EIBTRNID PICTURE X(4).
+  000105                  2 EIBTASKN PICTURE S9(7) USAGE COMPUTATIONAL-3.
+  000106                  2 EIBTRMID PICTURE X(4).
+  000107                  2 DFHEIGDI PICTURE S9(4) USAGE COMPUTATIONAL-5.
+  000108                  2 EIBCPOSN PICTURE S9(4) USAGE COMPUTATIONAL-5.
+  000109                  2 EIBCALEN PICTURE S9(4) USAGE COMPUTATIONAL-5.
+  000110                  2 EIBAID PICTURE X(1).
+  000111                  2 EIBFN PICTURE X(2).
+  000112                  2 EIBRCODE PICTURE X(6).
+  000113                  2 EIBDS PICTURE X(8).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     5
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000114                  2 EIBREQID PICTURE X(8).
+  000115                  2 EIBRSRCE PICTURE X(8).
+  000116                  2 EIBSYNC PICTURE X.
+  000117                  2 EIBFREE PICTURE X.
+  000118                  2 EIBRECV PICTURE X.
+  000119                  2 EIBSEND PICTURE X.
+  000120                  2 EIBATT PICTURE X.
+  000121                  2 EIBEOC PICTURE X.
+  000122                  2 EIBFMH PICTURE X.
+  000123                  2 EIBCOMPL PICTURE X(1).
+  000124                  2 EIBSIG PICTURE X(1).
+  000125                  2 EIBCONF PICTURE X(1).
+  000126                  2 EIBERR PICTURE X(1).
+  000127                  2 EIBERRCD PICTURE X(4).
+  000128                  2 EIBSYNRB PICTURE X.
+  000129                  2 EIBNODAT PICTURE X.
+  000130                  2 EIBRESP PICTURE S9(8) USAGE COMPUTATIONAL.
+  000131                  2 EIBRESP2 PICTURE S9(8) USAGE COMPUTATIONAL.
+  000132                  2 EIBRLDBK PICTURE X(1).
+  000133                1 DFHCOMMAREA.
+  000134                  10 PROCESS-INDICATOR PIC X.
+  000135                  10 EPSPCOM-PRINCIPLE-DATA PIC S9(9)V99 COMP.
+  000136                  10 EPSPCOM-NUMBER-OF-YEARS PIC S9(4) COMP.
+  000137                  10 EPSPCOM-NUMBER-OF-MONTHS PIC S9(4) COMP.
+  000138                  10 EPSPCOM-QUOTED-INTEREST-RATE PIC S9(2)v9(3) COMP.
+  000139                  10 EPSPCOM-YEAR-MONTH-IND PIC X.
+  000140                  10 EPSPCOM-RETURN-MONTH-PAYMENT PIC S9(7)V99 COMP.
+  000141                  10 EPSPCOM-ERRMSG PIC X(80).
+  000142                  10 EPSPCOM-PROGRAM-RETCODE PIC 9(4).
+  000143                  88 EPS02-REQUEST-SUCCESS VALUE 0.
+  000144                   10 EPSPCOM-PROGRAM-RETCODE-AZ REDEFINES
+  000145                    EPSPCOM-PROGRAM-RETCODE.                                              142
+  000146                   11 PIC X(4) DISPLAY.
+  000147                  10 EPSPCOM-PROGRAM-RETCODE-RDF REDEFINES
+  000148                    EPSPCOM-PROGRAM-RETCODE PIC X(4).                                     142
+  000149                PROCEDURE DIVISION USING AZ-TEST                                          94
+  000150                    DFHEIBLK DFHCOMMAREA.                                                 101 133
+  000151               * START
+  000152                    DISPLAY 'TEST_TEST3 STARTED...'
+  000153                    MOVE 0 TO AZ-TEST-NAME-LEN.                                           33
+  000154                    INSPECT AZ-TEST TALLYING AZ-TEST-NAME-LEN FOR                         94 33
+  000155                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  000156               * INITIALIZE PARAMETER
+  000157                    PERFORM INITIALIZE-PARM                                               286
+  000158               * SET AREA ADDRESS TO POINTER
+  000159               * SET INPUT VALUE
+  000160                    MOVE 0 TO RETURN-CODE.                                                IMP IMP
+  000161               * CALL TEST PROGRAM
+  000162                    DISPLAY 'CALL EPSCMORT'
+  000163                    CALL PROGRAM-NAME                                                     18
+  000164                    USING DFHEIBLK DFHCOMMAREA                                            101 133
+  000165                    .
+  000166               * EVALUATE OUTPUT VALUE
+  000167                    MOVE 0 TO RETURN-CODE                                                 IMP IMP
+  000168                    IF PROCESS-INDICATOR OF DFHCOMMAREA = ZUT00000000 THEN                134 133 35
+  000169      1               CONTINUE
+  000170                    ELSEPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     6
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000171      1               MOVE PROCESS-INDICATOR OF DFHCOMMAREA TO ZUT00000003(1)             134 133 72
+  000172      1               MOVE ZUT00000000 TO ZUT00000003(2)                                  35 72
+  000173      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000002              40 IMP 48
+  000174      1               MOVE LENGTH OF ZUT00000002 TO AZ-COMPARE-ITEM-NAME-LEN              IMP 48 41
+  000175      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT00000003(1)          42 IMP 72
+  000176      1               MOVE 1 TO AZ-COMPARE-ITEM-VALUE-LEN                                 43
+  000177      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000178      1             ZUT00000003(2)                                                        72
+  000179      1               MOVE 1 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                             45
+  000180      1               PERFORM THROW-ASSERTION                                             296
+  000181                    END-IF
+  000182                    IF EPSPCOM-PRINCIPLE-DATA OF DFHCOMMAREA = 0 THEN                     135 133
+  000183      1               CONTINUE
+  000184                    ELSE
+  000185      1               MOVE EPSPCOM-PRINCIPLE-DATA OF DFHCOMMAREA TO                       135 133
+  000186      1             ZUT00000005(1)                                                        73
+  000187      1               MOVE 0 TO ZUT00000005(2)                                            73
+  000188      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000004              40 IMP 51
+  000189      1               MOVE LENGTH OF ZUT00000004 TO AZ-COMPARE-ITEM-NAME-LEN              IMP 51 41
+  000190      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT00000005(1)          42 IMP 73
+  000191      1               MOVE 13 TO AZ-COMPARE-ITEM-VALUE-LEN                                43
+  000192      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000193      1             ZUT00000005(2)                                                        73
+  000194      1               MOVE 13 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                            45
+  000195      1               PERFORM THROW-ASSERTION                                             296
+  000196                    END-IF
+  000197                    IF EPSPCOM-NUMBER-OF-YEARS OF DFHCOMMAREA = 0 THEN                    136 133
+  000198      1               CONTINUE
+  000199                    ELSE
+  000200      1               MOVE EPSPCOM-NUMBER-OF-YEARS OF DFHCOMMAREA TO                      136 133
+  000201      1             ZUT00000007(1)                                                        74
+  000202      1               MOVE 0 TO ZUT00000007(2)                                            74
+  000203      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000006              40 IMP 54
+  000204      1               MOVE LENGTH OF ZUT00000006 TO AZ-COMPARE-ITEM-NAME-LEN              IMP 54 41
+  000205      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT00000007(1)          42 IMP 74
+  000206      1               MOVE 5 TO AZ-COMPARE-ITEM-VALUE-LEN                                 43
+  000207      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000208      1             ZUT00000007(2)                                                        74
+  000209      1               MOVE 5 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                             45
+  000210      1               PERFORM THROW-ASSERTION                                             296
+  000211                    END-IF
+  000212                    IF EPSPCOM-NUMBER-OF-MONTHS OF DFHCOMMAREA = 0 THEN                   137 133
+  000213      1               CONTINUE
+  000214                    ELSE
+  000215      1               MOVE EPSPCOM-NUMBER-OF-MONTHS OF DFHCOMMAREA TO                     137 133
+  000216      1             ZUT00000009(1)                                                        75
+  000217      1               MOVE 0 TO ZUT00000009(2)                                            75
+  000218      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000008              40 IMP 57
+  000219      1               MOVE LENGTH OF ZUT00000008 TO AZ-COMPARE-ITEM-NAME-LEN              IMP 57 41
+  000220      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT00000009(1)          42 IMP 75
+  000221      1               MOVE 5 TO AZ-COMPARE-ITEM-VALUE-LEN                                 43
+  000222      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000223      1             ZUT00000009(2)                                                        75
+  000224      1               MOVE 5 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                             45
+  000225      1               PERFORM THROW-ASSERTION                                             296
+  000226                    END-IF
+  000227                    IF EPSPCOM-QUOTED-INTEREST-RATE OF DFHCOMMAREA = 0 THEN               138 133PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     7
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000228      1               CONTINUE
+  000229                    ELSE
+  000230      1               MOVE EPSPCOM-QUOTED-INTEREST-RATE OF DFHCOMMAREA TO                 138 133
+  000231      1             ZUT0000000B(1)                                                        76
+  000232      1               MOVE 0 TO ZUT0000000B(2)                                            76
+  000233      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000A              40 IMP 60
+  000234      1               MOVE LENGTH OF ZUT0000000A TO AZ-COMPARE-ITEM-NAME-LEN              IMP 60 41
+  000235      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT0000000B(1)          42 IMP 76
+  000236      1               MOVE 7 TO AZ-COMPARE-ITEM-VALUE-LEN                                 43
+  000237      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000238      1             ZUT0000000B(2)                                                        76
+  000239      1               MOVE 7 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                             45
+  000240      1               PERFORM THROW-ASSERTION                                             296
+  000241                    END-IF
+  000242                    IF EPSPCOM-RETURN-MONTH-PAYMENT OF DFHCOMMAREA = 0 THEN               140 133
+  000243      1               CONTINUE
+  000244                    ELSE
+  000245      1               MOVE EPSPCOM-RETURN-MONTH-PAYMENT OF DFHCOMMAREA TO                 140 133
+  000246      1             ZUT0000000D(1)                                                        77
+  000247      1               MOVE 0 TO ZUT0000000D(2)                                            77
+  000248      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000C              40 IMP 64
+  000249      1               MOVE LENGTH OF ZUT0000000C TO AZ-COMPARE-ITEM-NAME-LEN              IMP 64 41
+  000250      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT0000000D(1)          42 IMP 77
+  000251      1               MOVE 11 TO AZ-COMPARE-ITEM-VALUE-LEN                                43
+  000252      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000253      1             ZUT0000000D(2)                                                        77
+  000254      1               MOVE 11 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                            45
+  000255      1               PERFORM THROW-ASSERTION                                             296
+  000256                    END-IF
+  000257                    IF EPSPCOM-PROGRAM-RETCODE-AZ OF DFHCOMMAREA = ZUT00000001            144 133 37
+  000258                    THEN
+  000259      1               CONTINUE
+  000260                    ELSE
+  000261      1               PERFORM VARYING AZ-I FROM 1 BY 1 UNTIL AZ-I > 4                     87 87
+  000262      2                 MOVE EPSPCOM-PROGRAM-RETCODE-AZ OF DFHCOMMAREA(AZ-I:1)            144 133 87
+  000263      2             TO AZ-CONVERT-HEXIN                                                   80
+  000264      2                 PERFORM CONVERT                                                   288
+  000265      2                 COMPUTE AZ-J = AZ-I * 2 - 1                                       88 87
+  000266      2                 MOVE AZ-CONVERT-HEXVAL TO ZUT0000000F(1)(AZ-J:2)                  81 78 88
+  000267      1               END-PERFORM
+  000268      1               PERFORM VARYING AZ-I FROM 1 BY 1 UNTIL AZ-I > 4                     87 87
+  000269      2                 MOVE ZUT00000001(AZ-I:1) TO AZ-CONVERT-HEXIN                      37 87 80
+  000270      2                 PERFORM CONVERT                                                   288
+  000271      2                 COMPUTE AZ-J = AZ-I * 2 - 1                                       88 87
+  000272      2                 MOVE AZ-CONVERT-HEXVAL TO ZUT0000000F(2)(AZ-J:2)                  81 78 88
+  000273      1               END-PERFORM
+  000274      1               SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000E              40 IMP 68
+  000275      1               MOVE LENGTH OF ZUT0000000E TO AZ-COMPARE-ITEM-NAME-LEN              IMP 68 41
+  000276      1               SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF ZUT0000000F(1)          42 IMP 78
+  000277      1               MOVE 8 TO AZ-COMPARE-ITEM-VALUE-LEN                                 43
+  000278      1               SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                     44 IMP
+  000279      1             ZUT0000000F(2)                                                        78
+  000280      1               MOVE 8 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                             45
+  000281      1               PERFORM THROW-ASSERTION                                             296
+  000282                    END-IF
+  000283               * END
+  000284                    DISPLAY 'TEST_TEST3 SUCCESSFUL.'PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     8
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000285                    GOBACK.
+  000286                INITIALIZE-PARM.
+  000287                    EXIT.
+  000288                CONVERT.
+  000289                    MOVE AZ-CONVERT-HEXIN TO AZ-DECBYTE                                   80 86
+  000290                    DIVIDE AZ-DEC BY 16 GIVING AZ-Q REMAINDER AZ-R                        83 89 90
+  000291                    COMPUTE AZ-Q1 = AZ-Q + 1                                              91 89
+  000292                    COMPUTE AZ-R1 = AZ-R + 1                                              92 90
+  000293                    MOVE AZ-HEXSTR(AZ-Q1:1) TO AZ-CONVERT-HEXVAL(1:1)                     82 91 81
+  000294                    MOVE AZ-HEXSTR(AZ-R1:1) TO AZ-CONVERT-HEXVAL(2:1)                     82 92 81
+  000295                    EXIT.
+  000296                THROW-ASSERTION.
+  000297                    MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                    20 19
+  000298                    STRING 'COMPARE FAILED IN PROCEDURE DIVISION.'
+  000299                      DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                     21 19
+  000300                      WITH POINTER MESSAGE-LEN OF BZ-ASSERT                               20 19
+  000301                    END-STRING
+  000302                    SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                              20 19
+  000303                    SET ADDRESS OF AZ-COMPARE-ITEM-NAME TO                                IMP 98
+  000304                    AZ-COMPARE-ITEM-NAME-PTR.                                             40
+  000305                    SET ADDRESS OF AZ-COMPARE-ITEM-VALUE TO                               IMP 99
+  000306                    AZ-COMPARE-ITEM-VALUE-PTR.                                            42
+  000307                    SET ADDRESS OF AZ-COMPARE-ITEM-EXP-VALUE TO                           IMP 100
+  000308                    AZ-COMPARE-ITEM-EXP-VALUE-PTR.                                        44
+  000309                    DISPLAY '****************************************************
+  000310               -    '****************************'
+  000311                    DISPLAY 'AZU2001W THE TEST "' AZ-TEST(1:AZ-TEST-NAME-LEN) '"          94 33
+  000312               -    'FAILED DUE TO AN ASSERTION.'
+  000313                    DISPLAY 'AZU1101I ' MESSAGE-TXT OF BZ-ASSERT(1:MESSAGE-LEN            21 19 20
+  000314                    OF BZ-ASSERT)                                                         19
+  000315                    DISPLAY ' DATA ITEM NAME : '
+  000316                    AZ-COMPARE-ITEM-NAME(1:AZ-COMPARE-ITEM-NAME-LEN)                      98 41
+  000317                    DISPLAY '  VALUE         : '
+  000318                    AZ-COMPARE-ITEM-VALUE(1:AZ-COMPARE-ITEM-VALUE-LEN)                    99 43
+  000319                    DISPLAY '  EXPECTED VALUE: '
+  000320                    AZ-COMPARE-ITEM-EXP-VALUE(1:AZ-COMPARE-ITEM-EXP-VALUE-LEN)            100 45
+  000321                    DISPLAY '****************************************************
+  000322               -    '****************************'
+  000323                    CALL BZUASSRT USING BZ-P1 BZ-P2 BZ-P3 BZ-ASSERT                       28 22 23 24 19
+  000324                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       26 25
+  000325                    STRING 'ITEM NAME='
+  000326                    AZ-COMPARE-ITEM-NAME(1:AZ-COMPARE-ITEM-NAME-LEN)                      98 41
+  000327                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      27 25
+  000328                        WITH POINTER TRACE-LEN OF BZ-TRACE                                26 25
+  000329                      END-STRING
+  000330                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 26 25
+  000331                    CALL BZUTRACE USING BZ-TRACE                                          29 25
+  000332                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       26 25
+  000333                    STRING 'VALUE='
+  000334                    AZ-COMPARE-ITEM-VALUE(1:AZ-COMPARE-ITEM-VALUE-LEN)                    99 43
+  000335                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      27 25
+  000336                        WITH POINTER TRACE-LEN OF BZ-TRACE                                26 25
+  000337                      END-STRING
+  000338                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 26 25
+  000339                    CALL BZUTRACE USING BZ-TRACE                                          29 25
+  000340                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       26 25
+  000341                    STRING 'EXPECTED VALUE='PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page     9
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000342                    AZ-COMPARE-ITEM-EXP-VALUE(1:AZ-COMPARE-ITEM-EXP-VALUE-LEN)            100 45
+  000343                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      27 25
+  000344                        WITH POINTER TRACE-LEN OF BZ-TRACE                                26 25
+  000345                      END-STRING
+  000346                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 26 25
+  000347                    CALL BZUTRACE USING BZ-TRACE                                          29 25
+  000348                    EXIT.
+  000349                END PROGRAM TEST_TEST3.                                                   15
+  000350               *+---------------------------------------------------------------+
+  000351               *| BZU_INIT                                                      |
+  000352               *|     INITIAL PROCEDURE                                         |
+  000353               *+---------------------------------------------------------------+
+*/ TEST_TEST3PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page    10
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+      97   ARG-DATA
+      96   ARG-LENGTH
+      31   ASSERT-RC
+      30   ASSERT-ST
+      32   ASSERT-TEXT
+      95   AZ-ARG-LIST
+      39   AZ-COMPARE
+     100   AZ-COMPARE-ITEM-EXP-VALUE. . .  307 320 342
+      45   AZ-COMPARE-ITEM-EXP-VALUE-LEN.  M179 M194 M209 M224 M239 M254 M280 320 342
+      44   AZ-COMPARE-ITEM-EXP-VALUE-PTR.  M177 M192 M207 M222 M237 M252 M278 308
+      98   AZ-COMPARE-ITEM-NAME . . . . .  303 316 326
+      41   AZ-COMPARE-ITEM-NAME-LEN . . .  M174 M189 M204 M219 M234 M249 M275 316 326
+      40   AZ-COMPARE-ITEM-NAME-PTR . . .  M173 M188 M203 M218 M233 M248 M274 304
+      47   AZ-COMPARE-ITEM-NAMES
+      99   AZ-COMPARE-ITEM-VALUE. . . . .  305 318 334
+      43   AZ-COMPARE-ITEM-VALUE-LEN. . .  M176 M191 M206 M221 M236 M251 M277 318 334
+      42   AZ-COMPARE-ITEM-VALUE-PTR. . .  M175 M190 M205 M220 M235 M250 M276 306
+      71   AZ-COMPARE-WORK-ITEMS
+      79   AZ-CONVERT
+      80   AZ-CONVERT-HEXIN . . . . . . .  M263 M269 289
+      81   AZ-CONVERT-HEXVAL. . . . . . .  266 272 M293 M294
+      83   AZ-DEC . . . . . . . . . . . .  84 290
+      86   AZ-DECBYTE . . . . . . . . . .  M289
+      82   AZ-HEXSTR. . . . . . . . . . .  293 294
+      87   AZ-I . . . . . . . . . . . . .  M261 261 262 265 M268 268 269 271
+      88   AZ-J . . . . . . . . . . . . .  M265 266 M271 272
+      89   AZ-Q . . . . . . . . . . . . .  M290 291
+      91   AZ-Q1. . . . . . . . . . . . .  M291 293
+      90   AZ-R . . . . . . . . . . . . .  M290 292
+      92   AZ-R1. . . . . . . . . . . . .  M292 294
+      94   AZ-TEST. . . . . . . . . . . .  149 154 311
+      34   AZ-TEST-EXPECTED-DATA-VALUE
+      33   AZ-TEST-NAME-LEN . . . . . . .  M153 M154 311
+      19   BZ-ASSERT. . . . . . . . . . .  297 299 300 302 313 314 323
+      22   BZ-P1. . . . . . . . . . . . .  323
+      23   BZ-P2. . . . . . . . . . . . .  323
+      24   BZ-P3. . . . . . . . . . . . .  323
+      25   BZ-TRACE . . . . . . . . . . .  324 327 328 330 331 332 335 336 338 339 340 343 344 346 347
+      28   BZUASSRT . . . . . . . . . . .  323
+      29   BZUTRACE . . . . . . . . . . .  331 339 347
+     133   DFHCOMMAREA. . . . . . . . . .  150 164 168 171 182 185 197 200 212 215 227 230 242 245 257 262
+     101   DFHEIBLK . . . . . . . . . . .  150 164
+     107   DFHEIGDI
+     110   EIBAID
+     120   EIBATT
+     109   EIBCALEN
+     123   EIBCOMPL
+     125   EIBCONF
+     108   EIBCPOSN
+     103   EIBDATE
+     113   EIBDS
+     121   EIBEOC
+     126   EIBERR
+     127   EIBERRCDPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page    11
+
+ Defined   Cross-reference of data names   References
+
+
+     122   EIBFMH
+     111   EIBFN
+     117   EIBFREE
+     129   EIBNODAT
+     112   EIBRCODE
+     118   EIBRECV
+     114   EIBREQID
+     130   EIBRESP
+     131   EIBRESP2
+     132   EIBRLDBK
+     115   EIBRSRCE
+     119   EIBSEND
+     124   EIBSIG
+     116   EIBSYNC
+     128   EIBSYNRB
+     105   EIBTASKN
+     102   EIBTIME
+     106   EIBTRMID
+     104   EIBTRNID
+     141   EPSPCOM-ERRMSG
+     137   EPSPCOM-NUMBER-OF-MONTHS . . .  212 215
+     136   EPSPCOM-NUMBER-OF-YEARS. . . .  197 200
+     135   EPSPCOM-PRINCIPLE-DATA . . . .  182 185
+     142   EPSPCOM-PROGRAM-RETCODE. . . .  145 148
+     144   EPSPCOM-PROGRAM-RETCODE-AZ . .  257 262
+     147   EPSPCOM-PROGRAM-RETCODE-RDF
+     138   EPSPCOM-QUOTED-INTEREST-RATE .  227 230
+     140   EPSPCOM-RETURN-MONTH-PAYMENT .  242 245
+     139   EPSPCOM-YEAR-MONTH-IND
+     143   EPS02-REQUEST-SUCCESS
+      20   MESSAGE-LEN. . . . . . . . . .  M297 M300 M302 313
+      21   MESSAGE-TXT. . . . . . . . . .  M299 313
+     134   PROCESS-INDICATOR. . . . . . .  168 171
+      18   PROGRAM-NAME . . . . . . . . .  163
+       0   RETURN-CODE. . . . . . . . . .  160 M160 167 M167
+      26   TRACE-LEN. . . . . . . . . . .  M324 M328 M330 M332 M336 M338 M340 M344 M346
+      27   TRACE-TXT. . . . . . . . . . .  M327 M335 M343
+      60   ZUT0000000A. . . . . . . . . .  233 234
+      76   ZUT0000000B. . . . . . . . . .  M231 M232 235 238
+      64   ZUT0000000C. . . . . . . . . .  248 249
+      77   ZUT0000000D. . . . . . . . . .  M246 M247 250 253
+      68   ZUT0000000E. . . . . . . . . .  274 275
+      78   ZUT0000000F. . . . . . . . . .  M266 M272 276 279
+      35   ZUT00000000. . . . . . . . . .  168 172
+      37   ZUT00000001. . . . . . . . . .  257 269
+      48   ZUT00000002. . . . . . . . . .  173 174
+      72   ZUT00000003. . . . . . . . . .  M171 M172 175 178
+      51   ZUT00000004. . . . . . . . . .  188 189
+      73   ZUT00000005. . . . . . . . . .  M186 M187 190 193
+      54   ZUT00000006. . . . . . . . . .  203 204
+      74   ZUT00000007. . . . . . . . . .  M201 M202 205 208
+      57   ZUT00000008. . . . . . . . . .  218 219
+      75   ZUT00000009. . . . . . . . . .  M216 M217 220 223PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page    12
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     288   CONVERT. . . . . . . . . . . .  P264 P270
+     286   INITIALIZE-PARM. . . . . . . .  P157
+     296   THROW-ASSERTION. . . . . . . .  P180 P195 P210 P225 P240 P255 P281PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page    13
+
+ Defined   Cross-reference of programs     References
+
+      15   TEST_TEST3 . . . . . . . . . .  349PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       TEST_TES  Date 07/27/2020  Time 12:16:51   Page    14
+
+
+         COPY/BASIS cross-reference of text-names, library names and dataset information
+
+ Text-name Library   File name                                    Concat   ISPF statistics
+ (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+ BZUITERC  SYSLIB    IBMUSER.DBB.COPY                               0
+
+
+
+Messages    Total    Informational    Warning    Error    Severe    Terminating
+
+Printed:       2           2
+
+
+* Statistics for COBOL program TEST_TEST3:
+*    Source records = 353
+*    Data Division statements = 106
+*    Procedure Division statements = 130
+*    Generated COBOL statements = 0
+*    Program complexity factor = 134
+
+End of compilation 1,  program TEST_TEST3,  highest severity 0.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_INIT  Date 07/27/2020  Time 12:16:51   Page    15
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* BZU_INIT
+  000354                IDENTIFICATION DIVISION.
+  000355                PROGRAM-ID. 'BZU_INIT'.
+  000356                DATA DIVISION.
+  000357                WORKING-STORAGE SECTION.
+  000358                01 AZ-TEST-NAME-LEN      PIC S9(9) COMP-5.
+  000359                01 AZ-TESTCASE-ID        PIC X(36)
+  000360                    VALUE 'bec0ffa9-6140-4d81-9798-8611ae26c173'.
+  000361                LINKAGE SECTION.
+  000362                01 AZ-TEST               PIC X(80).
+  000363                01 AZ-TEST-ID            PIC X(80).
+  000364                PROCEDURE DIVISION USING AZ-TEST AZ-TEST-ID.                              362 363
+  000365                    MOVE 0 TO AZ-TEST-NAME-LEN.                                           358
+  000366                    INSPECT AZ-TEST TALLYING AZ-TEST-NAME-LEN FOR                         362 358
+  000367                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  000368                    DISPLAY 'BZU_INIT : ' AZ-TEST(1:AZ-TEST-NAME-LEN)                     362 358
+  000369                    MOVE AZ-TESTCASE-ID TO AZ-TEST-ID                                     359 363
+  000370                    GOBACK.
+  000371                END PROGRAM BZU_INIT.                                                     355
+  000372               *+---------------------------------------------------------------+
+  000373               *| BZU_TERM                                                      |
+  000374               *|     TERMINATION PROCEDURE                                     |
+  000375               *+---------------------------------------------------------------+
+*/ BZU_INITPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_INIT  Date 07/27/2020  Time 12:16:51   Page    16
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+     362   AZ-TEST. . . . . . . . . . . .  364 366 368
+     363   AZ-TEST-ID . . . . . . . . . .  364 M369
+     358   AZ-TEST-NAME-LEN . . . . . . .  M365 M366 368
+     359   AZ-TESTCASE-ID . . . . . . . .  369PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_INIT  Date 07/27/2020  Time 12:16:51   Page    17
+
+ Defined   Cross-reference of programs     References
+
+     355   BZU_INIT . . . . . . . . . . .  371
+
+
+* Statistics for COBOL program BZU_INIT:
+*    Source records = 22
+*    Data Division statements = 4
+*    Procedure Division statements = 5
+*    Generated COBOL statements = 0
+*    Program complexity factor = 5
+
+End of compilation 2,  program BZU_INIT,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_TERM  Date 07/27/2020  Time 12:16:51   Page    18
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* BZU_TERM
+  000376                IDENTIFICATION DIVISION.
+  000377                PROGRAM-ID. 'BZU_TERM'.
+  000378                DATA DIVISION.
+  000379                WORKING-STORAGE SECTION.
+  000380                01 AZ-TEST-NAME-LEN      PIC S9(9) COMP-5.
+  000381                LINKAGE SECTION.
+  000382                01 AZ-TEST               PIC X(80).
+  000383                PROCEDURE DIVISION USING AZ-TEST.                                         382
+  000384                    MOVE 0 TO AZ-TEST-NAME-LEN.                                           380
+  000385                    INSPECT AZ-TEST TALLYING AZ-TEST-NAME-LEN FOR                         382 380
+  000386                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  000387                    DISPLAY 'BZU_TERM : ' AZ-TEST(1:AZ-TEST-NAME-LEN)                     382 380
+  000388                    GOBACK.
+  000389                END PROGRAM BZU_TERM.                                                     377
+  000390               *+---------------------------------------------------------------+
+  000391               *| EPSNBRVL                                                      |
+  000392               *|                                                               |
+  000393               *+---------------------------------------------------------------+
+*/ BZU_TERMPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_TERM  Date 07/27/2020  Time 12:16:51   Page    19
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+     382   AZ-TEST. . . . . . . . . . . .  383 385 387
+     380   AZ-TEST-NAME-LEN . . . . . . .  M384 M385 387PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       BZU_TERM  Date 07/27/2020  Time 12:16:51   Page    20
+
+ Defined   Cross-reference of programs     References
+
+     377   BZU_TERM . . . . . . . . . . .  389
+
+
+* Statistics for COBOL program BZU_TERM:
+*    Source records = 18
+*    Data Division statements = 2
+*    Procedure Division statements = 4
+*    Generated COBOL statements = 0
+*    Program complexity factor = 4
+
+End of compilation 3,  program BZU_TERM,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    21
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* PGM_EPSNBRVL
+  000394                IDENTIFICATION DIVISION.
+  000395                PROGRAM-ID. 'PGM_EPSNBRVL'.
+  000396                DATA DIVISION.
+  000397                WORKING-STORAGE SECTION.
+  000398                01 BZ-ASSERT.
+  000399                  03 MESSAGE-LEN PIC S9(4) COMP-4 VALUE 24.
+  000400                  03 MESSAGE-TXT PIC X(254) VALUE 'HELLO FROM STUB CALLBACK'.
+  000401                01  BZ-P1 PIC S9(9) COMP-4 VALUE 4.
+  000402                01  BZ-P2 PIC S9(9) COMP-4 VALUE 2001.
+  000403                01  BZ-P3 PIC X(3) VALUE 'AZU'.
+  000404                01 BZ-TRACE.
+  000405                  03 TRACE-LEN       PIC S9(4) COMP-4 VALUE 5.
+  000406                  03 TRACE-TXT       PIC X(254) VALUE 'TRACE'.
+  000407                01 BZUASSRT          PIC X(8) VALUE 'BZUASSRT'.
+  000408                01 BZUTRACE          PIC X(8) VALUE 'BZUTRACE'.
+  000409                01 AZ-TEST-LEN       PIC S9(8) COMP.
+  000410                01 AZ-RECORD.
+  000411                  03 AZ-RECORD-COUNT-OT PIC 9(5) COMP-5 VALUE 0.
+  000412                  03 AZ-RECORD-COUNT-IN PIC 9(5) COMP-5 VALUE 0.
+  000413                LOCAL-STORAGE SECTION.
+  000414                LINKAGE SECTION.
+  000415                01 AZ-TEST                   PIC X(80).
+  000416                01 AZ-INFO-BLOCK.
+  000417                   COPY BZUITERC.
+  000418C              *****************************************************************
+  000419C              * LICENSED MATERIALS - PROPERTY OF IBM                          *
+  000420C              * 5655-AC5 5724-T07 5737-J31 COPYRIGHT IBM CORP. 2019, 2019     *
+  000421C              * ALL RIGHTS RESERVED                                           *
+  000422C              * US GOVERNMENT USERS RESTRICTED RIGHTS  -  USE, DUPLICATION    *
+  000423C              * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE CONTRACT WITH    *
+  000424C              * IBM CORP.                                                     *
+  000425C              *****************************************************************
+  000426C              *                                                               *
+  000427C              * IBM Z/OS DYNAMIC TEST RUNNER                                  *
+  000428C              *                                                               *
+  000429C              * COPYBOOK FOR USING THE Z/OS DYNAMIC TEST RUNNER               *
+  000430C              * USED BY MASTER TESTCASE CALLBACK PROGRAM                      *
+  000431C              *                                                               *
+  000432C              *****************************************************************
+  000433C                   05  ITER   PIC 9(9) COMP-4.
+  000434C                   05  O00001 PIC 9(9) COMP-4.
+  000435C                   05  O00002 PIC 9(9) COMP-4.
+  000436C                   05  O00003 PIC 9(9) COMP-4.
+  000437C                   05  O00004 PIC 9(9) COMP-4.
+  000438C                   05  O00005 PIC 9(9) COMP-4.
+  000439C                   05  O00006 PIC 9(9) COMP-4.
+  000440C                   05  O00007 PIC 9(9) COMP-4.
+  000441C                   05  O00008 PIC 9(9) COMP-4.
+  000442C                   05  O00009 PIC 9(9) COMP-4.
+  000443C                   05  O00010 PIC 9(9) COMP-4.
+  000444C                   05  O00011 PIC 9(9) COMP-4.
+  000445C                   05  O00012 PIC 9(9) COMP-4.
+  000446C                   05  O00013 PIC 9(9) COMP-4.
+  000447C                   05  O00014 PIC 9(9) COMP-4.
+  000448C                   05  O00015 PIC 9(9) COMP-4.
+  000449C                   05  O00016 PIC 9(9) COMP-4.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    22
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000450C                   05  O00017 PIC 9(9) COMP-4.
+  000451C                   05  O00018 PIC 9(9) COMP-4.
+  000452C                   05  O00019 PIC 9(9) COMP-4.
+  000453C                   05  O00020 PIC 9(9) COMP-4.
+  000454C                   05  O00021 PIC 9(9) COMP-4.
+  000455C                   05  O00022 PIC 9(9) COMP-4.
+  000456C                   05  O00023 PIC 9(9) COMP-4.
+  000457C                   05  O00024 PIC 9(9) COMP-4.
+  000458C                   05  O00025 PIC 9(9) COMP-4.
+  000459C                   05  O00026 PIC 9(9) COMP-4.
+  000460C                   05  O00027 PIC 9(9) COMP-4.
+  000461C                   05  O00028 PIC 9(9) COMP-4.
+  000462C                   05  O00029 PIC 9(9) COMP-4.
+  000463C                   05  O00030 PIC 9(9) COMP-4.
+  000464C                   05  O00031 PIC 9(9) COMP-4.
+  000465C                   05  O00032 PIC 9(9) COMP-4.
+  000466C                   05  O00033 PIC 9(9) COMP-4.
+  000467C                   05  O00034 PIC 9(9) COMP-4.
+  000468C                   05  O00035 PIC 9(9) COMP-4.
+  000469C                   05  O00036 PIC 9(9) COMP-4.
+  000470C                   05  O00037 PIC 9(9) COMP-4.
+  000471C                   05  O00038 PIC 9(9) COMP-4.
+  000472C                   05  O00039 PIC 9(9) COMP-4.
+  000473C                   05  O00040 PIC 9(9) COMP-4.
+  000474C                   05  O00041 PIC 9(9) COMP-4.
+  000475C                   05  O00042 PIC 9(9) COMP-4.
+  000476C                   05  O00043 PIC 9(9) COMP-4.
+  000477C                   05  O00044 PIC 9(9) COMP-4.
+  000478C                   05  O00045 PIC 9(9) COMP-4.
+  000479C                   05  O00046 PIC 9(9) COMP-4.
+  000480C                   05  O00047 PIC 9(9) COMP-4.
+  000481C                   05  O00048 PIC 9(9) COMP-4.
+  000482C                   05  O00049 PIC 9(9) COMP-4.
+  000483C                   05  O00050 PIC 9(9) COMP-4.
+  000484C                   05  O00051 PIC 9(9) COMP-4.
+  000485C                   05  O00052 PIC 9(9) COMP-4.
+  000486C                   05  O00053 PIC 9(9) COMP-4.
+  000487C                   05  O00054 PIC 9(9) COMP-4.
+  000488C                   05  O00055 PIC 9(9) COMP-4.
+  000489C                   05  O00056 PIC 9(9) COMP-4.
+  000490C                   05  O00057 PIC 9(9) COMP-4.
+  000491C                   05  O00058 PIC 9(9) COMP-4.
+  000492C                   05  O00059 PIC 9(9) COMP-4.
+  000493C                   05  O00060 PIC 9(9) COMP-4.
+  000494C                   05  O00061 PIC 9(9) COMP-4.
+  000495C                   05  O00062 PIC 9(9) COMP-4.
+  000496C                   05  O00063 PIC 9(9) COMP-4.
+  000497C                   05  O00064 PIC 9(9) COMP-4.
+  000498C                   05  O00065 PIC 9(9) COMP-4.
+  000499C                   05  O00066 PIC 9(9) COMP-4.
+  000500C                   05  O00067 PIC 9(9) COMP-4.
+  000501C                   05  O00068 PIC 9(9) COMP-4.
+  000502C                   05  O00069 PIC 9(9) COMP-4.
+  000503C                   05  O00070 PIC 9(9) COMP-4.
+  000504C                   05  O00071 PIC 9(9) COMP-4.
+  000505C                   05  O00072 PIC 9(9) COMP-4.
+  000506C                   05  O00073 PIC 9(9) COMP-4.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    23
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000507C                   05  O00074 PIC 9(9) COMP-4.
+  000508C                   05  O00075 PIC 9(9) COMP-4.
+  000509C                   05  O00076 PIC 9(9) COMP-4.
+  000510C                   05  O00077 PIC 9(9) COMP-4.
+  000511C                   05  O00078 PIC 9(9) COMP-4.
+  000512C                   05  O00079 PIC 9(9) COMP-4.
+  000513C                   05  O00080 PIC 9(9) COMP-4.
+  000514C                   05  O00081 PIC 9(9) COMP-4.
+  000515C                   05  O00082 PIC 9(9) COMP-4.
+  000516C                   05  O00083 PIC 9(9) COMP-4.
+  000517C                   05  O00084 PIC 9(9) COMP-4.
+  000518C                   05  O00085 PIC 9(9) COMP-4.
+  000519C                   05  O00086 PIC 9(9) COMP-4.
+  000520C                   05  O00087 PIC 9(9) COMP-4.
+  000521C                   05  O00088 PIC 9(9) COMP-4.
+  000522C                   05  O00089 PIC 9(9) COMP-4.
+  000523C                   05  O00090 PIC 9(9) COMP-4.
+  000524C                   05  O00091 PIC 9(9) COMP-4.
+  000525C                   05  O00092 PIC 9(9) COMP-4.
+  000526C                   05  O00093 PIC 9(9) COMP-4.
+  000527C                   05  O00094 PIC 9(9) COMP-4.
+  000528C                   05  O00095 PIC 9(9) COMP-4.
+  000529C                   05  O00096 PIC 9(9) COMP-4.
+  000530C                   05  O00097 PIC 9(9) COMP-4.
+  000531C                   05  O00098 PIC 9(9) COMP-4.
+  000532C                   05  O00099 PIC 9(9) COMP-4.
+  000533C                   05  O00100 PIC 9(9) COMP-4.
+  000534                1 EPS-NUMBER-VALIDATION.
+  000535                  3 EPSPARM-VALIDATE-DATA PIC X(13).
+  000536                  3 EPSPARM-MAX-LENGTH PIC 99.
+  000537                  3 EPSPARM-NUMBER PIC 9(13).
+  000538                  3 EPSPARM-DECIMAL PIC V9(13).
+  000539                  3 EPSPARM-BINARY-NUMBER PIC 9(9)V99 COMP.
+  000540                  3 EPSPARM-RETURN-ERROR PIC X(80).
+  000541               *
+  000542                PROCEDURE DIVISION.
+  000543               * CHECK OUTPUT VALUE
+  000544                    ENTRY "PGM_INPT_EPSCMORT_EPSNBRVL" USING
+  000545                       AZ-TEST AZ-INFO-BLOCK                                              415 416
+  000546                    EPS-NUMBER-VALIDATION.                                                534
+  000547                    DISPLAY 'PGM_INPT_EPSCMORT_EPSNBRVL CHECK VALUES...'.
+  000548                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  000549                    MOVE 0 TO AZ-TEST-LEN.                                                409
+  000550                    INSPECT AZ-TEST TALLYING AZ-TEST-LEN FOR                              415 409
+  000551                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  000552               * SET AREA ADDRESS TO POINTER
+  000553                    MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-OT                      433 416 411
+  000554                    EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                       415 409
+  000555                    WHEN SPACE                                                            IMP
+  000556      1               CONTINUE
+  000557                    WHEN 'TEST3'
+  000558      1               PERFORM P-OUTPUT-TEST3                                              586
+  000559                    WHEN OTHER
+  000560      1               CONTINUE
+  000561                    END-EVALUATE.
+  000562                    PERFORM TEARDOWN.                                                     583
+  000563               * SET INPUT VALUEPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    24
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000564                    ENTRY "PGM_OUTP_EPSCMORT_EPSNBRVL" USING
+  000565                       AZ-TEST AZ-INFO-BLOCK                                              415 416
+  000566                    EPS-NUMBER-VALIDATION.                                                534
+  000567                    DISPLAY 'PGM_OUTP_EPSCMORT_EPSNBRVL INPUT VALUES...'.
+  000568                    MOVE 0 TO RETURN-CODE.                                                IMP IMP
+  000569                    MOVE 0 TO AZ-TEST-LEN.                                                409
+  000570                    INSPECT AZ-TEST TALLYING AZ-TEST-LEN FOR                              415 409
+  000571                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  000572               * SET AREA ADDRESS TO POINTER
+  000573                    MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-IN                      433 416 412
+  000574                    EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                       415 409
+  000575                    WHEN SPACE                                                            IMP
+  000576      1               CONTINUE
+  000577                    WHEN 'TEST3'
+  000578      1               PERFORM P-INPUT-TEST3                                               593
+  000579                    WHEN OTHER
+  000580      1               CONTINUE
+  000581                    END-EVALUATE.
+  000582                    PERFORM TEARDOWN.                                                     583
+  000583                TEARDOWN.
+  000584                    DISPLAY 'PGM_EPSNBRVL END.'
+  000585                    GOBACK.
+  000586                P-OUTPUT-TEST3.
+  000587                    IF AZ-RECORD-COUNT-OT = 0 THEN                                        411
+  000588      1               CONTINUE
+  000589                    ELSE
+  000590      1               CONTINUE
+  000591                    END-IF.
+  000592                    EXIT.
+  000593                P-INPUT-TEST3.
+  000594                    IF AZ-RECORD-COUNT-IN = 0 THEN                                        412
+  000595      1               CONTINUE
+  000596                    ELSE
+  000597      1               CONTINUE
+  000598                    END-IF.
+  000599                    EXIT.
+  000600                END PROGRAM 'PGM_EPSNBRVL'.                                               395
+  000601               *+---------------------------------------------------------------+
+  000602               *| EVALOPT                                                       |
+  000603               *|   FUNCTION TO EVALUATE THAT THE BIT OF OPTION DATA            |
+  000604               *|   (1) TAKE AND OF GROUP COMMON MASK AND OPTION IN ARG0        |
+  000605               *|   (2) CHECK IF THE GROUP MASK IS EQUAL TO (1)                 |
+  000606               *|       IF EQUAL,    RTN01 IS 0                                 |
+  000607               *|       IF NO EQUAL, RTN01 IS 1                                 |
+  000608               *+---------------------------------------------------------------+
+*/ PGM_EPSNBRVLPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    25
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+     416   AZ-INFO-BLOCK. . . . . . . . .  545 553 565 573
+     410   AZ-RECORD
+     412   AZ-RECORD-COUNT-IN . . . . . .  M573 594
+     411   AZ-RECORD-COUNT-OT . . . . . .  M553 587
+     415   AZ-TEST. . . . . . . . . . . .  545 550 554 565 570 574
+     409   AZ-TEST-LEN. . . . . . . . . .  M549 M550 554 M569 M570 574
+     398   BZ-ASSERT
+     401   BZ-P1
+     402   BZ-P2
+     403   BZ-P3
+     404   BZ-TRACE
+     407   BZUASSRT
+     408   BZUTRACE
+     534   EPS-NUMBER-VALIDATION. . . . .  546 566
+     539   EPSPARM-BINARY-NUMBER
+     538   EPSPARM-DECIMAL
+     536   EPSPARM-MAX-LENGTH
+     537   EPSPARM-NUMBER
+     540   EPSPARM-RETURN-ERROR
+     535   EPSPARM-VALIDATE-DATA
+     433   ITER . . . . . . . . . . . . .  553 573
+     399   MESSAGE-LEN
+     400   MESSAGE-TXT
+     434   O00001
+     435   O00002
+     436   O00003
+     437   O00004
+     438   O00005
+     439   O00006
+     440   O00007
+     441   O00008
+     442   O00009
+     443   O00010
+     444   O00011
+     445   O00012
+     446   O00013
+     447   O00014
+     448   O00015
+     449   O00016
+     450   O00017
+     451   O00018
+     452   O00019
+     453   O00020
+     454   O00021
+     455   O00022
+     456   O00023
+     457   O00024
+     458   O00025
+     459   O00026
+     460   O00027
+     461   O00028
+     462   O00029
+     463   O00030
+     464   O00031PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    26
+
+ Defined   Cross-reference of data names   References
+
+
+     465   O00032
+     466   O00033
+     467   O00034
+     468   O00035
+     469   O00036
+     470   O00037
+     471   O00038
+     472   O00039
+     473   O00040
+     474   O00041
+     475   O00042
+     476   O00043
+     477   O00044
+     478   O00045
+     479   O00046
+     480   O00047
+     481   O00048
+     482   O00049
+     483   O00050
+     484   O00051
+     485   O00052
+     486   O00053
+     487   O00054
+     488   O00055
+     489   O00056
+     490   O00057
+     491   O00058
+     492   O00059
+     493   O00060
+     494   O00061
+     495   O00062
+     496   O00063
+     497   O00064
+     498   O00065
+     499   O00066
+     500   O00067
+     501   O00068
+     502   O00069
+     503   O00070
+     504   O00071
+     505   O00072
+     506   O00073
+     507   O00074
+     508   O00075
+     509   O00076
+     510   O00077
+     511   O00078
+     512   O00079
+     513   O00080
+     514   O00081
+     515   O00082
+     516   O00083
+     517   O00084
+     518   O00085
+     519   O00086PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    27
+
+ Defined   Cross-reference of data names   References
+
+
+     520   O00087
+     521   O00088
+     522   O00089
+     523   O00090
+     524   O00091
+     525   O00092
+     526   O00093
+     527   O00094
+     528   O00095
+     529   O00096
+     530   O00097
+     531   O00098
+     532   O00099
+     533   O00100
+       0   RETURN-CODE. . . . . . . . . .  548 M548 568 M568
+     405   TRACE-LEN
+     406   TRACE-TXTPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    28
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     593   P-INPUT-TEST3. . . . . . . . .  P578
+     586   P-OUTPUT-TEST3 . . . . . . . .  P558
+     583   TEARDOWN . . . . . . . . . . .  P562 P582PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       PGM_EPSN  Date 07/27/2020  Time 12:16:51   Page    29
+
+ Defined   Cross-reference of programs     References
+
+     395   PGM_EPSNBRVL . . . . . . . . .  600
+
+
+* Statistics for COBOL program PGM_EPSNBRVL:
+*    Source records = 215
+*    Data Division statements = 125
+*    Procedure Division statements = 32
+*    Generated COBOL statements = 0
+*    Program complexity factor = 32
+
+End of compilation 4,  program PGM_EPSNBRVL,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    30
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* EVALOPT
+  000609                ID DIVISION.
+  000610                PROGRAM-ID. EVALOPT.
+  000611                DATA DIVISION.
+  000612                WORKING-STORAGE SECTION.
+  000613                01  OUT1-REC.
+  000614                  05 OUT1-DATA                PIC X(1) OCCURS 8.
+  000615                01 OUT1-DATA-R REDEFINES OUT1-REC.                                        613
+  000616                  05 OUT1-DATA-UP             PIC X(4).
+  000617                  05 OUT1-DATA-DOWN           PIC X(4).
+  000618                01  OUT2-REC.
+  000619                  05  OUT2-DATA               PIC X(1) OCCURS 8.
+  000620                01  OUT2-DATA-R REDEFINES OUT2-REC.                                       618
+  000621                  05 OUT2-DATA-UP             PIC X(4).
+  000622                  05 OUT2-DATA-DOWN           PIC X(4).
+  000623                01  WORK1-REC.
+  000624                  05  WORK1-DATA              PIC X(1) OCCURS 8.
+  000625                01  WORK1-DATA-R REDEFINES WORK1-REC.                                     623
+  000626                  05 WORK1-DATA-UP            PIC X(4).
+  000627                  05 WORK1-DATA-DOWN          PIC X(4).
+  000628                01  WORK-AREA.
+  000629                  05  WORK-HEX-UP             PIC 9(4)  COMP.
+  000630                  05  WORK-HEX-DOWN           PIC 9(4)  COMP.
+  000631                01  HEX-CHG-BEF.
+  000632                  05  HEX-CHANGE-LV           PIC X(1) VALUE LOW-VALUE.                   IMP
+  000633                  05  HEX-CHANGE-BEFORE       PIC X(1).
+  000634                01  HEX-CHG-AFT      REDEFINES  HEX-CHG-BEF.                              631
+  000635                  05  HEX-CHANGE-AFTER        PIC 9(4)  COMP.
+  000636                01  TBL-CHANGE-DATA.
+  000637                   05  FILLER                 PIC  X(004) VALUE '0000'.
+  000638                   05  FILLER                 PIC  X(001) VALUE '0'.
+  000639                   05  FILLER                 PIC  X(004) VALUE '0001'.
+  000640                   05  FILLER                 PIC  X(001) VALUE '1'.
+  000641                   05  FILLER                 PIC  X(004) VALUE '0010'.
+  000642                   05  FILLER                 PIC  X(001) VALUE '2'.
+  000643                   05  FILLER                 PIC  X(004) VALUE '0011'.
+  000644                   05  FILLER                 PIC  X(001) VALUE '3'.
+  000645                   05  FILLER                 PIC  X(004) VALUE '0100'.
+  000646                   05  FILLER                 PIC  X(001) VALUE '4'.
+  000647                   05  FILLER                 PIC  X(004) VALUE '0101'.
+  000648                   05  FILLER                 PIC  X(001) VALUE '5'.
+  000649                   05  FILLER                 PIC  X(004) VALUE '0110'.
+  000650                   05  FILLER                 PIC  X(001) VALUE '6'.
+  000651                   05  FILLER                 PIC  X(004) VALUE '0111'.
+  000652                   05  FILLER                 PIC  X(001) VALUE '7'.
+  000653                   05  FILLER                 PIC  X(004) VALUE '1000'.
+  000654                   05  FILLER                 PIC  X(001) VALUE '8'.
+  000655                   05  FILLER                 PIC  X(004) VALUE '1001'.
+  000656                   05  FILLER                 PIC  X(001) VALUE '9'.
+  000657                   05  FILLER                 PIC  X(004) VALUE '1010'.
+  000658                   05  FILLER                 PIC  X(001) VALUE 'A'.
+  000659                   05  FILLER                 PIC  X(004) VALUE '1011'.
+  000660                   05  FILLER                 PIC  X(001) VALUE 'B'.
+  000661                   05  FILLER                 PIC  X(004) VALUE '1100'.
+  000662                   05  FILLER                 PIC  X(001) VALUE 'C'.
+  000663                   05  FILLER                 PIC  X(004) VALUE '1101'.
+  000664                   05  FILLER                 PIC  X(001) VALUE 'D'.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    31
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000665                   05  FILLER                 PIC  X(004) VALUE '1110'.
+  000666                   05  FILLER                 PIC  X(001) VALUE 'E'.
+  000667                   05  FILLER                 PIC  X(004) VALUE '1111'.
+  000668                   05  FILLER                 PIC  X(001) VALUE 'F'.
+  000669                   01  TBL-DATA REDEFINES TBL-CHANGE-DATA.                                636
+  000670                    05  TBL-CHG  OCCURS  16 TIMES.
+  000671                      10  TBL-BIT-CHAR        PIC  X(004).
+  000672                      10  TBL-HEX-CHAR        PIC  X(001).
+  000673                01 BIT-COUNT                  PIC 9(1).
+  000674                01 I                          PIC S9(8) COMP.
+  000675                LINKAGE SECTION.
+  000676                01 G-MASK.
+  000677                  03 D-G-MASK                 PIC X(1) OCCURS 19.
+  000678                01 COM-MASK.
+  000679                  03 D-COM-MASK               PIC X(1) OCCURS 19.
+  000680                01 O-ARG0.
+  000681                  03 D-O-ARG0                 PIC X(1) OCCURS 19.
+  000682                01 BYTE-COUNT                 PIC S9(8) COMP.
+  000683                01 RTN01                      PIC 9(1).
+  000684                PROCEDURE DIVISION USING G-MASK COM-MASK O-ARG0 BYTE-COUNT                676 678 680 682
+  000685                     RTN01.                                                               683
+  000686                     MOVE 0 TO RTN01                                                      683
+  000687                     PERFORM VARYING I FROM 1 BY 1 UNTIL I > BYTE-COUNT                   674 674 682
+  000688      1                PERFORM ANDCOMMASK                                                 694
+  000689      1                IF RTN01 = 1 THEN                                                  683
+  000690      2                  GOBACK
+  000691      1                END-IF
+  000692                     END-PERFORM.
+  000693                     EXIT PROGRAM.
+  000694                ANDCOMMASK.
+  000695               * CONVERT GROUP COMMON MASK TO BIT
+  000696                     MOVE D-COM-MASK(I) TO HEX-CHANGE-BEFORE.                             679 674 633
+  000697                     DIVIDE 16 INTO HEX-CHANGE-AFTER GIVING WORK-HEX-UP                   635 629
+  000698                                                  REMAINDER WORK-HEX-DOWN.                630
+  000699                     MOVE TBL-BIT-CHAR(WORK-HEX-UP + 1)   TO OUT1-DATA-UP.                671 629 616
+  000700                     MOVE TBL-BIT-CHAR(WORK-HEX-DOWN + 1) TO OUT1-DATA-DOWN.              671 630 617
+  000701               * CONVERT OPTION IN ARG0 TO BIT
+  000702                     MOVE D-O-ARG0(I) TO HEX-CHANGE-BEFORE.                               681 674 633
+  000703                     DIVIDE 16 INTO HEX-CHANGE-AFTER GIVING WORK-HEX-UP                   635 629
+  000704                                                  REMAINDER WORK-HEX-DOWN.                630
+  000705                     MOVE TBL-BIT-CHAR(WORK-HEX-UP + 1)   TO OUT2-DATA-UP.                671 629 621
+  000706                     MOVE TBL-BIT-CHAR(WORK-HEX-DOWN + 1) TO OUT2-DATA-DOWN.              671 630 622
+  000707               * CREATE EVAL BIT FROM GROUP COMMON MASK BIT AND ARG0 BIT
+  000708                     PERFORM VARYING BIT-COUNT FROM 1 BY 1 UNTIL BIT-COUNT > 8            673 673
+  000709      1                IF OUT1-DATA(BIT-COUNT) = '1' AND                                  614 673
+  000710      1                   OUT2-DATA(BIT-COUNT) = '1' THEN                                 619 673
+  000711      2                  MOVE '1' TO WORK1-DATA(BIT-COUNT)                                624 673
+  000712      1                ELSE
+  000713      2                  MOVE '0' TO WORK1-DATA(BIT-COUNT)                                624 673
+  000714      1                END-IF
+  000715                     END-PERFORM.
+  000716               * CONVERT GROUP MASK TO BIT DATA
+  000717                     MOVE D-G-MASK(I) TO HEX-CHANGE-BEFORE.                               677 674 633
+  000718                     DIVIDE 16 INTO HEX-CHANGE-AFTER GIVING WORK-HEX-UP                   635 629
+  000719                                                  REMAINDER WORK-HEX-DOWN.                630
+  000720                     MOVE TBL-BIT-CHAR(WORK-HEX-UP + 1)   TO OUT1-DATA-UP.                671 629 616
+  000721                     MOVE TBL-BIT-CHAR(WORK-HEX-DOWN + 1) TO OUT1-DATA-DOWN.              671 630 617PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    32
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000722               * CHECK IF EQUAL BETWEEN EVAL BIT AND GROUP MASK BIT
+  000723                     IF WORK1-DATA-UP = OUT1-DATA-UP AND                                  626 616
+  000724                        WORK1-DATA-DOWN = OUT1-DATA-DOWN THEN                             627 617
+  000725      1                CONTINUE
+  000726                     ELSE
+  000727      1                MOVE 1 TO RTN01                                                    683
+  000728                     END-IF
+  000729                     EXIT.
+  000730                END PROGRAM 'EVALOPT'.                                                    610
+  000731               *+---------------------------------------------------------------+
+  000732               *| AZU_GENERIC_CICS                                              |
+  000733               *|   GENERIC CICS CALLBACK EXIT POINT                            |
+  000734               *+---------------------------------------------------------------+
+*/ EVALOPTPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    33
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+     673   BIT-COUNT. . . . . . . . . . .  M708 708 709 710 711 713
+     682   BYTE-COUNT . . . . . . . . . .  684 687
+     678   COM-MASK . . . . . . . . . . .  684
+     679   D-COM-MASK . . . . . . . . . .  696
+     677   D-G-MASK . . . . . . . . . . .  717
+     681   D-O-ARG0 . . . . . . . . . . .  702
+     676   G-MASK . . . . . . . . . . . .  684
+     635   HEX-CHANGE-AFTER . . . . . . .  697 703 718
+     633   HEX-CHANGE-BEFORE. . . . . . .  M696 M702 M717
+     632   HEX-CHANGE-LV
+     634   HEX-CHG-AFT
+     631   HEX-CHG-BEF. . . . . . . . . .  634
+     674   I. . . . . . . . . . . . . . .  M687 687 696 702 717
+     680   O-ARG0 . . . . . . . . . . . .  684
+     614   OUT1-DATA. . . . . . . . . . .  709
+     617   OUT1-DATA-DOWN . . . . . . . .  M700 M721 724
+     615   OUT1-DATA-R
+     616   OUT1-DATA-UP . . . . . . . . .  M699 M720 723
+     613   OUT1-REC . . . . . . . . . . .  615
+     619   OUT2-DATA. . . . . . . . . . .  710
+     622   OUT2-DATA-DOWN . . . . . . . .  M706
+     620   OUT2-DATA-R
+     621   OUT2-DATA-UP . . . . . . . . .  M705
+     618   OUT2-REC . . . . . . . . . . .  620
+     683   RTN01. . . . . . . . . . . . .  685 M686 689 M727
+     671   TBL-BIT-CHAR . . . . . . . . .  699 700 705 706 720 721
+     636   TBL-CHANGE-DATA. . . . . . . .  669
+     670   TBL-CHG
+     669   TBL-DATA
+     672   TBL-HEX-CHAR
+     628   WORK-AREA
+     630   WORK-HEX-DOWN. . . . . . . . .  M698 700 M704 706 M719 721
+     629   WORK-HEX-UP. . . . . . . . . .  M697 699 M703 705 M718 720
+     624   WORK1-DATA . . . . . . . . . .  M711 M713
+     627   WORK1-DATA-DOWN. . . . . . . .  724
+     625   WORK1-DATA-R
+     626   WORK1-DATA-UP. . . . . . . . .  723
+     623   WORK1-REC. . . . . . . . . . .  625PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    34
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     694   ANDCOMMASK . . . . . . . . . .  P688PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       EVALOPT   Date 07/27/2020  Time 12:16:51   Page    35
+
+ Defined   Cross-reference of programs     References
+
+     610   EVALOPT. . . . . . . . . . . .  730
+
+
+* Statistics for COBOL program EVALOPT:
+*    Source records = 126
+*    Data Division statements = 38
+*    Procedure Division statements = 26
+*    Generated COBOL statements = 0
+*    Program complexity factor = 26
+
+End of compilation 5,  program EVALOPT,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    36
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* AZU_GENERIC_CICS
+  000735                IDENTIFICATION DIVISION.
+  000736                PROGRAM-ID. 'AZU_GENERIC_CICS'.
+  000737                PROCEDURE DIVISION.
+  000738               * CHECK OUTPUT VALUE
+  000739               * CICS_INPT.
+  000740                    ENTRY 'CICS_INPT'.
+  000741                    DISPLAY 'CICS_INPT ...'
+  000742                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  000743                    GOBACK.
+  000744               * CICS_OUTP.
+  000745                    ENTRY 'CICS_OUTP'.
+  000746                    DISPLAY 'CICS_OUTP ...'
+  000747                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  000748                    GOBACK.
+  000749               * CICS_INPT_0E08 FOR RETURN.
+  000750                    ENTRY 'CICS_INPT_0E08'.
+  000751                    DISPLAY 'CICS_INPT_0E08 ...'
+  000752                    MOVE 0 TO RETURN-CODE.                                                IMP IMP
+  000753                    GOBACK.
+  000754                END PROGRAM 'AZU_GENERIC_CICS'.                                           736
+  000755               *+---------------------------------------------------------------+
+  000756               *| AZU_GENERIC_DB2                                               |
+  000757               *|   GENERIC DB2 CALLBACK EXIT POINT                             |
+  000758               *+---------------------------------------------------------------+
+*/ AZU_GENERIC_CICSPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    37
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+       0   RETURN-CODE. . . . . . . . . .  742 M742 747 M747 752 M752PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    38
+
+ Defined   Cross-reference of programs     References
+
+     736   AZU_GENERIC_CICS . . . . . . .  754
+
+
+* Statistics for COBOL program AZU_GENERIC_CICS:
+*    Source records = 24
+*    Data Division statements = 0
+*    Procedure Division statements = 12
+*    Generated COBOL statements = 0
+*    Program complexity factor = 12
+
+End of compilation 6,  program AZU_GENERIC_CICS,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    39
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* AZU_GENERIC_DB2
+  000759                IDENTIFICATION DIVISION.
+  000760                PROGRAM-ID. 'AZU_GENERIC_DB2'.
+  000761                PROCEDURE DIVISION.
+  000762               * CHECK OUTPUT VALUE
+  000763               * DB2_INPT.
+  000764                    ENTRY 'DB2_INPT'.
+  000765                    DISPLAY 'DB2_INPT ...'
+  000766                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  000767                    GOBACK.
+  000768               * DB2_OUTP.
+  000769                    ENTRY 'DB2_OUTP'.
+  000770                    DISPLAY 'DB2_OUTP ...'
+  000771                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  000772                    GOBACK.
+  000773                END PROGRAM 'AZU_GENERIC_DB2'.                                            760
+  000774               *+---------------------------------------------------------------+
+  000775               *| PROGRAM FOR EXEC CICS RETURN                                  |
+  000776               *|    FUNCTION CODE: 0E08                                        |
+  000777               *|                                                               |
+  000778               *+---------------------------------------------------------------+
+*/ AZU_GENERIC_DB2PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    40
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+       0   RETURN-CODE. . . . . . . . . .  766 M766 771 M771PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       AZU_GENE  Date 07/27/2020  Time 12:16:51   Page    41
+
+ Defined   Cross-reference of programs     References
+
+     760   AZU_GENERIC_DB2. . . . . . . .  773
+
+
+* Statistics for COBOL program AZU_GENERIC_DB2:
+*    Source records = 20
+*    Data Division statements = 0
+*    Procedure Division statements = 8
+*    Generated COBOL statements = 0
+*    Program complexity factor = 8
+
+End of compilation 7,  program AZU_GENERIC_DB2,  no statements flagged.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    42
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* CICS_0E08_EPSCMORT
+  000779                IDENTIFICATION DIVISION.
+  000780                PROGRAM-ID. 'CICS_0E08_EPSCMORT'.
+  000781                DATA DIVISION.
+  000782                WORKING-STORAGE SECTION.
+  000783                01 BZ-ASSERT.
+  000784                  03 MESSAGE-LEN PIC S9(4) COMP-4 VALUE 24.
+  000785                  03 MESSAGE-TXT PIC X(254) VALUE 'HELLO FROM CICS CALLBACK'.
+  000786                01  BZ-P1 PIC S9(9) COMP-4 VALUE 4.
+  000787                01  BZ-P2 PIC S9(9) COMP-4 VALUE 2001.
+  000788                01  BZ-P3 PIC X(3) VALUE 'AZU'.
+  000789                01 BZ-TRACE.
+  000790                  03 TRACE-LEN       PIC S9(4) COMP-4 VALUE 5.
+  000791                  03 TRACE-TXT       PIC X(254) VALUE 'TRACE'.
+  000792                01 BZUASSRT          PIC X(8) VALUE 'BZUASSRT'.
+  000793                01 BZUTRACE          PIC X(8) VALUE 'BZUTRACE'.
+  000794                01 AZ-TEST-LEN       PIC S9(8) COMP.
+  000795                01 AZ-RECORD.
+  000796                  03 AZ-RECORD-COUNT-OT OCCURS 2 PIC 9(5) COMP-5 VALUE 0.
+  000797                  03 AZ-RECORD-COUNT-IN OCCURS 2 PIC 9(5) COMP-5 VALUE 0.
+  000798                01 AZ-RECORD-PTR POINTER.
+  000799                01 AZ-RECORD-PTR-VALUE REDEFINES
+  000800                     AZ-RECORD-PTR PIC S9(9) COMP-5.                                      798
+  000801                01 AZ-OPT-MASK-DATA2  PIC X(2).
+  000802                01 AZ-OPT-MASK-DATA9  PIC X(9).
+  000803                01 AZ-OPT-MASK-DATA11 PIC X(11).
+  000804                01 AZ-OPT-MASK-DATA19 PIC X(19).
+  000805                01 AZ-OPT-BYTECOUNT   PIC S9(8) COMP.
+  000806                01 AZ-OPT-RC          PIC 9(1) VALUE 0.
+  000807                01 AZ-OPT-COMMASK.
+  000808                  03  AZ-OPT-COMMASK-DATA2  PIC X(2) OCCURS 1.
+  000809                  03  AZ-OPT-COMMASK-DATA9  PIC X(9) OCCURS 1.
+  000810                  03  AZ-OPT-COMMASK-DATA11 PIC X(11) OCCURS 1.
+  000811                  03  AZ-OPT-COMMASK-DATA19 PIC X(19) OCCURS 1.
+  000812                01 AZ-LINE-BYTE      PIC S9(2) COMP.
+  000813                01 AZ-LINE-NUM       PIC 9(5).
+  000814                01 AZ-LINE-NUM-R   REDEFINES AZ-LINE-NUM.                                 813
+  000815                  03 AZ-LINE-NUM-RD  PIC 9(1) OCCURS 5.
+  000816                01 AZ-LINE-I         PIC S9(8) COMP.
+  000817                01 AZ-LINE-J         PIC S9(8) COMP.
+  000818                01 AZ-COMPARE.
+  000819                  03 AZ-COMPARE-ITEM-NAME-PTR POINTER.
+  000820                  03 AZ-COMPARE-ITEM-NAME-LEN PIC S9(9) COMP-5.
+  000821                  03 AZ-COMPARE-ITEM-VALUE-PTR POINTER.
+  000822                  03 AZ-COMPARE-ITEM-VALUE-LEN PIC S9(9) COMP-5.
+  000823                  03 AZ-COMPARE-ITEM-EXP-VALUE-PTR POINTER.
+  000824                  03 AZ-COMPARE-ITEM-EXP-VALUE-LEN PIC S9(9) COMP-5.
+  000825                1 AZ-TEST-EXPECTED-DATA-VALUE.
+  000826                   3 ZUT00000000.
+  000827                     5 PIC X(1) DISPLAY VALUE '0'.
+  000828                   3 ZUT00000001.
+  000829                     5 PIC X(1) DISPLAY VALUE 'Y'.
+  000830                   3 ZUT00000002.
+  000831                     5 PIC X(80) DISPLAY VALUE SPACES.                                    IMP
+  000832                   3 ZUT00000003.
+  000833                     5 PIC X(4) DISPLAY VALUE '0000'.
+  000834                LOCAL-STORAGE SECTION.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    43
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000835                1 AZ-COMPARE-ITEM-NAMES.
+  000836                  3 ZUT00000004.
+  000837                     5 PIC X(16) DISPLAY VALUE 'W-COMAREA-LENGTH'.
+  000838                  3 ZUT00000006.
+  000839                     5 PIC X(20) DISPLAY VALUE 'PROCESS-INDICATOR OF'.
+  000840                     5 PIC X(20) DISPLAY VALUE ' W-COMMUNICATION-ARE'.
+  000841                     5 PIC X(1) DISPLAY VALUE 'A'.
+  000842                  3 ZUT00000008.
+  000843                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-PRINCIPLE-DA'.
+  000844                     5 PIC X(20) DISPLAY VALUE 'TA OF W-COMMUNICATIO'.
+  000845                     5 PIC X(6) DISPLAY VALUE 'N-AREA'.
+  000846                  3 ZUT0000000A.
+  000847                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-NUMBER-OF-YE'.
+  000848                     5 PIC X(20) DISPLAY VALUE 'ARS OF W-COMMUNICATI'.
+  000849                     5 PIC X(7) DISPLAY VALUE 'ON-AREA'.
+  000850                  3 ZUT0000000C.
+  000851                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-NUMBER-OF-MO'.
+  000852                     5 PIC X(20) DISPLAY VALUE 'NTHS OF W-COMMUNICAT'.
+  000853                     5 PIC X(8) DISPLAY VALUE 'ION-AREA'.
+  000854                  3 ZUT0000000E.
+  000855                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-QUOTED-INTER'.
+  000856                     5 PIC X(20) DISPLAY VALUE 'EST-RATE OF W-COMMUN'.
+  000857                     5 PIC X(12) DISPLAY VALUE 'ICATION-AREA'.
+  000858                  3 ZUT00000010.
+  000859                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-YEAR-MONTH-I'.
+  000860                     5 PIC X(20) DISPLAY VALUE 'ND OF W-COMMUNICATIO'.
+  000861                     5 PIC X(6) DISPLAY VALUE 'N-AREA'.
+  000862                  3 ZUT00000012.
+  000863                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-RETURN-MONTH'.
+  000864                     5 PIC X(20) DISPLAY VALUE '-PAYMENT OF W-COMMUN'.
+  000865                     5 PIC X(12) DISPLAY VALUE 'ICATION-AREA'.
+  000866                  3 ZUT00000014.
+  000867                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-ERRMSG OF W-'.
+  000868                     5 PIC X(18) DISPLAY VALUE 'COMMUNICATION-AREA'.
+  000869                  3 ZUT00000016.
+  000870                     5 PIC X(20) DISPLAY VALUE 'EPSPCOM-PROGRAM-RETC'.
+  000871                     5 PIC X(20) DISPLAY VALUE 'ODE-RDF OF W-COMMUNI'.
+  000872                     5 PIC X(11) DISPLAY VALUE 'CATION-AREA'.
+  000873                1 AZ-COMPARE-WORK-ITEMS.
+  000874                   3 ZUT00000005 PIC 9(4) OCCURS 2.
+  000875                   3 ZUT00000007 PIC X(1) OCCURS 2.
+  000876                   3 ZUT00000009 PIC -9(9).9(2) OCCURS 2.
+  000877                   3 ZUT0000000B PIC -9(4) OCCURS 2.
+  000878                   3 ZUT0000000D PIC -9(4) OCCURS 2.
+  000879                   3 ZUT0000000F PIC -9(2).9(3) OCCURS 2.
+  000880                   3 ZUT00000011 PIC X(1) OCCURS 2.
+  000881                   3 ZUT00000013 PIC -9(7).9(2) OCCURS 2.
+  000882                   3 ZUT00000015 PIC X(80) OCCURS 2.
+  000883                   3 ZUT00000017 PIC X(4) OCCURS 2.
+  000884                LINKAGE SECTION.
+  000885                01 AZ-TEST                   PIC X(80).
+  000886                01 AZ-INFO-BLOCK.
+  000887                   COPY BZUITERC.
+  000888C              *****************************************************************
+  000889C              * LICENSED MATERIALS - PROPERTY OF IBM                          *
+  000890C              * 5655-AC5 5724-T07 5737-J31 COPYRIGHT IBM CORP. 2019, 2019     *
+  000891C              * ALL RIGHTS RESERVED                                           *PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    44
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000892C              * US GOVERNMENT USERS RESTRICTED RIGHTS  -  USE, DUPLICATION    *
+  000893C              * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE CONTRACT WITH    *
+  000894C              * IBM CORP.                                                     *
+  000895C              *****************************************************************
+  000896C              *                                                               *
+  000897C              * IBM Z/OS DYNAMIC TEST RUNNER                                  *
+  000898C              *                                                               *
+  000899C              * COPYBOOK FOR USING THE Z/OS DYNAMIC TEST RUNNER               *
+  000900C              * USED BY MASTER TESTCASE CALLBACK PROGRAM                      *
+  000901C              *                                                               *
+  000902C              *****************************************************************
+  000903C                   05  ITER   PIC 9(9) COMP-4.
+  000904C                   05  O00001 PIC 9(9) COMP-4.
+  000905C                   05  O00002 PIC 9(9) COMP-4.
+  000906C                   05  O00003 PIC 9(9) COMP-4.
+  000907C                   05  O00004 PIC 9(9) COMP-4.
+  000908C                   05  O00005 PIC 9(9) COMP-4.
+  000909C                   05  O00006 PIC 9(9) COMP-4.
+  000910C                   05  O00007 PIC 9(9) COMP-4.
+  000911C                   05  O00008 PIC 9(9) COMP-4.
+  000912C                   05  O00009 PIC 9(9) COMP-4.
+  000913C                   05  O00010 PIC 9(9) COMP-4.
+  000914C                   05  O00011 PIC 9(9) COMP-4.
+  000915C                   05  O00012 PIC 9(9) COMP-4.
+  000916C                   05  O00013 PIC 9(9) COMP-4.
+  000917C                   05  O00014 PIC 9(9) COMP-4.
+  000918C                   05  O00015 PIC 9(9) COMP-4.
+  000919C                   05  O00016 PIC 9(9) COMP-4.
+  000920C                   05  O00017 PIC 9(9) COMP-4.
+  000921C                   05  O00018 PIC 9(9) COMP-4.
+  000922C                   05  O00019 PIC 9(9) COMP-4.
+  000923C                   05  O00020 PIC 9(9) COMP-4.
+  000924C                   05  O00021 PIC 9(9) COMP-4.
+  000925C                   05  O00022 PIC 9(9) COMP-4.
+  000926C                   05  O00023 PIC 9(9) COMP-4.
+  000927C                   05  O00024 PIC 9(9) COMP-4.
+  000928C                   05  O00025 PIC 9(9) COMP-4.
+  000929C                   05  O00026 PIC 9(9) COMP-4.
+  000930C                   05  O00027 PIC 9(9) COMP-4.
+  000931C                   05  O00028 PIC 9(9) COMP-4.
+  000932C                   05  O00029 PIC 9(9) COMP-4.
+  000933C                   05  O00030 PIC 9(9) COMP-4.
+  000934C                   05  O00031 PIC 9(9) COMP-4.
+  000935C                   05  O00032 PIC 9(9) COMP-4.
+  000936C                   05  O00033 PIC 9(9) COMP-4.
+  000937C                   05  O00034 PIC 9(9) COMP-4.
+  000938C                   05  O00035 PIC 9(9) COMP-4.
+  000939C                   05  O00036 PIC 9(9) COMP-4.
+  000940C                   05  O00037 PIC 9(9) COMP-4.
+  000941C                   05  O00038 PIC 9(9) COMP-4.
+  000942C                   05  O00039 PIC 9(9) COMP-4.
+  000943C                   05  O00040 PIC 9(9) COMP-4.
+  000944C                   05  O00041 PIC 9(9) COMP-4.
+  000945C                   05  O00042 PIC 9(9) COMP-4.
+  000946C                   05  O00043 PIC 9(9) COMP-4.
+  000947C                   05  O00044 PIC 9(9) COMP-4.
+  000948C                   05  O00045 PIC 9(9) COMP-4.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    45
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000949C                   05  O00046 PIC 9(9) COMP-4.
+  000950C                   05  O00047 PIC 9(9) COMP-4.
+  000951C                   05  O00048 PIC 9(9) COMP-4.
+  000952C                   05  O00049 PIC 9(9) COMP-4.
+  000953C                   05  O00050 PIC 9(9) COMP-4.
+  000954C                   05  O00051 PIC 9(9) COMP-4.
+  000955C                   05  O00052 PIC 9(9) COMP-4.
+  000956C                   05  O00053 PIC 9(9) COMP-4.
+  000957C                   05  O00054 PIC 9(9) COMP-4.
+  000958C                   05  O00055 PIC 9(9) COMP-4.
+  000959C                   05  O00056 PIC 9(9) COMP-4.
+  000960C                   05  O00057 PIC 9(9) COMP-4.
+  000961C                   05  O00058 PIC 9(9) COMP-4.
+  000962C                   05  O00059 PIC 9(9) COMP-4.
+  000963C                   05  O00060 PIC 9(9) COMP-4.
+  000964C                   05  O00061 PIC 9(9) COMP-4.
+  000965C                   05  O00062 PIC 9(9) COMP-4.
+  000966C                   05  O00063 PIC 9(9) COMP-4.
+  000967C                   05  O00064 PIC 9(9) COMP-4.
+  000968C                   05  O00065 PIC 9(9) COMP-4.
+  000969C                   05  O00066 PIC 9(9) COMP-4.
+  000970C                   05  O00067 PIC 9(9) COMP-4.
+  000971C                   05  O00068 PIC 9(9) COMP-4.
+  000972C                   05  O00069 PIC 9(9) COMP-4.
+  000973C                   05  O00070 PIC 9(9) COMP-4.
+  000974C                   05  O00071 PIC 9(9) COMP-4.
+  000975C                   05  O00072 PIC 9(9) COMP-4.
+  000976C                   05  O00073 PIC 9(9) COMP-4.
+  000977C                   05  O00074 PIC 9(9) COMP-4.
+  000978C                   05  O00075 PIC 9(9) COMP-4.
+  000979C                   05  O00076 PIC 9(9) COMP-4.
+  000980C                   05  O00077 PIC 9(9) COMP-4.
+  000981C                   05  O00078 PIC 9(9) COMP-4.
+  000982C                   05  O00079 PIC 9(9) COMP-4.
+  000983C                   05  O00080 PIC 9(9) COMP-4.
+  000984C                   05  O00081 PIC 9(9) COMP-4.
+  000985C                   05  O00082 PIC 9(9) COMP-4.
+  000986C                   05  O00083 PIC 9(9) COMP-4.
+  000987C                   05  O00084 PIC 9(9) COMP-4.
+  000988C                   05  O00085 PIC 9(9) COMP-4.
+  000989C                   05  O00086 PIC 9(9) COMP-4.
+  000990C                   05  O00087 PIC 9(9) COMP-4.
+  000991C                   05  O00088 PIC 9(9) COMP-4.
+  000992C                   05  O00089 PIC 9(9) COMP-4.
+  000993C                   05  O00090 PIC 9(9) COMP-4.
+  000994C                   05  O00091 PIC 9(9) COMP-4.
+  000995C                   05  O00092 PIC 9(9) COMP-4.
+  000996C                   05  O00093 PIC 9(9) COMP-4.
+  000997C                   05  O00094 PIC 9(9) COMP-4.
+  000998C                   05  O00095 PIC 9(9) COMP-4.
+  000999C                   05  O00096 PIC 9(9) COMP-4.
+  001000C                   05  O00097 PIC 9(9) COMP-4.
+  001001C                   05  O00098 PIC 9(9) COMP-4.
+  001002C                   05  O00099 PIC 9(9) COMP-4.
+  001003C                   05  O00100 PIC 9(9) COMP-4.
+  001004                01 AZ-WK-RECORD-COUNT PIC 9(5) COMP-5 VALUE 0.
+  001005                01 AZ-MODX                   PIC X(4).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    46
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001006                01 AZ-DFHEIBLK.
+  001007                  03 FILLER                  PIC X(85).
+  001008                01 AZ-DFHCOMMAREA.
+  001009                  03 FILLER                  PIC X(1).
+  001010                01 AZ-COMPARE-ITEM-NAME      PIC X(254).
+  001011                01 AZ-COMPARE-ITEM-VALUE     PIC X(254).
+  001012                01 AZ-COMPARE-ITEM-EXP-VALUE PIC X(254).
+  001013                01 ARG0.
+  001014                  03 ARG0-1        PIC X(2).
+  001015                  03 ARG0-A        PIC X(28).
+  001016                  03 ARG0-B REDEFINES ARG0-A.                                             1015
+  001017                    05 ARG0-2      PIC X(9).
+  001018                    05 FILLER      PIC X(19).
+  001019                  03 ARG0-C REDEFINES ARG0-A.                                             1015
+  001020                    05 FILLER      PIC X(6).
+  001021                    05 ARG0-D.
+  001022                      07 ARG0-3    PIC 9(1) OCCURS 22.
+  001023                01 ARG1            POINTER.
+  001024                01 ARG2            POINTER.
+  001025                01 ARG3            POINTER.
+  001026                01 ARG4            POINTER.
+  001027                01 ARG5            POINTER.
+  001028                01 ARG6            POINTER.
+  001029                01 ARG7            POINTER.
+  001030                01 ARG8            POINTER.
+  001031                01 ARG9            POINTER.
+  001032                01 ARG10           POINTER.
+  001033                01 AZ-CICS-TARGET-NAME-DEF4 PIC X(4).
+  001034                01 AZ-CICS-TARGET-NAME-DEF7 PIC X(7).
+  001035                01 AZ-CICS-TARGET-NAME-DEF8 PIC X(8).
+  001036                1 W-COMMUNICATION-AREA.
+  001037                  10 PROCESS-INDICATOR PIC X.
+  001038                  10 EPSPCOM-PRINCIPLE-DATA PIC S9(9)V99 COMP.
+  001039                  10 EPSPCOM-NUMBER-OF-YEARS PIC S9(4) COMP.
+  001040                  10 EPSPCOM-NUMBER-OF-MONTHS PIC S9(4) COMP.
+  001041                  10 EPSPCOM-QUOTED-INTEREST-RATE PIC S9(2)v9(3) COMP.
+  001042                  10 EPSPCOM-YEAR-MONTH-IND PIC X.
+  001043                  10 EPSPCOM-RETURN-MONTH-PAYMENT PIC S9(7)V99 COMP.
+  001044                  10 EPSPCOM-ERRMSG PIC X(80).
+  001045                  10 EPSPCOM-PROGRAM-RETCODE PIC 9(4).
+  001046                  88 EPS02-REQUEST-SUCCESS VALUE 0.
+  001047                  10 EPSPCOM-PROGRAM-RETCODE-RDF REDEFINES
+  001048                    EPSPCOM-PROGRAM-RETCODE PIC X(4).                                     1045
+  001049                1 W-COMAREA-LENGTH PIC 9(4) COMP.
+  001050                PROCEDURE DIVISION.
+  001051               * CHECK OUTPUT VALUE
+  001052               * CICS_INPT_0E08_EPSCMORT.
+  001053                    ENTRY 'CICS_INPT_0E08_EPSCMORT' USING AZ-TEST                         885
+  001054                    AZ-INFO-BLOCK AZ-DFHEIBLK AZ-DFHCOMMAREA ARG0 ARG1 ARG2               886 1006 1008 1013 1023 1024
+  001055                    ARG3 ARG4 ARG5 ARG6 ARG7 ARG8 ARG9 ARG10.                             1025 1026 1027 1028 1029 1030 1031
+                                                                                                  1032
+  001056                    DISPLAY 'CICS_0E08_EPSCMORT CHECK VALUES...'
+  001057                    MOVE 4 TO RETURN-CODE.                                                IMP IMP
+  001058                    MOVE 0 TO AZ-TEST-LEN.                                                794
+  001059                    INSPECT AZ-TEST TALLYING AZ-TEST-LEN FOR                              885 794
+  001060                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  001061               * SET GROUP OPTION COMMON MASK IN CICS GROUPPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    47
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001062                    MOVE X'E000' TO AZ-OPT-COMMASK-DATA2(1).                              808
+  001063               * EXEC CICS RETURN X'0000'
+  001064                    IF ARG0-1 = X'0E08'                                                   1014
+  001065      1               MOVE X'0000' TO AZ-OPT-MASK-DATA2                                   801
+  001066      1               MOVE 2 TO AZ-OPT-BYTECOUNT                                          805
+  001067      1               CALL 'EVALOPT' USING AZ-OPT-MASK-DATA2                              EXT 801
+  001068      1                 AZ-OPT-COMMASK-DATA2(1) ARG0-2                                    808 1017
+  001069      1                 AZ-OPT-BYTECOUNT AZ-OPT-RC                                        805 806
+  001070      1               IF AZ-OPT-RC = 0 THEN                                               806
+  001071      2                 MOVE 3 TO AZ-LINE-BYTE                                            812
+  001072      2                 PERFORM GETLINENUM                                                1507
+  001073      2                 DISPLAY 'EXEC CICS RETURN X''0000'''
+  001074      2                  ' L=' AZ-LINE-NUM                                                813
+  001075      2                 MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-OT(1)               903 886 796
+  001076      2                 EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                   885 794
+  001077      2                   WHEN SPACE                                                      IMP
+  001078      3                     CONTINUE
+  001079      2                   WHEN 'TEST3'
+  001080      3                     PERFORM O0E080-TEST3                                          1175
+  001081      3                     CONTINUE
+  001082      2                   WHEN OTHER
+  001083      3                     CONTINUE
+  001084      2                   END-EVALUATE
+  001085      1               END-IF
+  001086                    END-IF.
+  001087               * EXEC CICS RETURN X'E000'
+  001088                    IF ARG0-1 = X'0E08'                                                   1014
+  001089      1               MOVE X'E000' TO AZ-OPT-MASK-DATA2                                   801
+  001090      1               MOVE 2 TO AZ-OPT-BYTECOUNT                                          805
+  001091      1               CALL 'EVALOPT' USING AZ-OPT-MASK-DATA2                              EXT 801
+  001092      1                 AZ-OPT-COMMASK-DATA2(1) ARG0-2                                    808 1017
+  001093      1                 AZ-OPT-BYTECOUNT AZ-OPT-RC                                        805 806
+  001094      1               IF AZ-OPT-RC = 0 THEN                                               806
+  001095      2                 MOVE 3 TO AZ-LINE-BYTE                                            812
+  001096      2                 PERFORM GETLINENUM                                                1507
+  001097      2                 DISPLAY 'EXEC CICS RETURN X''E000'''
+  001098      2                  ' L=' AZ-LINE-NUM                                                813
+  001099      2                 SET ADDRESS OF W-COMMUNICATION-AREA TO ADDRESS OF ARG2            IMP 1036 IMP 1024
+  001100      2                 SET ADDRESS OF W-COMAREA-LENGTH TO ADDRESS OF ARG3                IMP 1049 IMP 1025
+  001101      2                 MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-OT(2)               903 886 796
+  001102      2                 EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                   885 794
+  001103      2                   WHEN SPACE                                                      IMP
+  001104      3                     CONTINUE
+  001105      2                   WHEN 'TEST3'
+  001106      3                     PERFORM O0E081-TEST3                                          1181
+  001107      3                     CONTINUE
+  001108      2                   WHEN OTHER
+  001109      3                     CONTINUE
+  001110      2                   END-EVALUATE
+  001111      1               END-IF
+  001112                    END-IF.
+  001113                    PERFORM TEARDOWN.                                                     1515
+  001114               * SET INPUT VALUE
+  001115               * CICS_OUTP_0E08_EPSCMORT.
+  001116                    ENTRY 'CICS_OUTP_0E08_EPSCMORT' USING AZ-TEST                         885
+  001117                    AZ-INFO-BLOCK AZ-DFHEIBLK AZ-DFHCOMMAREA ARG0 ARG1 ARG2               886 1006 1008 1013 1023 1024
+  001118                    ARG3 ARG4 ARG5 ARG6 ARG7 ARG8 ARG9 ARG10.                             1025 1026 1027 1028 1029 1030 1031PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    48
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+                                                                                                  1032
+  001119                    DISPLAY 'CICS_0E08_EPSCMORT INPUT VALUES...'
+  001120                    MOVE 0 TO RETURN-CODE.                                                IMP IMP
+  001121                    MOVE 0 TO AZ-TEST-LEN.                                                794
+  001122                    INSPECT AZ-TEST TALLYING AZ-TEST-LEN FOR                              885 794
+  001123                    CHARACTERS BEFORE INITIAL SPACE.                                      IMP
+  001124               * SET GROUP OPTION COMMON MASK IN CICS GROUP
+  001125                    MOVE X'E000' TO AZ-OPT-COMMASK-DATA2(1).                              808
+  001126               * EXEC CICS RETURN X'0000'
+  001127                    IF ARG0-1 = X'0E08'                                                   1014
+  001128      1               MOVE X'0000' TO AZ-OPT-MASK-DATA2                                   801
+  001129      1               MOVE 2 TO AZ-OPT-BYTECOUNT                                          805
+  001130      1               CALL 'EVALOPT' USING AZ-OPT-MASK-DATA2                              EXT 801
+  001131      1                 AZ-OPT-COMMASK-DATA2(1) ARG0-2                                    808 1017
+  001132      1                 AZ-OPT-BYTECOUNT AZ-OPT-RC                                        805 806
+  001133      1               IF AZ-OPT-RC = 0 THEN                                               806
+  001134      2                 MOVE 3 TO AZ-LINE-BYTE                                            812
+  001135      2                 PERFORM GETLINENUM                                                1507
+  001136      2                 DISPLAY 'EXEC CICS RETURN X''0000'''
+  001137      2                  ' L=' AZ-LINE-NUM                                                813
+  001138      2                 MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-IN(1)               903 886 797
+  001139      2                 EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                   885 794
+  001140      2                   WHEN SPACE                                                      IMP
+  001141      3                     CONTINUE
+  001142      2                   WHEN 'TEST3'
+  001143      3                     CONTINUE
+  001144      2                   WHEN OTHER
+  001145      3                     CONTINUE
+  001146      2                   END-EVALUATE
+  001147      1               END-IF
+  001148                    END-IF.
+  001149               * EXEC CICS RETURN X'E000'
+  001150                    IF ARG0-1 = X'0E08'                                                   1014
+  001151      1               MOVE X'E000' TO AZ-OPT-MASK-DATA2                                   801
+  001152      1               MOVE 2 TO AZ-OPT-BYTECOUNT                                          805
+  001153      1               CALL 'EVALOPT' USING AZ-OPT-MASK-DATA2                              EXT 801
+  001154      1                 AZ-OPT-COMMASK-DATA2(1) ARG0-2                                    808 1017
+  001155      1                 AZ-OPT-BYTECOUNT AZ-OPT-RC                                        805 806
+  001156      1               IF AZ-OPT-RC = 0 THEN                                               806
+  001157      2                 MOVE 3 TO AZ-LINE-BYTE                                            812
+  001158      2                 PERFORM GETLINENUM                                                1507
+  001159      2                 DISPLAY 'EXEC CICS RETURN X''E000'''
+  001160      2                  ' L=' AZ-LINE-NUM                                                813
+  001161      2                 SET ADDRESS OF W-COMMUNICATION-AREA TO ADDRESS OF ARG2            IMP 1036 IMP 1024
+  001162      2                 SET ADDRESS OF W-COMAREA-LENGTH TO ADDRESS OF ARG3                IMP 1049 IMP 1025
+  001163      2                 MOVE ITER OF AZ-INFO-BLOCK TO AZ-RECORD-COUNT-IN(2)               903 886 797
+  001164      2                 EVALUATE AZ-TEST(1:AZ-TEST-LEN)                                   885 794
+  001165      2                   WHEN SPACE                                                      IMP
+  001166      3                     CONTINUE
+  001167      2                   WHEN 'TEST3'
+  001168      3                     CONTINUE
+  001169      2                   WHEN OTHER
+  001170      3                     CONTINUE
+  001171      2                   END-EVALUATE
+  001172      1               END-IF
+  001173                    END-IF.
+  001174                    PERFORM TEARDOWN.                                                     1515PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    49
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001175                O0E080-TEST3.
+  001176                    IF AZ-RECORD-COUNT-OT(1) = 0 THEN                                     796
+  001177      1               CONTINUE
+  001178                    ELSE
+  001179      1               CONTINUE
+  001180                    END-IF.
+  001181                O0E081-TEST3.
+  001182                    INITIALIZE AZ-COMPARE-WORK-ITEMS                                      873
+  001183                    IF AZ-RECORD-COUNT-OT(2) = 0 THEN                                     796
+  001184      1               CONTINUE
+  001185      1             ELSE IF AZ-RECORD-COUNT-OT(2) = 1                                     796
+  001186      2               MOVE 0 TO RETURN-CODE                                               IMP IMP
+  001187      2               IF PROCESS-INDICATOR OF W-COMMUNICATION-AREA =                      1037 1036
+  001188      2             ZUT00000000 THEN                                                      826
+  001189      3                 CONTINUE
+  001190      2               ELSE
+  001191      3                 MOVE PROCESS-INDICATOR OF W-COMMUNICATION-AREA TO                 1037 1036
+  001192      3             ZUT00000007(1)                                                        875
+  001193      3                 MOVE ZUT00000000 TO ZUT00000007(2)                                826 875
+  001194      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000006            819 IMP 838
+  001195      3                 MOVE LENGTH OF ZUT00000006 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 838 820
+  001196      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001197      3             ZUT00000007(1)                                                        875
+  001198      3                 MOVE 1 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001199      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001200      3             ZUT00000007(2)                                                        875
+  001201      3                 MOVE 1 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001202      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001203      3                 STRING
+  001204      3                   'COMPARE FAILED AT RECORD 1 '
+  001205      3                   '''COMMAREA'' '
+  001206      3                   'IN EXEC CICS RETURN '
+  001207      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001208      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001209      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001210      3                 END-STRING
+  001211      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001212      3                 PERFORM THROW-ASSERTION                                           1459
+  001213      2               END-IF
+  001214      2               IF EPSPCOM-PRINCIPLE-DATA OF W-COMMUNICATION-AREA =                 1038 1036
+  001215      2             200000.99 THEN
+  001216      3                 CONTINUE
+  001217      2               ELSE
+  001218      3                  MOVE EPSPCOM-PRINCIPLE-DATA OF W-COMMUNICATION-AREA TO           1038 1036
+  001219      3             ZUT00000009(1)                                                        876
+  001220      3                 MOVE 200000.99 TO ZUT00000009(2)                                  876
+  001221      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000008            819 IMP 842
+  001222      3                 MOVE LENGTH OF ZUT00000008 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 842 820
+  001223      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001224      3             ZUT00000009(1)                                                        876
+  001225      3                 MOVE 13 TO AZ-COMPARE-ITEM-VALUE-LEN                              822
+  001226      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001227      3             ZUT00000009(2)                                                        876
+  001228      3                 MOVE 13 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                          824
+  001229      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001230      3                 STRING
+  001231      3                   'COMPARE FAILED AT RECORD 1 'PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    50
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001232      3                   '''COMMAREA'' '
+  001233      3                   'IN EXEC CICS RETURN '
+  001234      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001235      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001236      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001237      3                 END-STRING
+  001238      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001239      3                 PERFORM THROW-ASSERTION                                           1459
+  001240      2               END-IF
+  001241      2               IF EPSPCOM-NUMBER-OF-YEARS OF W-COMMUNICATION-AREA = 15             1039 1036
+  001242      2             THEN
+  001243      3                 CONTINUE
+  001244      2               ELSE
+  001245      3                  MOVE EPSPCOM-NUMBER-OF-YEARS OF W-COMMUNICATION-AREA             1039 1036
+  001246      3             TO ZUT0000000B(1)                                                     877
+  001247      3                 MOVE 15 TO ZUT0000000B(2)                                         877
+  001248      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000A            819 IMP 846
+  001249      3                 MOVE LENGTH OF ZUT0000000A TO AZ-COMPARE-ITEM-NAME-LEN            IMP 846 820
+  001250      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001251      3             ZUT0000000B(1)                                                        877
+  001252      3                 MOVE 5 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001253      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001254      3             ZUT0000000B(2)                                                        877
+  001255      3                 MOVE 5 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001256      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001257      3                 STRING
+  001258      3                   'COMPARE FAILED AT RECORD 1 '
+  001259      3                   '''COMMAREA'' '
+  001260      3                   'IN EXEC CICS RETURN '
+  001261      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001262      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001263      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001264      3                 END-STRING
+  001265      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001266      3                 PERFORM THROW-ASSERTION                                           1459
+  001267      2               END-IF
+  001268      2               IF EPSPCOM-NUMBER-OF-MONTHS OF W-COMMUNICATION-AREA = 0             1040 1036
+  001269      2             THEN
+  001270      3                 CONTINUE
+  001271      2               ELSE
+  001272      3                  MOVE EPSPCOM-NUMBER-OF-MONTHS OF W-COMMUNICATION-AREA            1040 1036
+  001273      3             TO ZUT0000000D(1)                                                     878
+  001274      3                 MOVE 0 TO ZUT0000000D(2)                                          878
+  001275      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000C            819 IMP 850
+  001276      3                 MOVE LENGTH OF ZUT0000000C TO AZ-COMPARE-ITEM-NAME-LEN            IMP 850 820
+  001277      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001278      3             ZUT0000000D(1)                                                        878
+  001279      3                 MOVE 5 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001280      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001281      3             ZUT0000000D(2)                                                        878
+  001282      3                 MOVE 5 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001283      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001284      3                 STRING
+  001285      3                   'COMPARE FAILED AT RECORD 1 '
+  001286      3                   '''COMMAREA'' '
+  001287      3                   'IN EXEC CICS RETURN '
+  001288      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    51
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001289      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001290      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001291      3                 END-STRING
+  001292      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001293      3                 PERFORM THROW-ASSERTION                                           1459
+  001294      2               END-IF
+  001295      2               IF EPSPCOM-QUOTED-INTEREST-RATE OF W-COMMUNICATION-AREA =           1041 1036
+  001296      2             6.990 THEN
+  001297      3                 CONTINUE
+  001298      2               ELSE
+  001299      3                  MOVE EPSPCOM-QUOTED-INTEREST-RATE OF                             1041
+  001300      3             W-COMMUNICATION-AREA TO ZUT0000000F(1)                                1036 879
+  001301      3                 MOVE 6.990 TO ZUT0000000F(2)                                      879
+  001302      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT0000000E            819 IMP 854
+  001303      3                 MOVE LENGTH OF ZUT0000000E TO AZ-COMPARE-ITEM-NAME-LEN            IMP 854 820
+  001304      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001305      3             ZUT0000000F(1)                                                        879
+  001306      3                 MOVE 7 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001307      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001308      3             ZUT0000000F(2)                                                        879
+  001309      3                 MOVE 7 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001310      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001311      3                 STRING
+  001312      3                   'COMPARE FAILED AT RECORD 1 '
+  001313      3                   '''COMMAREA'' '
+  001314      3                   'IN EXEC CICS RETURN '
+  001315      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001316      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001317      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001318      3                 END-STRING
+  001319      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001320      3                 PERFORM THROW-ASSERTION                                           1459
+  001321      2               END-IF
+  001322      2               IF EPSPCOM-YEAR-MONTH-IND OF W-COMMUNICATION-AREA =                 1042 1036
+  001323      2             ZUT00000001 THEN                                                      828
+  001324      3                 CONTINUE
+  001325      2               ELSE
+  001326      3                 MOVE EPSPCOM-YEAR-MONTH-IND OF W-COMMUNICATION-AREA TO            1042 1036
+  001327      3             ZUT00000011(1)                                                        880
+  001328      3                 MOVE ZUT00000001 TO ZUT00000011(2)                                828 880
+  001329      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000010            819 IMP 858
+  001330      3                 MOVE LENGTH OF ZUT00000010 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 858 820
+  001331      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001332      3             ZUT00000011(1)                                                        880
+  001333      3                 MOVE 1 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001334      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001335      3             ZUT00000011(2)                                                        880
+  001336      3                 MOVE 1 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001337      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001338      3                 STRING
+  001339      3                   'COMPARE FAILED AT RECORD 1 '
+  001340      3                   '''COMMAREA'' '
+  001341      3                   'IN EXEC CICS RETURN '
+  001342      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001343      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001344      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001345      3                 END-STRINGPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    52
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001346      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001347      3                 PERFORM THROW-ASSERTION                                           1459
+  001348      2               END-IF
+  001349      2               IF EPSPCOM-RETURN-MONTH-PAYMENT OF W-COMMUNICATION-AREA =           1043 1036
+  001350      2             1796.55 THEN
+  001351      3                 CONTINUE
+  001352      2               ELSE
+  001353      3                  MOVE EPSPCOM-RETURN-MONTH-PAYMENT OF                             1043
+  001354      3             W-COMMUNICATION-AREA TO ZUT00000013(1)                                1036 881
+  001355      3                 MOVE 1796.55 TO ZUT00000013(2)                                    881
+  001356      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000012            819 IMP 862
+  001357      3                 MOVE LENGTH OF ZUT00000012 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 862 820
+  001358      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001359      3             ZUT00000013(1)                                                        881
+  001360      3                 MOVE 11 TO AZ-COMPARE-ITEM-VALUE-LEN                              822
+  001361      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001362      3             ZUT00000013(2)                                                        881
+  001363      3                 MOVE 11 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                          824
+  001364      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001365      3                 STRING
+  001366      3                   'COMPARE FAILED AT RECORD 1 '
+  001367      3                   '''COMMAREA'' '
+  001368      3                   'IN EXEC CICS RETURN '
+  001369      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001370      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001371      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001372      3                 END-STRING
+  001373      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001374      3                 PERFORM THROW-ASSERTION                                           1459
+  001375      2               END-IF
+  001376      2               IF EPSPCOM-ERRMSG OF W-COMMUNICATION-AREA = ZUT00000002             1044 1036 830
+  001377      2             THEN
+  001378      3                 CONTINUE
+  001379      2               ELSE
+  001380      3                 MOVE EPSPCOM-ERRMSG OF W-COMMUNICATION-AREA TO                    1044 1036
+  001381      3             ZUT00000015(1)                                                        882
+  001382      3                 MOVE ZUT00000002 TO ZUT00000015(2)                                830 882
+  001383      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000014            819 IMP 866
+  001384      3                 MOVE LENGTH OF ZUT00000014 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 866 820
+  001385      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001386      3             ZUT00000015(1)                                                        882
+  001387      3                 MOVE 80 TO AZ-COMPARE-ITEM-VALUE-LEN                              822
+  001388      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001389      3             ZUT00000015(2)                                                        882
+  001390      3                 MOVE 80 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                          824
+  001391      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001392      3                 STRING
+  001393      3                   'COMPARE FAILED AT RECORD 1 '
+  001394      3                   '''COMMAREA'' '
+  001395      3                   'IN EXEC CICS RETURN '
+  001396      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001397      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001398      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001399      3                 END-STRING
+  001400      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001401      3                 PERFORM THROW-ASSERTION                                           1459
+  001402      2               END-IFPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    53
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001403      2               IF EPSPCOM-PROGRAM-RETCODE-RDF OF W-COMMUNICATION-AREA =            1047 1036
+  001404      2             ZUT00000003 THEN                                                      832
+  001405      3                 CONTINUE
+  001406      2               ELSE
+  001407      3                 MOVE EPSPCOM-PROGRAM-RETCODE-RDF OF                               1047
+  001408      3             W-COMMUNICATION-AREA TO ZUT00000017(1)                                1036 883
+  001409      3                 MOVE ZUT00000003 TO ZUT00000017(2)                                832 883
+  001410      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000016            819 IMP 869
+  001411      3                 MOVE LENGTH OF ZUT00000016 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 869 820
+  001412      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001413      3             ZUT00000017(1)                                                        883
+  001414      3                 MOVE 4 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001415      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001416      3             ZUT00000017(2)                                                        883
+  001417      3                 MOVE 4 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001418      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001419      3                 STRING
+  001420      3                   'COMPARE FAILED AT RECORD 1 '
+  001421      3                   '''COMMAREA'' '
+  001422      3                   'IN EXEC CICS RETURN '
+  001423      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001424      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001425      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001426      3                 END-STRING
+  001427      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001428      3                 PERFORM THROW-ASSERTION                                           1459
+  001429      2               END-IF
+  001430      2               IF W-COMAREA-LENGTH = 106 THEN                                      1049
+  001431      3                 CONTINUE
+  001432      2               ELSE
+  001433      3                  MOVE W-COMAREA-LENGTH TO ZUT00000005(1)                          1049 874
+  001434      3                 MOVE 106 TO ZUT00000005(2)                                        874
+  001435      3                 SET AZ-COMPARE-ITEM-NAME-PTR TO ADDRESS OF ZUT00000004            819 IMP 836
+  001436      3                 MOVE LENGTH OF ZUT00000004 TO AZ-COMPARE-ITEM-NAME-LEN            IMP 836 820
+  001437      3                 SET AZ-COMPARE-ITEM-VALUE-PTR TO ADDRESS OF                       821 IMP
+  001438      3             ZUT00000005(1)                                                        874
+  001439      3                 MOVE 4 TO AZ-COMPARE-ITEM-VALUE-LEN                               822
+  001440      3                 SET AZ-COMPARE-ITEM-EXP-VALUE-PTR TO ADDRESS OF                   823 IMP
+  001441      3             ZUT00000005(2)                                                        874
+  001442      3                 MOVE 4 TO AZ-COMPARE-ITEM-EXP-VALUE-LEN                           824
+  001443      3                 MOVE 1 TO MESSAGE-LEN OF BZ-ASSERT                                784 783
+  001444      3                 STRING
+  001445      3                   'COMPARE FAILED AT RECORD 1 '
+  001446      3                   '''LENGTH'' '
+  001447      3                   'IN EXEC CICS RETURN '
+  001448      3                   '(LISTINGLINE=' AZ-LINE-NUM ').'                                813
+  001449      3                   DELIMITED BY SIZE INTO MESSAGE-TXT OF BZ-ASSERT                 785 783
+  001450      3                   WITH POINTER MESSAGE-LEN OF BZ-ASSERT                           784 783
+  001451      3                 END-STRING
+  001452      3                 SUBTRACT 1 FROM MESSAGE-LEN OF BZ-ASSERT                          784 783
+  001453      3                 PERFORM THROW-ASSERTION                                           1459
+  001454      2               END-IF
+  001455      1             ELSE
+  001456      2               CONTINUE
+  001457      1             END-IF
+  001458                    END-IF.
+  001459                THROW-ASSERTION.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    54
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001460                    SET ADDRESS OF AZ-COMPARE-ITEM-NAME TO                                IMP 1010
+  001461                    AZ-COMPARE-ITEM-NAME-PTR.                                             819
+  001462                    SET ADDRESS OF AZ-COMPARE-ITEM-VALUE TO                               IMP 1011
+  001463                    AZ-COMPARE-ITEM-VALUE-PTR.                                            821
+  001464                    SET ADDRESS OF AZ-COMPARE-ITEM-EXP-VALUE TO                           IMP 1012
+  001465                    AZ-COMPARE-ITEM-EXP-VALUE-PTR.                                        823
+  001466               *    DISPLAY ERROR MESSAGE AND ENDS TEST
+  001467                    DISPLAY '****************************************************
+  001468               -    '****************************'
+  001469                    DISPLAY 'AZU2001W THE TEST "' AZ-TEST(1:AZ-TEST-LEN) '" FAILE         885 794
+  001470               -    'D DUE TO AN ASSERTION.'
+  001471                    DISPLAY 'AZU1101I ' MESSAGE-TXT OF BZ-ASSERT(1:MESSAGE-LEN            785 783 784
+  001472                    OF BZ-ASSERT)                                                         783
+  001473                    DISPLAY ' DATA ITEM NAME : '
+  001474                    AZ-COMPARE-ITEM-NAME(1:AZ-COMPARE-ITEM-NAME-LEN)                      1010 820
+  001475                    DISPLAY '  VALUE         : '
+  001476                    AZ-COMPARE-ITEM-VALUE(1:AZ-COMPARE-ITEM-VALUE-LEN)                    1011 822
+  001477                    DISPLAY '  EXPECTED VALUE: '
+  001478                    AZ-COMPARE-ITEM-EXP-VALUE(1:AZ-COMPARE-ITEM-EXP-VALUE-LEN)            1012 824
+  001479                    DISPLAY '****************************************************
+  001480               -    '****************************'
+  001481                    CALL BZUASSRT USING BZ-P1 BZ-P2 BZ-P3 BZ-ASSERT                       792 786 787 788 783
+  001482                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       790 789
+  001483                    STRING 'ITEM NAME='
+  001484                    AZ-COMPARE-ITEM-NAME(1:AZ-COMPARE-ITEM-NAME-LEN)                      1010 820
+  001485                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      791 789
+  001486                        WITH POINTER TRACE-LEN OF BZ-TRACE                                790 789
+  001487                      END-STRING
+  001488                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 790 789
+  001489                    CALL BZUTRACE USING BZ-TRACE                                          793 789
+  001490                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       790 789
+  001491                    STRING 'VALUE='
+  001492                    AZ-COMPARE-ITEM-VALUE(1:AZ-COMPARE-ITEM-VALUE-LEN)                    1011 822
+  001493                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      791 789
+  001494                        WITH POINTER TRACE-LEN OF BZ-TRACE                                790 789
+  001495                      END-STRING
+  001496                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 790 789
+  001497                    CALL BZUTRACE USING BZ-TRACE                                          793 789
+  001498                    MOVE 1 TO TRACE-LEN OF BZ-TRACE                                       790 789
+  001499                    STRING 'EXPECTED VALUE='
+  001500                    AZ-COMPARE-ITEM-EXP-VALUE(1:AZ-COMPARE-ITEM-EXP-VALUE-LEN)            1012 824
+  001501                        DELIMITED BY SIZE INTO TRACE-TXT OF BZ-TRACE                      791 789
+  001502                        WITH POINTER TRACE-LEN OF BZ-TRACE                                790 789
+  001503                      END-STRING
+  001504                    SUBTRACT 1 FROM TRACE-LEN OF BZ-TRACE                                 790 789
+  001505                    CALL BZUTRACE USING BZ-TRACE                                          793 789
+  001506                    EXIT.
+  001507                GETLINENUM.
+  001508                    MOVE 1 TO AZ-LINE-J                                                   817
+  001509                    PERFORM VARYING AZ-LINE-I FROM AZ-LINE-BYTE BY 1                      816 812
+  001510                      UNTIL AZ-LINE-I > AZ-LINE-BYTE + 5                                  816 812
+  001511      1               MOVE ARG0-3(AZ-LINE-I) TO AZ-LINE-NUM-RD(AZ-LINE-J)                 1022 816 815 817
+  001512      1               ADD 1 TO AZ-LINE-J                                                  817
+  001513                    END-PERFORM
+  001514                    EXIT.
+  001515                TEARDOWN.
+  001516                    DISPLAY 'CICS_0E08_EPSCMORT SUCCESSFUL.'PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    55
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  001517                    GOBACK.
+  001518                END PROGRAM 'CICS_0E08_EPSCMORT'.                                         780
+*/ CICS_0E08_EPSCMORTPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    56
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+    1013   ARG0 . . . . . . . . . . . . .  1054 1117
+    1015   ARG0-A . . . . . . . . . . . .  1016 1019
+    1016   ARG0-B
+    1019   ARG0-C
+    1021   ARG0-D
+    1014   ARG0-1 . . . . . . . . . . . .  1064 1088 1127 1150
+    1017   ARG0-2 . . . . . . . . . . . .  1068 1092 1131 1154
+    1022   ARG0-3 . . . . . . . . . . . .  1511
+    1023   ARG1 . . . . . . . . . . . . .  1054 1117
+    1032   ARG10. . . . . . . . . . . . .  1055 1118
+    1024   ARG2 . . . . . . . . . . . . .  1054 1099 1117 1161
+    1025   ARG3 . . . . . . . . . . . . .  1055 1100 1118 1162
+    1026   ARG4 . . . . . . . . . . . . .  1055 1118
+    1027   ARG5 . . . . . . . . . . . . .  1055 1118
+    1028   ARG6 . . . . . . . . . . . . .  1055 1118
+    1029   ARG7 . . . . . . . . . . . . .  1055 1118
+    1030   ARG8 . . . . . . . . . . . . .  1055 1118
+    1031   ARG9 . . . . . . . . . . . . .  1055 1118
+    1033   AZ-CICS-TARGET-NAME-DEF4
+    1034   AZ-CICS-TARGET-NAME-DEF7
+    1035   AZ-CICS-TARGET-NAME-DEF8
+     818   AZ-COMPARE
+    1012   AZ-COMPARE-ITEM-EXP-VALUE. . .  1464 1478 1500
+     824   AZ-COMPARE-ITEM-EXP-VALUE-LEN.  M1201 M1228 M1255 M1282 M1309 M1336 M1363 M1390 M1417 M1442 1478 1500
+     823   AZ-COMPARE-ITEM-EXP-VALUE-PTR.  M1199 M1226 M1253 M1280 M1307 M1334 M1361 M1388 M1415 M1440 1465
+    1010   AZ-COMPARE-ITEM-NAME . . . . .  1460 1474 1484
+     820   AZ-COMPARE-ITEM-NAME-LEN . . .  M1195 M1222 M1249 M1276 M1303 M1330 M1357 M1384 M1411 M1436 1474 1484
+     819   AZ-COMPARE-ITEM-NAME-PTR . . .  M1194 M1221 M1248 M1275 M1302 M1329 M1356 M1383 M1410 M1435 1461
+     835   AZ-COMPARE-ITEM-NAMES
+    1011   AZ-COMPARE-ITEM-VALUE. . . . .  1462 1476 1492
+     822   AZ-COMPARE-ITEM-VALUE-LEN. . .  M1198 M1225 M1252 M1279 M1306 M1333 M1360 M1387 M1414 M1439 1476 1492
+     821   AZ-COMPARE-ITEM-VALUE-PTR. . .  M1196 M1223 M1250 M1277 M1304 M1331 M1358 M1385 M1412 M1437 1463
+     873   AZ-COMPARE-WORK-ITEMS. . . . .  M1182
+    1008   AZ-DFHCOMMAREA . . . . . . . .  1054 1117
+    1006   AZ-DFHEIBLK. . . . . . . . . .  1054 1117
+     886   AZ-INFO-BLOCK. . . . . . . . .  1054 1075 1101 1117 1138 1163
+     812   AZ-LINE-BYTE . . . . . . . . .  M1071 M1095 M1134 M1157 1509 1510
+     816   AZ-LINE-I. . . . . . . . . . .  M1509 1510 1511
+     817   AZ-LINE-J. . . . . . . . . . .  M1508 1511 M1512
+     813   AZ-LINE-NUM. . . . . . . . . .  814 1074 1098 1137 1160 1207 1234 1261 1288 1315 1342 1369 1396 1423 1448
+     814   AZ-LINE-NUM-R
+     815   AZ-LINE-NUM-RD . . . . . . . .  M1511
+    1005   AZ-MODX
+     805   AZ-OPT-BYTECOUNT . . . . . . .  M1066 1069 M1090 1093 M1129 1132 M1152 1155
+     807   AZ-OPT-COMMASK
+     810   AZ-OPT-COMMASK-DATA11
+     811   AZ-OPT-COMMASK-DATA19
+     808   AZ-OPT-COMMASK-DATA2 . . . . .  M1062 1068 1092 M1125 1131 1154
+     809   AZ-OPT-COMMASK-DATA9
+     803   AZ-OPT-MASK-DATA11
+     804   AZ-OPT-MASK-DATA19
+     801   AZ-OPT-MASK-DATA2. . . . . . .  M1065 1067 M1089 1091 M1128 1130 M1151 1153
+     802   AZ-OPT-MASK-DATA9
+     806   AZ-OPT-RC. . . . . . . . . . .  1069 1070 1093 1094 1132 1133 1155 1156PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    57
+
+ Defined   Cross-reference of data names   References
+
+
+     795   AZ-RECORD
+     797   AZ-RECORD-COUNT-IN . . . . . .  M1138 M1163
+     796   AZ-RECORD-COUNT-OT . . . . . .  M1075 M1101 1176 1183 1185
+     798   AZ-RECORD-PTR. . . . . . . . .  800
+     799   AZ-RECORD-PTR-VALUE
+     885   AZ-TEST. . . . . . . . . . . .  1053 1059 1076 1102 1116 1122 1139 1164 1469
+     825   AZ-TEST-EXPECTED-DATA-VALUE
+     794   AZ-TEST-LEN. . . . . . . . . .  M1058 M1059 1076 1102 M1121 M1122 1139 1164 1469
+    1004   AZ-WK-RECORD-COUNT
+     783   BZ-ASSERT. . . . . . . . . . .  1202 1208 1209 1211 1229 1235 1236 1238 1256 1262 1263 1265 1283 1289 1290 1292
+                                           1310 1316 1317 1319 1337 1343 1344 1346 1364 1370 1371 1373 1391 1397 1398 1400
+                                           1418 1424 1425 1427 1443 1449 1450 1452 1471 1472 1481
+     786   BZ-P1. . . . . . . . . . . . .  1481
+     787   BZ-P2. . . . . . . . . . . . .  1481
+     788   BZ-P3. . . . . . . . . . . . .  1481
+     789   BZ-TRACE . . . . . . . . . . .  1482 1485 1486 1488 1489 1490 1493 1494 1496 1497 1498 1501 1502 1504 1505
+     792   BZUASSRT . . . . . . . . . . .  1481
+     793   BZUTRACE . . . . . . . . . . .  1489 1497 1505
+    1044   EPSPCOM-ERRMSG . . . . . . . .  1376 1380
+    1040   EPSPCOM-NUMBER-OF-MONTHS . . .  1268 1272
+    1039   EPSPCOM-NUMBER-OF-YEARS. . . .  1241 1245
+    1038   EPSPCOM-PRINCIPLE-DATA . . . .  1214 1218
+    1045   EPSPCOM-PROGRAM-RETCODE. . . .  1048
+    1047   EPSPCOM-PROGRAM-RETCODE-RDF. .  1403 1407
+    1041   EPSPCOM-QUOTED-INTEREST-RATE .  1295 1299
+    1043   EPSPCOM-RETURN-MONTH-PAYMENT .  1349 1353
+    1042   EPSPCOM-YEAR-MONTH-IND . . . .  1322 1326
+    1046   EPS02-REQUEST-SUCCESS
+     903   ITER . . . . . . . . . . . . .  1075 1101 1138 1163
+     784   MESSAGE-LEN. . . . . . . . . .  M1202 M1209 M1211 M1229 M1236 M1238 M1256 M1263 M1265 M1283 M1290 M1292 M1310
+                                           M1317 M1319 M1337 M1344 M1346 M1364 M1371 M1373 M1391 M1398 M1400 M1418 M1425
+                                           M1427 M1443 M1450 M1452 1471
+     785   MESSAGE-TXT. . . . . . . . . .  M1208 M1235 M1262 M1289 M1316 M1343 M1370 M1397 M1424 M1449 1471
+     904   O00001
+     905   O00002
+     906   O00003
+     907   O00004
+     908   O00005
+     909   O00006
+     910   O00007
+     911   O00008
+     912   O00009
+     913   O00010
+     914   O00011
+     915   O00012
+     916   O00013
+     917   O00014
+     918   O00015
+     919   O00016
+     920   O00017
+     921   O00018
+     922   O00019
+     923   O00020
+     924   O00021
+     925   O00022PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    58
+
+ Defined   Cross-reference of data names   References
+
+
+     926   O00023
+     927   O00024
+     928   O00025
+     929   O00026
+     930   O00027
+     931   O00028
+     932   O00029
+     933   O00030
+     934   O00031
+     935   O00032
+     936   O00033
+     937   O00034
+     938   O00035
+     939   O00036
+     940   O00037
+     941   O00038
+     942   O00039
+     943   O00040
+     944   O00041
+     945   O00042
+     946   O00043
+     947   O00044
+     948   O00045
+     949   O00046
+     950   O00047
+     951   O00048
+     952   O00049
+     953   O00050
+     954   O00051
+     955   O00052
+     956   O00053
+     957   O00054
+     958   O00055
+     959   O00056
+     960   O00057
+     961   O00058
+     962   O00059
+     963   O00060
+     964   O00061
+     965   O00062
+     966   O00063
+     967   O00064
+     968   O00065
+     969   O00066
+     970   O00067
+     971   O00068
+     972   O00069
+     973   O00070
+     974   O00071
+     975   O00072
+     976   O00073
+     977   O00074
+     978   O00075
+     979   O00076
+     980   O00077PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    59
+
+ Defined   Cross-reference of data names   References
+
+
+     981   O00078
+     982   O00079
+     983   O00080
+     984   O00081
+     985   O00082
+     986   O00083
+     987   O00084
+     988   O00085
+     989   O00086
+     990   O00087
+     991   O00088
+     992   O00089
+     993   O00090
+     994   O00091
+     995   O00092
+     996   O00093
+     997   O00094
+     998   O00095
+     999   O00096
+    1000   O00097
+    1001   O00098
+    1002   O00099
+    1003   O00100
+    1037   PROCESS-INDICATOR. . . . . . .  1187 1191
+       0   RETURN-CODE. . . . . . . . . .  1057 M1057 1120 M1120 1186 M1186
+     790   TRACE-LEN. . . . . . . . . . .  M1482 M1486 M1488 M1490 M1494 M1496 M1498 M1502 M1504
+     791   TRACE-TXT. . . . . . . . . . .  M1485 M1493 M1501
+    1049   W-COMAREA-LENGTH . . . . . . .  1100 1162 1430 1433
+    1036   W-COMMUNICATION-AREA . . . . .  1099 1161 1187 1191 1214 1218 1241 1245 1268 1272 1295 1300 1322 1326 1349 1354
+                                           1376 1380 1403 1408
+     846   ZUT0000000A. . . . . . . . . .  1248 1249
+     877   ZUT0000000B. . . . . . . . . .  M1246 M1247 1251 1254
+     850   ZUT0000000C. . . . . . . . . .  1275 1276
+     878   ZUT0000000D. . . . . . . . . .  M1273 M1274 1278 1281
+     854   ZUT0000000E. . . . . . . . . .  1302 1303
+     879   ZUT0000000F. . . . . . . . . .  M1300 M1301 1305 1308
+     826   ZUT00000000. . . . . . . . . .  1188 1193
+     828   ZUT00000001. . . . . . . . . .  1323 1328
+     830   ZUT00000002. . . . . . . . . .  1376 1382
+     832   ZUT00000003. . . . . . . . . .  1404 1409
+     836   ZUT00000004. . . . . . . . . .  1435 1436
+     874   ZUT00000005. . . . . . . . . .  M1433 M1434 1438 1441
+     838   ZUT00000006. . . . . . . . . .  1194 1195
+     875   ZUT00000007. . . . . . . . . .  M1192 M1193 1197 1200
+     842   ZUT00000008. . . . . . . . . .  1221 1222
+     876   ZUT00000009. . . . . . . . . .  M1219 M1220 1224 1227
+     858   ZUT00000010. . . . . . . . . .  1329 1330
+     880   ZUT00000011. . . . . . . . . .  M1327 M1328 1332 1335
+     862   ZUT00000012. . . . . . . . . .  1356 1357
+     881   ZUT00000013. . . . . . . . . .  M1354 M1355 1359 1362
+     866   ZUT00000014. . . . . . . . . .  1383 1384
+     882   ZUT00000015. . . . . . . . . .  M1381 M1382 1386 1389
+     869   ZUT00000016. . . . . . . . . .  1410 1411
+     883   ZUT00000017. . . . . . . . . .  M1408 M1409 1413 1416PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    60
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+    1507   GETLINENUM . . . . . . . . . .  P1072 P1096 P1135 P1158
+    1175   O0E080-TEST3 . . . . . . . . .  P1080
+    1181   O0E081-TEST3 . . . . . . . . .  P1106
+    1515   TEARDOWN . . . . . . . . . . .  P1113 P1174
+    1459   THROW-ASSERTION. . . . . . . .  P1212 P1239 P1266 P1293 P1320 P1347 P1374 P1401 P1428 P1453PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       CICS_0E0  Date 07/27/2020  Time 12:16:51   Page    61
+
+ Defined   Cross-reference of programs     References
+
+     780   CICS_0E08_EPSCMORT . . . . . .  1518
+EXTERNAL   EVALOPT. . . . . . . . . . . .  1067 1091 1130 1153
+
+
+* Statistics for COBOL program CICS_0E08_EPSCMORT:
+*    Source records = 740
+*    Data Division statements = 212
+*    Procedure Division statements = 252
+*    Generated COBOL statements = 0
+*    Program complexity factor = 256
+
+End of compilation 8,  program CICS_0E08_EPSCMORT,  no statements flagged.
+
+Return code 0
+1z/OS V2 R2 BINDER     12:17:00 MONDAY JULY 27, 2020
+ BATCH EMULATOR  JOB(DBBS5   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2278I B352 INVOCATION PARAMETERS - MAP,RENT,COMPAT(PM5)
+
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  C_CODE            LENGTH =     B058  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT      20D0  SYSLIN    01  **NULL**
+        0        0     TEST_TEST3#C       LABEL
+        0        0     TEST_TEST3         LABEL
+
+              20D0  BZU_INIT           CSECT       990  SYSLIN    01  **NULL**
+        0     20D0     BZU_INIT#C         LABEL
+        0     20D0     BZU_INIT           LABEL
+
+              2A60  BZU_TERM           CSECT       7C8  SYSLIN    01  **NULL**
+        0     2A60     BZU_TERM#C         LABEL
+        0     2A60     BZU_TERM           LABEL
+
+              3228  PGM_EPSNBRVL       CSECT      1498  SYSLIN    01  **NULL**
+        0     3228     PGM_EPSNBRVL#C     LABEL
+        0     3228     PGM_EPSNBRVL       LABEL
+      1A8     33D0     PGM_INPT_-SNBRVL   LABEL
+      4D8     3700     PGM_OUTP_-SNBRVL   LABEL
+
+              46C0  EVALOPT            CSECT       E00  SYSLIN    01  **NULL**
+        0     46C0     EVALOPT#C          LABEL
+        0     46C0     EVALOPT            LABEL
+
+              54C0  AZU_GENERIC_CICS   CSECT       E88  SYSLIN    01  **NULL**
+        0     54C0     AZU_GENER-CICS#C   LABEL
+        0     54C0     AZU_GENERIC_CICS   LABEL
+      18E     564E     CICS_INPT          LABEL
+      3A6     5866     CICS_OUTP          LABEL
+      5BE     5A7E     CICS_INPT_0E08     LABEL
+
+              6348  AZU_GENERIC_DB2    CSECT       C00  SYSLIN    01  **NULL**
+        0     6348     AZU_GENER-_DB2#C   LABEL
+        0     6348     AZU_GENERIC_DB2    LABEL
+      18E     64D6     DB2_INPT           LABEL
+      3A6     66EE     DB2_OUTP           LABEL
+
+              6F48  CICS_0E08-SCMORT   CSECT      4110  SYSLIN    01  **NULL**
+        0     6F48     CICS_0E08-MORT#C   LABEL
+        0     6F48     CICS_0E08-SCMORT   LABEL
+      1DE     7126     CICS_INPT-SCMORT   LABEL
+      8D8     7820     CICS_OUTP-SCMORT   LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  C_@@PPA2          LENGTH =       40  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     B058 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001A      PART             8  TEST_TEST3
+                 8  $PRIV000026      PART             8  BZU_INIT
+                10  $PRIV000032      PART             8  BZU_TERM
+                18  $PRIV00003E      PART             8  PGM_EPSNBRVL
+                20  $PRIV00004A      PART             8  EVALOPT
+                28  $PRIV000056      PART             8  AZU_GENERIC_CICS
+                30  $PRIV000062      PART             8  AZU_GENERIC_DB2
+                38  $PRIV00006E      PART             8  CICS_0E08-SCMORT
+
+ ---------------
+ CLASS  C_@@CSINIT        LENGTH =       20  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     B098 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001B      PART             4  TEST_TEST3
+                 4  $PRIV000027      PART             4  BZU_INIT
+                 8  $PRIV000033      PART             4  BZU_TERM
+                 C  $PRIV00003F      PART             4  PGM_EPSNBRVL
+                10  $PRIV00004B      PART             4  EVALOPT
+                14  $PRIV000057      PART             4  AZU_GENERIC_CICS
+                18  $PRIV000063      PART             4  AZU_GENERIC_DB2
+                1C  $PRIV00006F      PART             4  CICS_0E08-SCMORT
+
+ ---------------
+ CLASS  B_TEXT            LENGTH =      BB2  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     B0B8 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  IGZXBS61        *  CSECT        10  SYSLIB    02  IGZXBS61
+
+                10  CEESG004        *  CSECT        34  SYSLIB    02  CEESG004
+
+                48  IGZXRT1         *  CSECT        12  SYSLIB    02  IGZXRT1
+
+                60  IGZXSTG         *  CSECT        12  SYSLIB    02  IGZXSTG
+
+                78  IGZXTREN        *  CSECT        12  SYSLIB    02  IGZXTREN
+
+                90  IGZXRTN         *  CSECT        12  SYSLIB    02  IGZXRTN
+
+                A8  IGZXVMO         *  CSECT        12  SYSLIB    02  IGZXVMO
+
+                C0  IGZXDSP         *  CSECT        12  SYSLIB    02  IGZXDSP
+
+                D8  IGZXCMSG        *  CSECT        12  SYSLIB    02  IGZXCMSG
+
+1                         *** M O D U L E  M A P ***
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+
+                F0  IGZXPRS         *  CSECT        12  SYSLIB    02  IGZXPRS
+
+               108  IGZXFCAL        *  CSECT        12  SYSLIB    02  IGZXFCAL
+
+               120  IGZXBST2        *  CSECT       3FC  SYSLIB    02  IGZXBST2
+
+               520  CEEBETBL        *  CSECT        28  SYSLIB    02  CEEBETBL
+
+               548  CEESTART        *  CSECT        B0  SYSLIB    02  CEESTART
+
+               5F8  CEEBPUBT        *  CSECT        70  SYSLIB    02  CEEBPUBT
+
+               668  CEEBTRM         *  CSECT        A4  SYSLIB    02  CEEBTRM
+
+               710  CEEBLLST        *  CSECT        5C  SYSLIB    02  CEEBLLST
+       10      720     CEELLIST           LABEL
+
+               770  CEEBINT         *  CSECT         8  SYSLIB    02  CEEBINT
+
+               778  CEEARLU         *  CSECT        B8  SYSLIB    02  CEEARLU
+
+               830  CEEBPIRA        *  CSECT       2A0  SYSLIB    02  CEEINT
+        0      830     CEEINT             LABEL
+        0      830     CEEBPIRB           LABEL
+        0      830     CEEBPIRC           LABEL
+
+               AD0  CEECPYRT        *  CSECT        E2  SYSLIB    02  CEEINT
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  B_LIT             LENGTH =      100  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     BC70 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  IEWBLIT            CSECT       100                **NULL**
+        0        0     IEWBLIT            LABEL
+
+ ---------------
+ CLASS  C_WSA             LENGTH =      4C0  ATTRIBUTES = MRG, DEFER , RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 002     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV000070      PART            10
+                10  TEST_TEST3#S     PART            C0  TEST_TEST3
+                D0  BZU_INIT#S       PART            78  BZU_INIT
+               148  BZU_TERM#S       PART            74  BZU_TERM
+               1C0  PGM_EPSNBRVL#S   PART            88  PGM_EPSNBRVL
+               248  EVALOPT#S        PART            88  EVALOPT
+               2D0  AZU_GENER-CICS#S PART            70  AZU_GENERIC_CICS
+               340  AZU_GENER-_DB2#S PART            70  AZU_GENERIC_DB2
+               3B0  CICS_0E08-MORT#S PART           110  CICS_0E08-SCMORT
+
+ ---------------
+ CLASS  C_CEESG003        LENGTH =        0  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT         0  SYSLIN    01  **NULL**
+
+                 0  BZU_INIT           CSECT         0  SYSLIN    01  **NULL**
+
+                 0  BZU_TERM           CSECT         0  SYSLIN    01  **NULL**
+
+                 0  PGM_EPSNBRVL       CSECT         0  SYSLIN    01  **NULL**
+
+                 0  EVALOPT            CSECT         0  SYSLIN    01  **NULL**
+
+                 0  AZU_GENERIC_CICS   CSECT         0  SYSLIN    01  **NULL**
+
+                 0  AZU_GENERIC_DB2    CSECT         0  SYSLIN    01  **NULL**
+
+                 0  CICS_0E08-SCMORT   CSECT         0  SYSLIN    01  **NULL**
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_INFO            LENGTH =     589B  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT      1312  SYSLIN    01  **NULL**
+        0        0     $PRIV000010        LABEL
+
+              1318  BZU_INIT           CSECT       349  SYSLIN    01  **NULL**
+        0     1318     $PRIV00001C        LABEL
+
+              1668  BZU_TERM           CSECT       2E5  SYSLIN    01  **NULL**
+        0     1668     $PRIV000028        LABEL
+
+              1950  PGM_EPSNBRVL       CSECT       D94  SYSLIN    01  **NULL**
+        0     1950     $PRIV000034        LABEL
+
+              26E8  EVALOPT            CSECT       A6F  SYSLIN    01  **NULL**
+        0     26E8     $PRIV000040        LABEL
+
+              3158  AZU_GENERIC_CICS   CSECT       2B3  SYSLIN    01  **NULL**
+        0     3158     $PRIV00004C        LABEL
+
+              3410  AZU_GENERIC_DB2    CSECT       293  SYSLIN    01  **NULL**
+        0     3410     $PRIV000058        LABEL
+
+              36A8  CICS_0E08-SCMORT   CSECT      21F3  SYSLIN    01  **NULL**
+        0     36A8     $PRIV000064        LABEL
+
+ ---------------
+ CLASS  D_LINE            LENGTH =     1348  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT       390  SYSLIN    01  **NULL**
+        0        0     $PRIV000011        LABEL
+
+               390  BZU_INIT           CSECT        AA  SYSLIN    01  **NULL**
+        0      390     $PRIV00001D        LABEL
+
+               440  BZU_TERM           CSECT        A8  SYSLIN    01  **NULL**
+        0      440     $PRIV000029        LABEL
+
+               4E8  PGM_EPSNBRVL       CSECT       282  SYSLIN    01  **NULL**
+        0      4E8     $PRIV000035        LABEL
+
+               770  EVALOPT            CSECT       195  SYSLIN    01  **NULL**
+        0      770     $PRIV000041        LABEL
+
+               908  AZU_GENERIC_CICS   CSECT       188  SYSLIN    01  **NULL**
+        0      908     $PRIV00004D        LABEL
+
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+               A90  AZU_GENERIC_DB2    CSECT       132  SYSLIN    01  **NULL**
+        0      A90     $PRIV000059        LABEL
+
+               BC8  CICS_0E08-SCMORT   CSECT       780  SYSLIN    01  **NULL**
+        0      BC8     $PRIV000065        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_ABREV           LENGTH =      C67  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT       1FF  SYSLIN    01  **NULL**
+        0        0     $PRIV000012        LABEL
+
+               200  BZU_INIT           CSECT       135  SYSLIN    01  **NULL**
+        0      200     $PRIV00001E        LABEL
+
+               338  BZU_TERM           CSECT       135  SYSLIN    01  **NULL**
+        0      338     $PRIV00002A        LABEL
+
+               470  PGM_EPSNBRVL       CSECT       1DB  SYSLIN    01  **NULL**
+        0      470     $PRIV000036        LABEL
+
+               650  EVALOPT            CSECT       1A3  SYSLIN    01  **NULL**
+        0      650     $PRIV000042        LABEL
+
+               7F8  AZU_GENERIC_CICS   CSECT       109  SYSLIN    01  **NULL**
+        0      7F8     $PRIV00004E        LABEL
+
+               908  AZU_GENERIC_DB2    CSECT       109  SYSLIN    01  **NULL**
+        0      908     $PRIV00005A        LABEL
+
+               A18  CICS_0E08-SCMORT   CSECT       24F  SYSLIN    01  **NULL**
+        0      A18     $PRIV000066        LABEL
+
+ ---------------
+ CLASS  D_ARNGE           LENGTH =      100  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT        20  SYSLIN    01  **NULL**
+        0        0     $PRIV000013        LABEL
+
+                20  BZU_INIT           CSECT        20  SYSLIN    01  **NULL**
+        0       20     $PRIV00001F        LABEL
+
+                40  BZU_TERM           CSECT        20  SYSLIN    01  **NULL**
+        0       40     $PRIV00002B        LABEL
+
+                60  PGM_EPSNBRVL       CSECT        20  SYSLIN    01  **NULL**
+        0       60     $PRIV000037        LABEL
+
+                80  EVALOPT            CSECT        20  SYSLIN    01  **NULL**
+        0       80     $PRIV000043        LABEL
+
+                A0  AZU_GENERIC_CICS   CSECT        20  SYSLIN    01  **NULL**
+        0       A0     $PRIV00004F        LABEL
+
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                C0  AZU_GENERIC_DB2    CSECT        20  SYSLIN    01  **NULL**
+        0       C0     $PRIV00005B        LABEL
+
+                E0  CICS_0E08-SCMORT   CSECT        20  SYSLIN    01  **NULL**
+        0       E0     $PRIV000067        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_PBNMS           LENGTH =      1E9  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT        21  SYSLIN    01  **NULL**
+        0        0     $PRIV000014        LABEL
+
+                28  BZU_INIT           CSECT        1F  SYSLIN    01  **NULL**
+        0       28     $PRIV000020        LABEL
+
+                48  BZU_TERM           CSECT        1F  SYSLIN    01  **NULL**
+        0       48     $PRIV00002C        LABEL
+
+                68  PGM_EPSNBRVL       CSECT        61  SYSLIN    01  **NULL**
+        0       68     $PRIV000038        LABEL
+
+                D0  EVALOPT            CSECT        1E  SYSLIN    01  **NULL**
+        0       D0     $PRIV000044        LABEL
+
+                F0  AZU_GENERIC_CICS   CSECT        56  SYSLIN    01  **NULL**
+        0       F0     $PRIV000050        LABEL
+
+               148  AZU_GENERIC_DB2    CSECT        40  SYSLIN    01  **NULL**
+        0      148     $PRIV00005C        LABEL
+
+               188  CICS_0E08-SCMORT   CSECT        61  SYSLIN    01  **NULL**
+        0      188     $PRIV000068        LABEL
+
+ ---------------
+ CLASS  D_PPA             LENGTH =      161  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT        1F  SYSLIN    01  **NULL**
+        0        0     $PRIV000015        LABEL
+
+                20  BZU_INIT           CSECT        1F  SYSLIN    01  **NULL**
+        0       20     $PRIV000021        LABEL
+
+                40  BZU_TERM           CSECT        1F  SYSLIN    01  **NULL**
+        0       40     $PRIV00002D        LABEL
+
+                60  PGM_EPSNBRVL       CSECT        31  SYSLIN    01  **NULL**
+        0       60     $PRIV000039        LABEL
+
+                98  EVALOPT            CSECT        1F  SYSLIN    01  **NULL**
+        0       98     $PRIV000045        LABEL
+
+                B8  AZU_GENERIC_CICS   CSECT        3A  SYSLIN    01  **NULL**
+        0       B8     $PRIV000051        LABEL
+
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                F8  AZU_GENERIC_DB2    CSECT        31  SYSLIN    01  **NULL**
+        0       F8     $PRIV00005D        LABEL
+
+               130  CICS_0E08-SCMORT   CSECT        31  SYSLIN    01  **NULL**
+        0      130     $PRIV000069        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_SRCF            LENGTH =      260  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT        48  SYSLIN    01  **NULL**
+        0        0     $PRIV000016        LABEL
+        0        0     TEST_TEST-D_SRCF   LABEL
+
+                48  BZU_INIT           CSECT        46  SYSLIN    01  **NULL**
+        0       48     $PRIV000022        LABEL
+        0       48     BZU_INIT#D_SRCF    LABEL
+
+                90  BZU_TERM           CSECT        46  SYSLIN    01  **NULL**
+        0       90     $PRIV00002E        LABEL
+        0       90     BZU_TERM#D_SRCF    LABEL
+
+                D8  PGM_EPSNBRVL       CSECT        4A  SYSLIN    01  **NULL**
+        0       D8     $PRIV00003A        LABEL
+        0       D8     PGM_EPSNB-D_SRCF   LABEL
+
+               128  EVALOPT            CSECT        45  SYSLIN    01  **NULL**
+        0      128     $PRIV000046        LABEL
+        0      128     EVALOPT#D_SRCF     LABEL
+
+               170  AZU_GENERIC_CICS   CSECT        4E  SYSLIN    01  **NULL**
+        0      170     $PRIV000052        LABEL
+        0      170     AZU_GENER-D_SRCF   LABEL
+
+               1C0  AZU_GENERIC_DB2    CSECT        4D  SYSLIN    01  **NULL**
+        0      1C0     $PRIV00005E        LABEL
+        0      1C0     AZU_GENER#000001   LABEL
+
+               210  CICS_0E08-SCMORT   CSECT        50  SYSLIN    01  **NULL**
+        0      210     $PRIV00006A        LABEL
+        0      210     CICS_0E08-D_SRCF   LABEL
+
+ ---------------
+ CLASS  D_SRCTXT          LENGTH =     2C52  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT       B71  SYSLIN    01  **NULL**
+        0        0     $PRIV000017        LABEL
+
+               B78  BZU_INIT           CSECT       17D  SYSLIN    01  **NULL**
+        0      B78     $PRIV000023        LABEL
+
+               CF8  BZU_TERM           CSECT       12A  SYSLIN    01  **NULL**
+        0      CF8     $PRIV00002F        LABEL
+
+               E28  PGM_EPSNBRVL       CSECT       695  SYSLIN    01  **NULL**
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+        0      E28     $PRIV00003B        LABEL
+
+              14C0  EVALOPT            CSECT       465  SYSLIN    01  **NULL**
+        0     14C0     $PRIV000047        LABEL
+
+              1928  AZU_GENERIC_CICS   CSECT       11B  SYSLIN    01  **NULL**
+        0     1928     $PRIV000053        LABEL
+
+              1A48  AZU_GENERIC_DB2    CSECT       104  SYSLIN    01  **NULL**
+        0     1A48     $PRIV00005F        LABEL
+
+              1B50  CICS_0E08-SCMORT   CSECT      1102  SYSLIN    01  **NULL**
+        0     1B50     $PRIV00006B        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_SRCATR          LENGTH =     1997  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT       158  SYSLIN    01  **NULL**
+        0        0     $PRIV000018        LABEL
+
+               158  BZU_INIT           CSECT        77  SYSLIN    01  **NULL**
+        0      158     $PRIV000024        LABEL
+
+               1D0  BZU_TERM           CSECT        6B  SYSLIN    01  **NULL**
+        0      1D0     $PRIV000030        LABEL
+
+               240  PGM_EPSNBRVL       CSECT       37C  SYSLIN    01  **NULL**
+        0      240     $PRIV00003C        LABEL
+
+               5C0  EVALOPT            CSECT       27B  SYSLIN    01  **NULL**
+        0      5C0     $PRIV000048        LABEL
+
+               840  AZU_GENERIC_CICS   CSECT        87  SYSLIN    01  **NULL**
+        0      840     $PRIV000054        LABEL
+
+               8C8  AZU_GENERIC_DB2    CSECT        6F  SYSLIN    01  **NULL**
+        0      8C8     $PRIV000060        LABEL
+
+               938  CICS_0E08-SCMORT   CSECT      105F  SYSLIN    01  **NULL**
+        0      938     $PRIV00006C        LABEL
+
+ ---------------
+ CLASS  D_XREF            LENGTH =     31BA  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  TEST_TEST3         CSECT      124D  SYSLIN    01  **NULL**
+        0        0     $PRIV000019        LABEL
+
+              1250  BZU_INIT           CSECT        C2  SYSLIN    01  **NULL**
+        0     1250     $PRIV000025        LABEL
+
+              1318  BZU_TERM           CSECT        94  SYSLIN    01  **NULL**
+        0     1318     $PRIV000031        LABEL
+
+              13B0  PGM_EPSNBRVL       CSECT       18D  SYSLIN    01  **NULL**
+        0     13B0     $PRIV00003D        LABEL
+
+              1540  EVALOPT            CSECT       31C  SYSLIN    01  **NULL**
+        0     1540     $PRIV000049        LABEL
+
+              1860  AZU_GENERIC_CICS   CSECT        25  SYSLIN    01  **NULL**
+        0     1860     $PRIV000055        LABEL
+
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+              1888  AZU_GENERIC_DB2    CSECT        25  SYSLIN    01  **NULL**
+        0     1888     $PRIV000061        LABEL
+
+              18B0  CICS_0E08-SCMORT   CSECT      190A  SYSLIN    01  **NULL**
+        0     18B0     $PRIV00006D        LABEL
+1          ***  DATA SET SUMMARY  ***
+
+ DDNAME    CONCAT   FILE IDENTIFICATION
+
+ SYSLIB      02     CEE.SCEELKED
+ SYSLIN      01     SYS20209.T121650.RA000.DBBS5.TEMPOBJ.H01
+1          *** SYMBOL REFERENCES NOT ASSOCIATED WITH ANY ADCON ***
+
+ TYPE   SCOPE   NAME
+
+
+           *** E N D  O F  M O D U L E  M A P ***
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              ZOSV1R8
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 YES
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         REENTRANT
+    RMODE               UNSPECIFIED
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         TEPSCMOR
+    LOAD LIBRARY        IBMUSER.DBB.LOAD
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 5 OS COMPAT LEVEL z/OS V1R8 )
+    VOLUME SERIAL       USER04
+    DISPOSITION         REPLACED
+    TIME OF SAVE        12.17.01  JUL 27, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         BINDER DATA
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                YES
+    REUS                YES
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   0000C230
+    DASD SIZE (HEX)     00029000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  TEST_TEST3        MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1                   *** L O N G  S Y M B O L  A B B R E V I A T I O N  T A B L E ***
+
+       ABBREVIATION        LONG SYMBOL
+
+       AZU_GENER-_DB2#C := AZU_GENERIC_DB2#C
+       AZU_GENER-_DB2#S := AZU_GENERIC_DB2#S
+       AZU_GENER-CICS#C := AZU_GENERIC_CICS#C
+       AZU_GENER-CICS#S := AZU_GENERIC_CICS#S
+       AZU_GENER-D_SRCF := AZU_GENERIC_CICS#D_SRCF
+       AZU_GENER#000001 := AZU_GENERIC_DB2#D_SRCF
+       CICS_INPT-SCMORT := CICS_INPT_0E08_EPSCMORT
+       CICS_OUTP-SCMORT := CICS_OUTP_0E08_EPSCMORT
+       CICS_0E08-D_SRCF := CICS_0E08_EPSCMORT#D_SRCF
+       CICS_0E08-MORT#C := CICS_0E08_EPSCMORT#C
+       CICS_0E08-MORT#S := CICS_0E08_EPSCMORT#S
+       CICS_0E08-SCMORT := CICS_0E08_EPSCMORT
+       PGM_EPSNB-D_SRCF := PGM_EPSNBRVL#D_SRCF
+       PGM_INPT_-SNBRVL := PGM_INPT_EPSCMORT_EPSNBRVL
+       PGM_OUTP_-SNBRVL := PGM_OUTP_EPSCMORT_EPSNBRVL
+       TEST_TEST-D_SRCF := TEST_TEST3#D_SRCF
+
+
+                    *** E N D  O F  L O N G  S Y M B O L  A B B R E V .  T A B L E ***
+
+
+1z/OS V2 R2 BINDER     12:17:00 MONDAY JULY 27, 2020
+ BATCH EMULATOR  JOB(DBBS5   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008  2278
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+

@@ -1,0 +1,2831 @@
+PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/23/2020  Time 16:00:32   Page     1
+
+Invocation parameters:
+ LIB,CICS,ADATA,EX(ADX(ELAXMGUX)),TEST
+
+        IGYOS4090-I   The "LIB" option specification is no longer required.  COBOL library processing is always in effect.
+
+
+Options in effect:
+   ADATA
+   ADV
+   AFP(VOLATILE)
+   QUOTE
+   ARCH(7)
+   ARITH(COMPAT)
+ NOAWO
+ NOBLOCK0
+   BUFSIZE(4096)
+   CICS
+   CODEPAGE(1140)
+ NOCOMPILE(S)
+ NOCOPYRIGHT
+ NOCURRENCY
+   DATA(31)
+   DBCS
+ NODECK
+ NODIAGTRUNC
+   DISPSIGN(COMPAT)
+ NODLL
+ NODUMP
+ NODYNAM
+   EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(ELAXMGUX),NOMSGEXIT)
+ NOEXPORTALL
+ NOFASTSRT
+   FLAG(I,I)
+ NOFLAGSTD
+   HGPR(PRESERVE)
+   INTDATE(ANSI)
+   LANGUAGE(EN)
+   LINECOUNT(60)
+ NOLIST
+ NOMAP
+   MAXPCF(60000)
+ NOMDECK
+ NONAME
+   NSYMBOL(NATIONAL)
+ NONUMBER
+   NUMPROC(NOPFD)
+   OBJECT
+ NOOFFSET
+   OPTIMIZE(0)
+   OUTDD(SYSOUT)
+   PGMNAME(COMPAT)
+   QUALIFY(COMPAT)
+   RENT
+   RMODE(AUTO)
+ NORULES
+ NOSERVICE
+   SEQUENCE
+   SOURCEPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/23/2020  Time 16:00:32   Page     2
+
+   SPACE(1)
+ NOSQL
+   SQLCCSID
+ NOSQLIMS
+ NOSSRANGE
+ NOSTGOPT
+   SUPPRESS
+ NOTERM
+   TEST(NOEJPD,SOURCE)
+ NOTHREAD
+   TRUNC(STD)
+ NOVBREF
+   VLR(STANDARD)
+   VSAMOPENFS(COMPAT)
+ NOWORD
+   XMLPARSE(XMLSS)
+   XREF(FULL)
+ NOZONECHECK
+   ZONEDATA(PFD)
+   ZWB
+
+
+CICS Options in effect:
+ CICS
+ DEBUG
+ EDF
+ NATLANG(EN)
+ APOST
+ NOSYSEIB
+ NOFEPI
+ NOCPSM
+ LINKAGE
+ LENGTH
+ COBOL2PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     3
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* HCT1PL01
+  000001               *                                                                *
+  000002               * Menu for Patient thresholds                                    *
+  000003               *                                                                *
+  000004               *                                                                *
+  000005               *                                                                *
+  000006               ******************************************************************
+  000007                IDENTIFICATION DIVISION.
+  000008                PROGRAM-ID. HCT1PL01.
+  000009                ENVIRONMENT DIVISION.
+  000010                CONFIGURATION SECTION.
+  000011               *
+  000012                DATA DIVISION.
+  000013                WORKING-STORAGE SECTION.
+  000014
+  000015                77 INQ-TRANS                    PIC X(4) VALUE 'HCT1'.
+  000016                77 ADD-TRANS                    PIC X(4) VALUE 'HCTA'.
+  000017                77 MSGEND                       PIC X(24) VALUE
+  000018                                                 'Transaction ended      '.
+  000019                01  WS-RESP                   PIC S9(8) COMP.
+  000020
+  000021                 COPY HCMAPS.
+  000022C               01  HCZMENUI.
+  000023C                   02  FILLER PIC X(12).
+  000024C                   02  HCZINPUTL    COMP  PIC  S9(4).
+  000025C                   02  HCZINPUTF    PICTURE X.
+  000026C                   02  FILLER REDEFINES HCZINPUTF.                                       25
+  000027C                     03 HCZINPUTA    PICTURE X.
+  000028C                   02  HCZINPUTI  PIC X(1).
+  000029C                   02  HCZMSGL    COMP  PIC  S9(4).
+  000030C                   02  HCZMSGF    PICTURE X.
+  000031C                   02  FILLER REDEFINES HCZMSGF.                                         30
+  000032C                     03 HCZMSGA    PICTURE X.
+  000033C                   02  HCZMSGI  PIC X(49).
+  000034C               01  HCZMENUO REDEFINES HCZMENUI.                                          22
+  000035C                   02  FILLER PIC X(12).
+  000036C                   02  FILLER PICTURE X(3).
+  000037C                   02  HCZINPUTO  PIC X(1).
+  000038C                   02  FILLER PICTURE X(3).
+  000039C                   02  HCZMSGO  PIC X(49).
+  000040C               01  HCP1MAPI.
+  000041C                   02  FILLER PIC X(12).
+  000042C                   02  HCP1TRNL    COMP  PIC  S9(4).
+  000043C                   02  HCP1TRNF    PICTURE X.
+  000044C                   02  FILLER REDEFINES HCP1TRNF.                                        43
+  000045C                     03 HCP1TRNA    PICTURE X.
+  000046C                   02  HCP1TRNI  PIC X(4).
+  000047C                   02  HCP1TITL    COMP  PIC  S9(4).
+  000048C                   02  HCP1TITF    PICTURE X.
+  000049C                   02  FILLER REDEFINES HCP1TITF.                                        48
+  000050C                     03 HCP1TITA    PICTURE X.
+  000051C                   02  HCP1TITI  PIC X(27).
+  000052C                   02  HCP1PNOL    COMP  PIC  S9(4).
+  000053C                   02  HCP1PNOF    PICTURE X.
+  000054C                   02  FILLER REDEFINES HCP1PNOF.                                        53
+  000055C                     03 HCP1PNOA    PICTURE X.
+  000056C                   02  HCP1PNOI  PIC X(10).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     4
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000057C                   02  HCP1FNAL    COMP  PIC  S9(4).
+  000058C                   02  HCP1FNAF    PICTURE X.
+  000059C                   02  FILLER REDEFINES HCP1FNAF.                                        58
+  000060C                     03 HCP1FNAA    PICTURE X.
+  000061C                   02  HCP1FNAI  PIC X(10).
+  000062C                   02  HCP1LNAL    COMP  PIC  S9(4).
+  000063C                   02  HCP1LNAF    PICTURE X.
+  000064C                   02  FILLER REDEFINES HCP1LNAF.                                        63
+  000065C                     03 HCP1LNAA    PICTURE X.
+  000066C                   02  HCP1LNAI  PIC X(20).
+  000067C                   02  HCP1DOBL    COMP  PIC  S9(4).
+  000068C                   02  HCP1DOBF    PICTURE X.
+  000069C                   02  FILLER REDEFINES HCP1DOBF.                                        68
+  000070C                     03 HCP1DOBA    PICTURE X.
+  000071C                   02  HCP1DOBI  PIC X(10).
+  000072C                   02  HCP1ADDRL    COMP  PIC  S9(4).
+  000073C                   02  HCP1ADDRF    PICTURE X.
+  000074C                   02  FILLER REDEFINES HCP1ADDRF.                                       73
+  000075C                     03 HCP1ADDRA    PICTURE X.
+  000076C                   02  HCP1ADDRI  PIC X(20).
+  000077C                   02  HCP1CITYL    COMP  PIC  S9(4).
+  000078C                   02  HCP1CITYF    PICTURE X.
+  000079C                   02  FILLER REDEFINES HCP1CITYF.                                       78
+  000080C                     03 HCP1CITYA    PICTURE X.
+  000081C                   02  HCP1CITYI  PIC X(20).
+  000082C                   02  HCP1HPCL    COMP  PIC  S9(4).
+  000083C                   02  HCP1HPCF    PICTURE X.
+  000084C                   02  FILLER REDEFINES HCP1HPCF.                                        83
+  000085C                     03 HCP1HPCA    PICTURE X.
+  000086C                   02  HCP1HPCI  PIC X(10).
+  000087C                   02  HCP1HP2L    COMP  PIC  S9(4).
+  000088C                   02  HCP1HP2F    PICTURE X.
+  000089C                   02  FILLER REDEFINES HCP1HP2F.                                        88
+  000090C                     03 HCP1HP2A    PICTURE X.
+  000091C                   02  HCP1HP2I  PIC X(20).
+  000092C                   02  HCP1HMOL    COMP  PIC  S9(4).
+  000093C                   02  HCP1HMOF    PICTURE X.
+  000094C                   02  FILLER REDEFINES HCP1HMOF.                                        93
+  000095C                     03 HCP1HMOA    PICTURE X.
+  000096C                   02  HCP1HMOI  PIC X(30).
+  000097C                   02  HCP1INOL    COMP  PIC  S9(4).
+  000098C                   02  HCP1INOF    PICTURE X.
+  000099C                   02  FILLER REDEFINES HCP1INOF.                                        98
+  000100C                     03 HCP1INOA    PICTURE X.
+  000101C                   02  HCP1INOI  PIC X(10).
+  000102C                   02  HCP1UIDL    COMP  PIC  S9(4).
+  000103C                   02  HCP1UIDF    PICTURE X.
+  000104C                   02  FILLER REDEFINES HCP1UIDF.                                        103
+  000105C                     03 HCP1UIDA    PICTURE X.
+  000106C                   02  HCP1UIDI  PIC X(10).
+  000107C                   02  HCP1MSGL    COMP  PIC  S9(4).
+  000108C                   02  HCP1MSGF    PICTURE X.
+  000109C                   02  FILLER REDEFINES HCP1MSGF.                                        108
+  000110C                     03 HCP1MSGA    PICTURE X.
+  000111C                   02  HCP1MSGI  PIC X(40).
+  000112C               01  HCP1MAPO REDEFINES HCP1MAPI.                                          40
+  000113C                   02  FILLER PIC X(12).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     5
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000114C                   02  FILLER PICTURE X(3).
+  000115C                   02  HCP1TRNO  PIC X(4).
+  000116C                   02  FILLER PICTURE X(3).
+  000117C                   02  HCP1TITO  PIC X(27).
+  000118C                   02  FILLER PICTURE X(3).
+  000119C                   02  HCP1PNOO  PIC X(10).
+  000120C                   02  FILLER PICTURE X(3).
+  000121C                   02  HCP1FNAO  PIC X(10).
+  000122C                   02  FILLER PICTURE X(3).
+  000123C                   02  HCP1LNAO  PIC X(20).
+  000124C                   02  FILLER PICTURE X(3).
+  000125C                   02  HCP1DOBO  PIC X(10).
+  000126C                   02  FILLER PICTURE X(3).
+  000127C                   02  HCP1ADDRO  PIC X(20).
+  000128C                   02  FILLER PICTURE X(3).
+  000129C                   02  HCP1CITYO  PIC X(20).
+  000130C                   02  FILLER PICTURE X(3).
+  000131C                   02  HCP1HPCO  PIC X(10).
+  000132C                   02  FILLER PICTURE X(3).
+  000133C                   02  HCP1HP2O  PIC X(20).
+  000134C                   02  FILLER PICTURE X(3).
+  000135C                   02  HCP1HMOO  PIC X(30).
+  000136C                   02  FILLER PICTURE X(3).
+  000137C                   02  HCP1INOO  PIC X(10).
+  000138C                   02  FILLER PICTURE X(3).
+  000139C                   02  HCP1UIDO  PIC X(10).
+  000140C                   02  FILLER PICTURE X(3).
+  000141C                   02  HCP1MSGO  PIC X(40).
+  000142C               01  HCM1MAPI.
+  000143C                   02  FILLER PIC X(12).
+  000144C                   02  HCM1CNOL    COMP  PIC  S9(4).
+  000145C                   02  HCM1CNOF    PICTURE X.
+  000146C                   02  FILLER REDEFINES HCM1CNOF.                                        145
+  000147C                     03 HCM1CNOA    PICTURE X.
+  000148C                   02  HCM1CNOI  PIC X(10).
+  000149C                   02  HCM1FNAL    COMP  PIC  S9(4).
+  000150C                   02  HCM1FNAF    PICTURE X.
+  000151C                   02  FILLER REDEFINES HCM1FNAF.                                        150
+  000152C                     03 HCM1FNAA    PICTURE X.
+  000153C                   02  HCM1FNAI  PIC X(10).
+  000154C                   02  HCM1LNAL    COMP  PIC  S9(4).
+  000155C                   02  HCM1LNAF    PICTURE X.
+  000156C                   02  FILLER REDEFINES HCM1LNAF.                                        155
+  000157C                     03 HCM1LNAA    PICTURE X.
+  000158C                   02  HCM1LNAI  PIC X(20).
+  000159C                   02  HCM1DNA1L    COMP  PIC  S9(4).
+  000160C                   02  HCM1DNA1F    PICTURE X.
+  000161C                   02  FILLER REDEFINES HCM1DNA1F.                                       160
+  000162C                     03 HCM1DNA1A    PICTURE X.
+  000163C                   02  HCM1DNA1I  PIC X(27).
+  000164C                   02  HCM1DST1L    COMP  PIC  S9(4).
+  000165C                   02  HCM1DST1F    PICTURE X.
+  000166C                   02  FILLER REDEFINES HCM1DST1F.                                       165
+  000167C                     03 HCM1DST1A    PICTURE X.
+  000168C                   02  HCM1DST1I  PIC X(20).
+  000169C                   02  HCM1DAM1L    COMP  PIC  S9(4).
+  000170C                   02  HCM1DAM1F    PICTURE X.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     6
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000171C                   02  FILLER REDEFINES HCM1DAM1F.                                       170
+  000172C                     03 HCM1DAM1A    PICTURE X.
+  000173C                   02  HCM1DAM1I  PIC X(5).
+  000174C                   02  HCM1DRO1L    COMP  PIC  S9(4).
+  000175C                   02  HCM1DRO1F    PICTURE X.
+  000176C                   02  FILLER REDEFINES HCM1DRO1F.                                       175
+  000177C                     03 HCM1DRO1A    PICTURE X.
+  000178C                   02  HCM1DRO1I  PIC X(20).
+  000179C                   02  HCM1DFR1L    COMP  PIC  S9(4).
+  000180C                   02  HCM1DFR1F    PICTURE X.
+  000181C                   02  FILLER REDEFINES HCM1DFR1F.                                       180
+  000182C                     03 HCM1DFR1A    PICTURE X.
+  000183C                   02  HCM1DFR1I  PIC X(20).
+  000184C                   02  HCM1DNA2L    COMP  PIC  S9(4).
+  000185C                   02  HCM1DNA2F    PICTURE X.
+  000186C                   02  FILLER REDEFINES HCM1DNA2F.                                       185
+  000187C                     03 HCM1DNA2A    PICTURE X.
+  000188C                   02  HCM1DNA2I  PIC X(27).
+  000189C                   02  HCM1DST2L    COMP  PIC  S9(4).
+  000190C                   02  HCM1DST2F    PICTURE X.
+  000191C                   02  FILLER REDEFINES HCM1DST2F.                                       190
+  000192C                     03 HCM1DST2A    PICTURE X.
+  000193C                   02  HCM1DST2I  PIC X(20).
+  000194C                   02  HCM1DAM2L    COMP  PIC  S9(4).
+  000195C                   02  HCM1DAM2F    PICTURE X.
+  000196C                   02  FILLER REDEFINES HCM1DAM2F.                                       195
+  000197C                     03 HCM1DAM2A    PICTURE X.
+  000198C                   02  HCM1DAM2I  PIC X(5).
+  000199C                   02  HCM1DRO2L    COMP  PIC  S9(4).
+  000200C                   02  HCM1DRO2F    PICTURE X.
+  000201C                   02  FILLER REDEFINES HCM1DRO2F.                                       200
+  000202C                     03 HCM1DRO2A    PICTURE X.
+  000203C                   02  HCM1DRO2I  PIC X(20).
+  000204C                   02  HCM1DFR2L    COMP  PIC  S9(4).
+  000205C                   02  HCM1DFR2F    PICTURE X.
+  000206C                   02  FILLER REDEFINES HCM1DFR2F.                                       205
+  000207C                     03 HCM1DFR2A    PICTURE X.
+  000208C                   02  HCM1DFR2I  PIC X(20).
+  000209C                   02  HCM1DNA3L    COMP  PIC  S9(4).
+  000210C                   02  HCM1DNA3F    PICTURE X.
+  000211C                   02  FILLER REDEFINES HCM1DNA3F.                                       210
+  000212C                     03 HCM1DNA3A    PICTURE X.
+  000213C                   02  HCM1DNA3I  PIC X(27).
+  000214C                   02  HCM1DST3L    COMP  PIC  S9(4).
+  000215C                   02  HCM1DST3F    PICTURE X.
+  000216C                   02  FILLER REDEFINES HCM1DST3F.                                       215
+  000217C                     03 HCM1DST3A    PICTURE X.
+  000218C                   02  HCM1DST3I  PIC X(20).
+  000219C                   02  HCM1DAM3L    COMP  PIC  S9(4).
+  000220C                   02  HCM1DAM3F    PICTURE X.
+  000221C                   02  FILLER REDEFINES HCM1DAM3F.                                       220
+  000222C                     03 HCM1DAM3A    PICTURE X.
+  000223C                   02  HCM1DAM3I  PIC X(5).
+  000224C                   02  HCM1DRO3L    COMP  PIC  S9(4).
+  000225C                   02  HCM1DRO3F    PICTURE X.
+  000226C                   02  FILLER REDEFINES HCM1DRO3F.                                       225
+  000227C                     03 HCM1DRO3A    PICTURE X.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     7
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000228C                   02  HCM1DRO3I  PIC X(20).
+  000229C                   02  HCM1DFR3L    COMP  PIC  S9(4).
+  000230C                   02  HCM1DFR3F    PICTURE X.
+  000231C                   02  FILLER REDEFINES HCM1DFR3F.                                       230
+  000232C                     03 HCM1DFR3A    PICTURE X.
+  000233C                   02  HCM1DFR3I  PIC X(20).
+  000234C                   02  HCM1MSGL    COMP  PIC  S9(4).
+  000235C                   02  HCM1MSGF    PICTURE X.
+  000236C                   02  FILLER REDEFINES HCM1MSGF.                                        235
+  000237C                     03 HCM1MSGA    PICTURE X.
+  000238C                   02  HCM1MSGI  PIC X(43).
+  000239C               01  HCM1MAPO REDEFINES HCM1MAPI.                                          142
+  000240C                   02  FILLER PIC X(12).
+  000241C                   02  FILLER PICTURE X(3).
+  000242C                   02  HCM1CNOO  PIC X(10).
+  000243C                   02  FILLER PICTURE X(3).
+  000244C                   02  HCM1FNAO  PIC X(10).
+  000245C                   02  FILLER PICTURE X(3).
+  000246C                   02  HCM1LNAO  PIC X(20).
+  000247C                   02  FILLER PICTURE X(3).
+  000248C                   02  HCM1DNA1O  PIC X(27).
+  000249C                   02  FILLER PICTURE X(3).
+  000250C                   02  HCM1DST1O  PIC X(20).
+  000251C                   02  FILLER PICTURE X(3).
+  000252C                   02  HCM1DAM1O  PIC X(5).
+  000253C                   02  FILLER PICTURE X(3).
+  000254C                   02  HCM1DRO1O  PIC X(20).
+  000255C                   02  FILLER PICTURE X(3).
+  000256C                   02  HCM1DFR1O  PIC X(20).
+  000257C                   02  FILLER PICTURE X(3).
+  000258C                   02  HCM1DNA2O  PIC X(27).
+  000259C                   02  FILLER PICTURE X(3).
+  000260C                   02  HCM1DST2O  PIC X(20).
+  000261C                   02  FILLER PICTURE X(3).
+  000262C                   02  HCM1DAM2O  PIC X(5).
+  000263C                   02  FILLER PICTURE X(3).
+  000264C                   02  HCM1DRO2O  PIC X(20).
+  000265C                   02  FILLER PICTURE X(3).
+  000266C                   02  HCM1DFR2O  PIC X(20).
+  000267C                   02  FILLER PICTURE X(3).
+  000268C                   02  HCM1DNA3O  PIC X(27).
+  000269C                   02  FILLER PICTURE X(3).
+  000270C                   02  HCM1DST3O  PIC X(20).
+  000271C                   02  FILLER PICTURE X(3).
+  000272C                   02  HCM1DAM3O  PIC X(5).
+  000273C                   02  FILLER PICTURE X(3).
+  000274C                   02  HCM1DRO3O  PIC X(20).
+  000275C                   02  FILLER PICTURE X(3).
+  000276C                   02  HCM1DFR3O  PIC X(20).
+  000277C                   02  FILLER PICTURE X(3).
+  000278C                   02  HCM1MSGO  PIC X(43).
+  000279C               01  HCMAMAPI.
+  000280C                   02  FILLER PIC X(12).
+  000281C                   02  HCMACNOL    COMP  PIC  S9(4).
+  000282C                   02  HCMACNOF    PICTURE X.
+  000283C                   02  FILLER REDEFINES HCMACNOF.                                        282
+  000284C                     03 HCMACNOA    PICTURE X.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     8
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000285C                   02  HCMACNOI  PIC X(10).
+  000286C                   02  HCMAFNAL    COMP  PIC  S9(4).
+  000287C                   02  HCMAFNAF    PICTURE X.
+  000288C                   02  FILLER REDEFINES HCMAFNAF.                                        287
+  000289C                     03 HCMAFNAA    PICTURE X.
+  000290C                   02  HCMAFNAI  PIC X(10).
+  000291C                   02  HCMALNAL    COMP  PIC  S9(4).
+  000292C                   02  HCMALNAF    PICTURE X.
+  000293C                   02  FILLER REDEFINES HCMALNAF.                                        292
+  000294C                     03 HCMALNAA    PICTURE X.
+  000295C                   02  HCMALNAI  PIC X(20).
+  000296C                   02  HCMADNAML    COMP  PIC  S9(4).
+  000297C                   02  HCMADNAMF    PICTURE X.
+  000298C                   02  FILLER REDEFINES HCMADNAMF.                                       297
+  000299C                     03 HCMADNAMA    PICTURE X.
+  000300C                   02  HCMADNAMI  PIC X(27).
+  000301C                   02  HCMADSTRL    COMP  PIC  S9(4).
+  000302C                   02  HCMADSTRF    PICTURE X.
+  000303C                   02  FILLER REDEFINES HCMADSTRF.                                       302
+  000304C                     03 HCMADSTRA    PICTURE X.
+  000305C                   02  HCMADSTRI  PIC X(20).
+  000306C                   02  HCMADAMOL    COMP  PIC  S9(4).
+  000307C                   02  HCMADAMOF    PICTURE X.
+  000308C                   02  FILLER REDEFINES HCMADAMOF.                                       307
+  000309C                     03 HCMADAMOA    PICTURE X.
+  000310C                   02  HCMADAMOI  PIC X(5).
+  000311C                   02  HCMADROUL    COMP  PIC  S9(4).
+  000312C                   02  HCMADROUF    PICTURE X.
+  000313C                   02  FILLER REDEFINES HCMADROUF.                                       312
+  000314C                     03 HCMADROUA    PICTURE X.
+  000315C                   02  HCMADROUI  PIC X(20).
+  000316C                   02  HCMADFREL    COMP  PIC  S9(4).
+  000317C                   02  HCMADFREF    PICTURE X.
+  000318C                   02  FILLER REDEFINES HCMADFREF.                                       317
+  000319C                     03 HCMADFREA    PICTURE X.
+  000320C                   02  HCMADFREI  PIC X(2).
+  000321C                   02  HCMAIDENL    COMP  PIC  S9(4).
+  000322C                   02  HCMAIDENF    PICTURE X.
+  000323C                   02  FILLER REDEFINES HCMAIDENF.                                       322
+  000324C                     03 HCMAIDENA    PICTURE X.
+  000325C                   02  HCMAIDENI  PIC X(20).
+  000326C                   02  HCMATYPEL    COMP  PIC  S9(4).
+  000327C                   02  HCMATYPEF    PICTURE X.
+  000328C                   02  FILLER REDEFINES HCMATYPEF.                                       327
+  000329C                     03 HCMATYPEA    PICTURE X.
+  000330C                   02  HCMATYPEI  PIC X(2).
+  000331C                   02  HCMASDTAL    COMP  PIC  S9(4).
+  000332C                   02  HCMASDTAF    PICTURE X.
+  000333C                   02  FILLER REDEFINES HCMASDTAF.                                       332
+  000334C                     03 HCMASDTAA    PICTURE X.
+  000335C                   02  HCMASDTAI  PIC X(10).
+  000336C                   02  HCMAEDTAL    COMP  PIC  S9(4).
+  000337C                   02  HCMAEDTAF    PICTURE X.
+  000338C                   02  FILLER REDEFINES HCMAEDTAF.                                       337
+  000339C                     03 HCMAEDTAA    PICTURE X.
+  000340C                   02  HCMAEDTAI  PIC X(10).
+  000341C                   02  HCMAMSGL    COMP  PIC  S9(4).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page     9
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000342C                   02  HCMAMSGF    PICTURE X.
+  000343C                   02  FILLER REDEFINES HCMAMSGF.                                        342
+  000344C                     03 HCMAMSGA    PICTURE X.
+  000345C                   02  HCMAMSGI  PIC X(40).
+  000346C               01  HCMAMAPO REDEFINES HCMAMAPI.                                          279
+  000347C                   02  FILLER PIC X(12).
+  000348C                   02  FILLER PICTURE X(3).
+  000349C                   02  HCMACNOO  PIC X(10).
+  000350C                   02  FILLER PICTURE X(3).
+  000351C                   02  HCMAFNAO  PIC X(10).
+  000352C                   02  FILLER PICTURE X(3).
+  000353C                   02  HCMALNAO  PIC X(20).
+  000354C                   02  FILLER PICTURE X(3).
+  000355C                   02  HCMADNAMO  PIC X(27).
+  000356C                   02  FILLER PICTURE X(3).
+  000357C                   02  HCMADSTRO  PIC X(20).
+  000358C                   02  FILLER PICTURE X(3).
+  000359C                   02  HCMADAMOO  PIC X(5).
+  000360C                   02  FILLER PICTURE X(3).
+  000361C                   02  HCMADROUO  PIC X(20).
+  000362C                   02  FILLER PICTURE X(3).
+  000363C                   02  HCMADFREO  PIC X(2).
+  000364C                   02  FILLER PICTURE X(3).
+  000365C                   02  HCMAIDENO  PIC X(20).
+  000366C                   02  FILLER PICTURE X(3).
+  000367C                   02  HCMATYPEO  PIC X(2).
+  000368C                   02  FILLER PICTURE X(3).
+  000369C                   02  HCMASDTAO  PIC X(10).
+  000370C                   02  FILLER PICTURE X(3).
+  000371C                   02  HCMAEDTAO  PIC X(10).
+  000372C                   02  FILLER PICTURE X(3).
+  000373C                   02  HCMAMSGO  PIC X(40).
+  000374C               01  HCV1MAPI.
+  000375C                   02  FILLER PIC X(12).
+  000376C                   02  HCV1TRNL    COMP  PIC  S9(4).
+  000377C                   02  HCV1TRNF    PICTURE X.
+  000378C                   02  FILLER REDEFINES HCV1TRNF.                                        377
+  000379C                     03 HCV1TRNA    PICTURE X.
+  000380C                   02  HCV1TRNI  PIC X(4).
+  000381C                   02  HCV1TITL    COMP  PIC  S9(4).
+  000382C                   02  HCV1TITF    PICTURE X.
+  000383C                   02  FILLER REDEFINES HCV1TITF.                                        382
+  000384C                     03 HCV1TITA    PICTURE X.
+  000385C                   02  HCV1TITI  PIC X(33).
+  000386C                   02  HCV1PNOL    COMP  PIC  S9(4).
+  000387C                   02  HCV1PNOF    PICTURE X.
+  000388C                   02  FILLER REDEFINES HCV1PNOF.                                        387
+  000389C                     03 HCV1PNOA    PICTURE X.
+  000390C                   02  HCV1PNOI  PIC X(10).
+  000391C                   02  HCV1FNAL    COMP  PIC  S9(4).
+  000392C                   02  HCV1FNAF    PICTURE X.
+  000393C                   02  FILLER REDEFINES HCV1FNAF.                                        392
+  000394C                     03 HCV1FNAA    PICTURE X.
+  000395C                   02  HCV1FNAI  PIC X(10).
+  000396C                   02  HCV1LNAL    COMP  PIC  S9(4).
+  000397C                   02  HCV1LNAF    PICTURE X.
+  000398C                   02  FILLER REDEFINES HCV1LNAF.                                        397PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    10
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000399C                     03 HCV1LNAA    PICTURE X.
+  000400C                   02  HCV1LNAI  PIC X(20).
+  000401C                   02  HCV1DATEL    COMP  PIC  S9(4).
+  000402C                   02  HCV1DATEF    PICTURE X.
+  000403C                   02  FILLER REDEFINES HCV1DATEF.                                       402
+  000404C                     03 HCV1DATEA    PICTURE X.
+  000405C                   02  HCV1DATEI  PIC X(10).
+  000406C                   02  HCV1TIMEL    COMP  PIC  S9(4).
+  000407C                   02  HCV1TIMEF    PICTURE X.
+  000408C                   02  FILLER REDEFINES HCV1TIMEF.                                       407
+  000409C                     03 HCV1TIMEA    PICTURE X.
+  000410C                   02  HCV1TIMEI  PIC X(10).
+  000411C                   02  HCV1HRATEL    COMP  PIC  S9(4).
+  000412C                   02  HCV1HRATEF    PICTURE X.
+  000413C                   02  FILLER REDEFINES HCV1HRATEF.                                      412
+  000414C                     03 HCV1HRATEA    PICTURE X.
+  000415C                   02  HCV1HRATEI  PIC X(20).
+  000416C                   02  HCV1HRTHL    COMP  PIC  S9(4).
+  000417C                   02  HCV1HRTHF    PICTURE X.
+  000418C                   02  FILLER REDEFINES HCV1HRTHF.                                       417
+  000419C                     03 HCV1HRTHA    PICTURE X.
+  000420C                   02  HCV1HRTHI  PIC X(10).
+  000421C                   02  HCV1BLPRL    COMP  PIC  S9(4).
+  000422C                   02  HCV1BLPRF    PICTURE X.
+  000423C                   02  FILLER REDEFINES HCV1BLPRF.                                       422
+  000424C                     03 HCV1BLPRA    PICTURE X.
+  000425C                   02  HCV1BLPRI  PIC X(20).
+  000426C                   02  HCV1BPTHL    COMP  PIC  S9(4).
+  000427C                   02  HCV1BPTHF    PICTURE X.
+  000428C                   02  FILLER REDEFINES HCV1BPTHF.                                       427
+  000429C                     03 HCV1BPTHA    PICTURE X.
+  000430C                   02  HCV1BPTHI  PIC X(10).
+  000431C                   02  HCV1MSGL    COMP  PIC  S9(4).
+  000432C                   02  HCV1MSGF    PICTURE X.
+  000433C                   02  FILLER REDEFINES HCV1MSGF.                                        432
+  000434C                     03 HCV1MSGA    PICTURE X.
+  000435C                   02  HCV1MSGI  PIC X(40).
+  000436C               01  HCV1MAPO REDEFINES HCV1MAPI.                                          374
+  000437C                   02  FILLER PIC X(12).
+  000438C                   02  FILLER PICTURE X(3).
+  000439C                   02  HCV1TRNO  PIC X(4).
+  000440C                   02  FILLER PICTURE X(3).
+  000441C                   02  HCV1TITO  PIC X(33).
+  000442C                   02  FILLER PICTURE X(3).
+  000443C                   02  HCV1PNOO  PIC X(10).
+  000444C                   02  FILLER PICTURE X(3).
+  000445C                   02  HCV1FNAO  PIC X(10).
+  000446C                   02  FILLER PICTURE X(3).
+  000447C                   02  HCV1LNAO  PIC X(20).
+  000448C                   02  FILLER PICTURE X(3).
+  000449C                   02  HCV1DATEO  PIC X(10).
+  000450C                   02  FILLER PICTURE X(3).
+  000451C                   02  HCV1TIMEO  PIC X(10).
+  000452C                   02  FILLER PICTURE X(3).
+  000453C                   02  HCV1HRATEO  PIC X(20).
+  000454C                   02  FILLER PICTURE X(3).
+  000455C                   02  HCV1HRTHO  PIC X(10).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    11
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000456C                   02  FILLER PICTURE X(3).
+  000457C                   02  HCV1BLPRO  PIC X(20).
+  000458C                   02  FILLER PICTURE X(3).
+  000459C                   02  HCV1BPTHO  PIC X(10).
+  000460C                   02  FILLER PICTURE X(3).
+  000461C                   02  HCV1MSGO  PIC X(40).
+  000462C               01  HCT1MAPI.
+  000463C                   02  FILLER PIC X(12).
+  000464C                   02  HCT1TRNL    COMP  PIC  S9(4).
+  000465C                   02  HCT1TRNF    PICTURE X.
+  000466C                   02  FILLER REDEFINES HCT1TRNF.                                        465
+  000467C                     03 HCT1TRNA    PICTURE X.
+  000468C                   02  HCT1TRNI  PIC X(4).
+  000469C                   02  HCT1TITL    COMP  PIC  S9(4).
+  000470C                   02  HCT1TITF    PICTURE X.
+  000471C                   02  FILLER REDEFINES HCT1TITF.                                        470
+  000472C                     03 HCT1TITA    PICTURE X.
+  000473C                   02  HCT1TITI  PIC X(33).
+  000474C                   02  HCT1PNOL    COMP  PIC  S9(4).
+  000475C                   02  HCT1PNOF    PICTURE X.
+  000476C                   02  FILLER REDEFINES HCT1PNOF.                                        475
+  000477C                     03 HCT1PNOA    PICTURE X.
+  000478C                   02  HCT1PNOI  PIC X(10).
+  000479C                   02  HCT1FNAL    COMP  PIC  S9(4).
+  000480C                   02  HCT1FNAF    PICTURE X.
+  000481C                   02  FILLER REDEFINES HCT1FNAF.                                        480
+  000482C                     03 HCT1FNAA    PICTURE X.
+  000483C                   02  HCT1FNAI  PIC X(10).
+  000484C                   02  HCT1LNAL    COMP  PIC  S9(4).
+  000485C                   02  HCT1LNAF    PICTURE X.
+  000486C                   02  FILLER REDEFINES HCT1LNAF.                                        485
+  000487C                     03 HCT1LNAA    PICTURE X.
+  000488C                   02  HCT1LNAI  PIC X(20).
+  000489C                   02  HCT1HRTHL    COMP  PIC  S9(4).
+  000490C                   02  HCT1HRTHF    PICTURE X.
+  000491C                   02  FILLER REDEFINES HCT1HRTHF.                                       490
+  000492C                     03 HCT1HRTHA    PICTURE X.
+  000493C                   02  HCT1HRTHI  PIC X(10).
+  000494C                   02  HCT1BPTHL    COMP  PIC  S9(4).
+  000495C                   02  HCT1BPTHF    PICTURE X.
+  000496C                   02  FILLER REDEFINES HCT1BPTHF.                                       495
+  000497C                     03 HCT1BPTHA    PICTURE X.
+  000498C                   02  HCT1BPTHI  PIC X(10).
+  000499C                   02  HCT1MSGL    COMP  PIC  S9(4).
+  000500C                   02  HCT1MSGF    PICTURE X.
+  000501C                   02  FILLER REDEFINES HCT1MSGF.                                        500
+  000502C                     03 HCT1MSGA    PICTURE X.
+  000503C                   02  HCT1MSGI  PIC X(40).
+  000504C               01  HCT1MAPO REDEFINES HCT1MAPI.                                          462
+  000505C                   02  FILLER PIC X(12).
+  000506C                   02  FILLER PICTURE X(3).
+  000507C                   02  HCT1TRNO  PIC X(4).
+  000508C                   02  FILLER PICTURE X(3).
+  000509C                   02  HCT1TITO  PIC X(33).
+  000510C                   02  FILLER PICTURE X(3).
+  000511C                   02  HCT1PNOO  PIC X(10).
+  000512C                   02  FILLER PICTURE X(3).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    12
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000513C                   02  HCT1FNAO  PIC X(10).
+  000514C                   02  FILLER PICTURE X(3).
+  000515C                   02  HCT1LNAO  PIC X(20).
+  000516C                   02  FILLER PICTURE X(3).
+  000517C                   02  HCT1HRTHO  PIC X(10).
+  000518C                   02  FILLER PICTURE X(3).
+  000519C                   02  HCT1BPTHO  PIC X(10).
+  000520C                   02  FILLER PICTURE X(3).
+  000521C                   02  HCT1MSGO  PIC X(40).
+  000522                 01 COMM-AREA.
+  000523                 COPY HCCMAREA.
+  000524C              ******************************************************************
+  000525C                   03 CA-REQUEST-ID            PIC X(6).
+  000526C                   03 CA-RETURN-CODE           PIC 9(2).
+  000527C                   03 CA-PATIENT-ID            PIC 9(10).
+  000528C                   03 CA-REQUEST-SPECIFIC      PIC X(32482).
+  000529C              *    Fields used in INQ All and ADD patient
+  000530C                   03 CA-PATIENT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                  528
+  000531C                      05 CA-INS-CARD-NUM       PIC X(10).
+  000532C                      05 CA-FIRST-NAME         PIC X(12).
+  000533C              *        05 CA-FIRST-NAME         PIC X(10).
+  000534C                      05 CA-LAST-NAME          PIC X(20).
+  000535C                      05 CA-DOB                PIC X(10).
+  000536C                      05 CA-ADDRESS            PIC X(20).
+  000537C                      05 CA-CITY               PIC X(20).
+  000538C                      05 CA-POSTCODE           PIC X(10).
+  000539C                      05 CA-PHONE-MOBILE       PIC X(20).
+  000540C                      05 CA-EMAIL-ADDRESS      PIC X(50).
+  000541C                      05 CA-USERID             PIC X(10).
+  000542C              *        05 CA-ADDITIONAL-DATA    PIC X(32302).
+  000543C                      05 CA-ADDITIONAL-DATA    PIC X(32300).
+  000544C              *    Fields used in Add Patient User
+  000545C                   03 CA-PATIENT-USER-REQUEST REDEFINES CA-REQUEST-SPECIFIC.             528
+  000546C                      05 CA-USERNAME           PIC X(10).
+  000547C                      05 CA-USERPASSWORD       PIC X(14).
+  000548C                      05 CA-ADDITIONAL-DATA    PIC X(32458).
+  000549C              *     Fields used in UPD, ADD & DELETE medication
+  000550C                   03 CA-MEDICATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               528
+  000551C                      05 CA-DRUG-NAME          PIC X(50).
+  000552C                      05 CA-STRENGTH           PIC X(20).
+  000553C                      05 CA-AMOUNT             PIC 9(03).
+  000554C                      05 CA-ROUTE              PIC X(20).
+  000555C                      05 CA-FREQUENCY          PIC X(20).
+  000556C                      05 CA-IDENTIFIER         PIC X(20).
+  000557C                      05 CA-BIOMED-TYPE        PIC X(2).
+  000558C                      05 CA-START-DATE         PIC X(10).
+  000559C                      05 CA-END-DATE           PIC X(10).
+  000560C                      05 CA-PRESCRIPTION-ID    PIC 9(10).
+  000561C                      05 CA-ADDITIONAL-DATA    PIC X(32317).
+  000562C              *    Fields used in UPD, ADD & DELETE meditation
+  000563C                   03 CA-MEDITATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               528
+  000564C                      05 CA-MEDITATION-NAME    PIC X(50).
+  000565C                      05 CA-MEDITATION-TYPE    PIC X(20).
+  000566C                      05 CA-RELIEF             PIC X(20).
+  000567C                      05 CA-POSTURE            PIC X(20).
+  000568C                      05 CA-HOW-OFTEN          PIC X(20).
+  000569C                      05 CA-ADDITIONAL-DATA    PIC X(32352).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    13
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000570C              *    Fields used in INQ, UPD, ADD & DELETE thresholds
+  000571C                   03 CA-THRESHOLD-REQUEST PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/26/2020  Time 08:29:18   Page     1
+
+Invocation parameters:
+ LIB,CICS,SQL,ADATA,EX(ADX(ELAXMGUX)),TEST
+
+        IGYOS4090-I   The "LIB" option specification is no longer required.  COBOL library processing is always in effect.
+
+
+Options in effect:
+   ADATA
+   ADV
+   AFP(VOLATILE)
+   QUOTE
+   ARCH(7)
+   ARITH(COMPAT)
+ NOAWO
+ NOBLOCK0
+   BUFSIZE(4096)
+   CICS
+   CODEPAGE(1140)
+ NOCOMPILE(S)
+ NOCOPYRIGHT
+ NOCURRENCY
+   DATA(31)
+   DBCS
+ NODECK
+ NODIAGTRUNC
+   DISPSIGN(COMPAT)
+ NODLL
+ NODUMP
+ NODYNAM
+   EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(ELAXMGUX),NOMSGEXIT)
+ NOEXPORTALL
+ NOFASTSRT
+   FLAG(I,I)
+ NOFLAGSTD
+   HGPR(PRESERVE)
+   INTDATE(ANSI)
+   LANGUAGE(EN)
+   LINECOUNT(60)
+ NOLIST
+ NOMAP
+   MAXPCF(60000)
+ NOMDECK
+ NONAME
+   NSYMBOL(NATIONAL)
+ NONUMBER
+   NUMPROC(NOPFD)
+   OBJECT
+ NOOFFSET
+   OPTIMIZE(0)
+   OUTDD(SYSOUT)
+   PGMNAME(COMPAT)
+   QUALIFY(COMPAT)
+   RENT
+   RMODE(AUTO)
+ NORULES
+ NOSERVICE
+   SEQUENCE
+   SOURCEPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/26/2020  Time 08:29:18   Page     2
+
+   SPACE(1)
+   SQL
+   SQLCCSID
+ NOSQLIMS
+ NOSSRANGE
+ NOSTGOPT
+   SUPPRESS
+ NOTERM
+   TEST(NOEJPD,SOURCE)
+ NOTHREAD
+   TRUNC(STD)
+ NOVBREF
+   VLR(STANDARD)
+   VSAMOPENFS(COMPAT)
+ NOWORD
+   XMLPARSE(XMLSS)
+   XREF(FULL)
+ NOZONECHECK
+   ZONEDATA(PFD)
+   ZWB
+
+        IGYOS4077-I   DSNH4790I DSNHPSRV  DSNHDECP HAS CCSID 500 IN EFFECT
+
+
+        IGYOS4078-W   DSNH4791I DSNHPSRV  CCSID 1140 IS USED TO PROCESS SQL, BUT DSNHDECP HAS EBCDIC CCSID 500 IN EFFECT
+
+
+        IGYOS4078-W   DSNH527I DSNHOPTS  THE PRECOMPILER OR DB2 COPROCESSOR ATTEMPTED TO USE THE DB2-SUPPLIED DSNHDECP MODULE.
+
+
+        IGYOS4077-I   DSNH4760I DSNHPSRV  THE DB2 SQL COPROCESSOR IS USING THE LEVEL 2 INTERFACE UNDER DB2 V11
+
+
+
+SQL Options in effect:
+ ATTACH(TSO)
+ CCSID(1140)
+ CONNECT(2)
+ DEC(15)
+ DECP(DSNHDECP)
+ NEWFUN(V11)
+ ONEPASS
+ PERIOD
+ QUOTESQL
+ STDSQL(NO)
+ SQL(DB2)
+ NOXREF
+ NO SOURCE
+ DSNHDECP LOADED FROM - (DSNB10.SDSNLOAD(DSNHDECP))
+
+
+CICS Options in effect:
+ CICS
+ DEBUG
+ EDF
+ NATLANG(EN)
+ APOST
+ NOSYSEIBPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/26/2020  Time 08:29:18   Page     3
+
+ NOFEPI
+ NOCPSM
+ LINKAGE
+ LENGTH
+ COBOL2PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     4
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* HCITDB01
+  000001               *  Changed Oct 26 2020 * Regi
+  000002               *                    Inquire Threshold                           *
+  000003               *                                                                *
+  000004               * Select threshold details from DB2 table                        *
+  000005               *                                                                *
+  000006               *                                                                *
+  000007               ******************************************************************
+  000008                IDENTIFICATION DIVISION.
+  000009                PROGRAM-ID. HCITDB01.
+  000010                ENVIRONMENT DIVISION.
+  000011                CONFIGURATION SECTION.
+  000012               *
+  000013                DATA DIVISION.
+  000014
+  000015                WORKING-STORAGE SECTION.
+  000016
+  000017               *----------------------------------------------------------------*
+  000018               * Common defintions                                              *
+  000019               *----------------------------------------------------------------*
+  000020               * Run time (debug) infomation for this invocation
+  000021                 01  WS-HEADER.                                                           * *
+  000022                    03 WS-EYECATCHER            PIC X(16)
+  000023                                                 VALUE 'HCITDB01------WS'.
+  000024                    03 WS-TRANSID               PIC X(4).
+  000025                    03 WS-TERMID                PIC X(4).
+  000026                    03 WS-TASKNUM               PIC 9(7).
+  000027                    03 WS-FILLER                PIC X.
+  000028                    03 WS-ADDR-DFHCOMMAREA      USAGE is POINTER.
+  000029                    03 WS-CALEN                 PIC S9(4) COMP.
+  000030
+  000031               *----------------------------------------------------------------*
+  000032               * Fields to be used to calculate if commarea is large enough
+  000033                01  WS-COMMAREA-LENGTHS.
+  000034                    03 WS-CA-HEADERTRAILER-LEN  PIC S9(4) COMP VALUE +18.
+  000035                    03 WS-REQUIRED-CA-LEN       PIC S9(4)      VALUE +0.
+  000036
+  000037               *----------------------------------------------------------------*
+  000038               * Definitions required by SQL statement                          *
+  000039               *   DB2 datatypes to COBOL equivalents                           *
+  000040               *     SMALLINT    :   PIC S9(4) COMP                             *
+  000041               *     INTEGER     :   PIC S9(9) COMP                             *
+  000042               *     DATE        :   PIC X(10)                                  *
+  000043               *     TIMESTAMP   :   PIC X(26)                                  *
+  000044               *----------------------------------------------------------------*
+  000045               * Host variables for input to DB2 integer types
+  000046                01  DB2-IN.
+  000047                    03 DB2-PATIENT-ID           PIC X(10).
+  000048               *
+  000049               *----------------------------------------------------------------*
+  000050                COPY HCERRSWS.
+  000051C              * Error handler - changed April 29 2020 1:50PM
+  000052C               01 HCAZERRS           PIC x(8) Value 'HCAZERRS'.
+  000053C
+  000054C              * Variables for time/date processing
+  000055C               01  WS-ABSTIME                  PIC S9(8) COMP VALUE +0.
+  000056C               01  WS-TIME                     PIC X(8)  VALUE SPACES.                   IMPPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     5
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000057C               01  WS-DATE                     PIC X(10) VALUE SPACES.                   IMP
+  000058C
+  000059C              * Error Message structure
+  000060C               01  ERROR-MSG.
+  000061C                   03 EM-DATE                  PIC X(8)  VALUE SPACES.                   IMP
+  000062C                   03 FILLER                   PIC X     VALUE SPACES.                   IMP
+  000063C                   03 EM-TIME                  PIC X(6)  VALUE SPACES.                   IMP
+  000064C                   03 FILLER                   PIC X(9)  VALUE ' HCP1BI01'.
+  000065C                   03 EM-VARIABLE.
+  000066C                     05 FILLER                 PIC X(6)  VALUE ' PNUM='.
+  000067C                     05 EM-PATNUM              PIC X(10)  VALUE SPACES.                  IMP
+  000068C                     05 FILLER                 PIC X(6)  VALUE ' MNUM='.
+  000069C                     05 EM-MEDNUM              PIC X(10)  VALUE SPACES.                  IMP
+  000070C                     05 EM-SQLREQ              PIC X(16) VALUE SPACES.                   IMP
+  000071C                     05 FILLER                 PIC X(9)  VALUE ' SQLCODE='.
+  000072C                     05 EM-SQLRC               PIC +9(5) USAGE DISPLAY.
+  000073C
+  000074C               01 CA-ERROR-MSG.
+  000075C                   03 FILLER                PIC X(9)  VALUE 'COMMAREA='.
+  000076C                   03 CA-DATA               PIC X(90) VALUE SPACES.                      IMP
+  000077               *----------------------------------------------------------------*
+  000078               *    DB2 CONTROL
+  000079               *----------------------------------------------------------------*
+  000080               * SQLCA DB2 communications area
+  000081                    EXEC SQL
+  000082                        INCLUDE SQLCA
+  000083                    END-EXEC.
+  000084C               01 SQLCA GLOBAL VOLATILE.
+  000085C                   05 SQLCAID PIC X(8).
+  000086C                   05 SQLCABC PIC S9(9) COMP-5.
+  000087C                   05 SQLCODE PIC S9(9) COMP-5.
+  000088C                   05 SQLERRM.
+  000089C                     49 SQLERRML PIC S9(4) COMP-5.
+  000090C                     49 SQLERRMC PIC X(70).
+  000091C                   05 SQLERRP PIC X(8).
+  000092C                   05 SQLERRD PIC s9(9) comp-5
+  000093C                              OCCURS 6 TIMES.
+  000094C                   05 SQLWARN.
+  000095C                     10 SQLWARN0 PIC X.
+  000096C                     10 SQLWARN1 PIC X.
+  000097C                     10 SQLWARN2 PIC X.
+  000098C                     10 SQLWARN3 PIC X.
+  000099C                     10 SQLWARN4 PIC X.
+  000100C                     10 SQLWARN5 PIC X.
+  000101C                     10 SQLWARN6 PIC X.
+  000102C                     10 SQLWARN7 PIC X.
+  000103C                   05 SQLEXT.
+  000104C                     10 SQLWARN8 PIC X.
+  000105C                     10 SQLWARN9 PIC X.
+  000106C                     10 SQLWARNA PIC X.
+  000107C                     10 SQLSTATE PIC X(5).
+  000108               *
+  000109               *
+  000110               ******************************************************************
+  000111               *    L I N K A G E     S E C T I O N
+  000112               ******************************************************************
+  000113                LINKAGE SECTION.PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     6
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000114
+  000115                01  DFHCOMMAREA.
+  000116                    EXEC SQL
+  000117                      INCLUDE HCCMAREA
+  000118                    END-EXEC.
+  000119C              ******************************************************************
+  000120C              * Modificado em Oct 26 - 09:40   Regi *
+  000121C              ******************************************************************
+  000122C                   03 CA-REQUEST-ID            PIC X(6).
+  000123C                   03 CA-RETURN-CODE           PIC 9(2).
+  000124C                   03 CA-PATIENT-ID            PIC 9(10).
+  000125C                   03 CA-REQUEST-SPECIFIC      PIC X(32482).
+  000126C              *    Fields used in INQ All and ADD patient
+  000127C                   03 CA-PATIENT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                  125
+  000128C                      05 CA-INS-CARD-NUM       PIC X(10).
+  000129C              *        05 CA-FIRST-NAME         PIC X(12).
+  000130C                      05 CA-FIRST-NAME         PIC X(10).
+  000131C                      05 CA-LAST-NAME          PIC X(20).
+  000132C                      05 CA-DOB                PIC X(10).
+  000133C                      05 CA-ADDRESS            PIC X(20).
+  000134C                      05 CA-CITY               PIC X(20).
+  000135C                      05 CA-POSTCODE           PIC X(10).
+  000136C                      05 CA-PHONE-MOBILE       PIC X(20).
+  000137C                      05 CA-EMAIL-ADDRESS      PIC X(50).
+  000138C                      05 CA-USERID             PIC X(10).
+  000139C                      05 CA-ADDITIONAL-DATA    PIC X(32302).
+  000140C              *        05 CA-ADDITIONAL-DATA    PIC X(32300).
+  000141C              *    Fields used in Add Patient User
+  000142C                   03 CA-PATIENT-USER-REQUEST REDEFINES CA-REQUEST-SPECIFIC.             125
+  000143C                      05 CA-USERNAME           PIC X(10).
+  000144C                      05 CA-USERPASSWORD       PIC X(14).
+  000145C                      05 CA-ADDITIONAL-DATA    PIC X(32458).
+  000146C              *     Fields used in UPD, ADD & DELETE medication
+  000147C                   03 CA-MEDICATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               125
+  000148C                      05 CA-DRUG-NAME          PIC X(50).
+  000149C                      05 CA-STRENGTH           PIC X(20).
+  000150C                      05 CA-AMOUNT             PIC 9(03).
+  000151C                      05 CA-ROUTE              PIC X(20).
+  000152C                      05 CA-FREQUENCY          PIC X(20).
+  000153C                      05 CA-IDENTIFIER         PIC X(20).
+  000154C                      05 CA-BIOMED-TYPE        PIC X(2).
+  000155C                      05 CA-START-DATE         PIC X(10).
+  000156C                      05 CA-END-DATE           PIC X(10).
+  000157C                      05 CA-PRESCRIPTION-ID    PIC 9(10).
+  000158C                      05 CA-ADDITIONAL-DATA    PIC X(32317).
+  000159C              *    Fields used in UPD, ADD & DELETE meditation
+  000160C                   03 CA-MEDITATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               125
+  000161C                      05 CA-MEDITATION-NAME    PIC X(50).
+  000162C                      05 CA-MEDITATION-TYPE    PIC X(20).
+  000163C                      05 CA-RELIEF             PIC X(20).
+  000164C                      05 CA-POSTURE            PIC X(20).
+  000165C                      05 CA-HOW-OFTEN          PIC X(20).
+  000166C                      05 CA-ADDITIONAL-DATA    PIC X(32352).
+  000167C              *    Fields used in INQ, UPD, ADD & DELETE thresholds
+  000168C                   03 CA-THRESHOLD-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                125
+  000169C                      05 CA-HR-THRESHOLD       PIC X(10).
+  000170C                      05 CA-BP-THRESHOLD       PIC X(10).PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     7
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000171C                      05 CA-MS-THRESHOLD       PIC X(10).
+  000172C                      05 CA-ADDITIONAL-DATA    PIC X(32452).
+  000173C              *    Fields used in INQ, UPD, ADD & DELETE visit data
+  000174C                   03 CA-VISIT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                    125
+  000175C                      05 CA-VISIT-DATE         PIC X(10).
+  000176C                      05 CA-VISIT-TIME         PIC X(10).
+  000177C                      05 CA-HEART-RATE         PIC X(10).
+  000178C                      05 CA-BLOOD-PRESSURE     PIC X(10).
+  000179C                      05 CA-MENTAL-STATE       PIC X(10).
+  000180C                      05 CA-ADDITIONAL-DATA    PIC X(32432).
+  000181
+  000182               ******************************************************************
+  000183               *    P R O C E D U R E S
+  000184               ******************************************************************
+  000185                PROCEDURE DIVISION.                                                       115
+  000186
+  000187               *----------------------------------------------------------------*
+  000188                MAINLINE SECTION.
+  000189
+  000190               *----------------------------------------------------------------*
+  000191               * Common code                                                    *
+  000192               *----------------------------------------------------------------*
+  000193               * initialize working storage variables
+  000194                    INITIALIZE WS-HEADER.                                                 21
+  000195               * set up general variable
+  000196                    MOVE EIBTRNID TO WS-TRANSID.                                          IMP 24
+  000197                    MOVE EIBTRMID TO WS-TERMID.                                           IMP 25
+  000198                    MOVE EIBTASKN TO WS-TASKNUM.                                          IMP 26
+  000199               *----------------------------------------------------------------*
+  000200
+  000201               *----------------------------------------------------------------*
+  000202               * Check commarea and obtain required details                     *
+  000203               *----------------------------------------------------------------*
+  000204               * If NO commarea received issue an ABEND
+  000205                    IF EIBCALEN IS EQUAL TO ZERO                                          IMP IMP
+  000206      1                 MOVE ' NO COMMAREA RECEIVED' TO EM-VARIABLE                       65
+  000207      1                 PERFORM WRITE-ERROR-MESSAGE                                       289
+  000208      1                 EXEC CICS ABEND ABCODE('HCCA') NODUMP END-EXEC                    EXT IMP
+  000209                    END-IF
+  000210
+  000211               * initialize commarea return code to zero
+  000212                    MOVE '00' TO CA-RETURN-CODE                                           123
+  000213                    MOVE EIBCALEN TO WS-CALEN.                                            IMP 29
+  000214                    SET WS-ADDR-DFHCOMMAREA TO ADDRESS OF DFHCOMMAREA.                    28 IMP 115
+  000215
+  000216               *----------------------------------------------------------------*
+  000217               * Process incoming commarea                                      *
+  000218               *----------------------------------------------------------------*
+  000219               * check commarea length - meets minimum requirement
+  000220               *     MOVE WS-CUSTOMER-LEN        TO WS-REQUIRED-CA-LEN
+  000221                    ADD WS-CA-HEADERTRAILER-LEN TO WS-REQUIRED-CA-LEN                     34 35
+  000222               * if less set error return code and return to caller
+  000223                    IF EIBCALEN IS LESS THAN WS-REQUIRED-CA-LEN                           IMP 35
+  000224      1               MOVE '98' TO CA-RETURN-CODE                                         123
+  000225      1               EXEC CICS RETURN END-EXEC                                           EXT
+  000226                    END-IF
+  000227PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     8
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000228               * Convert commarea patient number to DB2 integer format
+  000229                    MOVE CA-PATIENT-ID TO DB2-PATIENT-ID                                  124 47
+  000230               * and save in error msg field incase required
+  000231                    MOVE CA-PATIENT-ID TO EM-PATNUM                                       124 67
+  000232
+  000233               *----------------------------------------------------------------*
+  000234               * Obtain details from DB2                                        *
+  000235               *----------------------------------------------------------------*
+  000236               *    Call routine to issue SQL to obtain info from DB2
+  000237                    PERFORM GET-THRESHOLD-INFO.                                           250
+  000238
+  000239               *----------------------------------------------------------------*
+  000240               * END PROGRAM and return to caller                               *
+  000241               *----------------------------------------------------------------*
+  000242                MAINLINE-END.
+  000243
+  000244          REDEFINES CA-REQUEST-SPECIFIC.                528
+  000572C                      05 CA-HR-THRESHOLD       PIC X(10).
+  000573C                      05 CA-BP-THRESHOLD       PIC X(10).
+  000574C                      05 CA-MS-THRESHOLD       PIC X(10).
+  000575C                      05 CA-ADDITIONAL-DATA    PIC X(32452).
+  000576C              *    Fields used in INQ, UPD, ADD & DELETE visit data
+  000577C                   03 CA-VISIT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                    528
+  000578C                      05 CA-VISIT-DATE         PIC X(10).
+  000579C                      05 CA-VISIT-TIME         PIC X(10).
+  000580C                      05 CA-HEART-RATE         PIC X(10).
+  000581C                      05 CA-BLOOD-PRESSURE     PIC X(10).
+  000582C                      05 CA-MENTAL-STATE       PIC X(10).
+  000583C                      05 CA-ADDITIONAL-DATA    PIC X(32432).
+  000584
+  000585               *----------------------------------------------------------------*
+  000586               *****************************************************************
+  000587                PROCEDURE DIVISION.                                                       IMP
+  000588
+  000589               *---------------------------------------------------------------*
+  000590                MAINLINE SECTION.
+  000591
+  000592                    IF EIBCALEN > 0                                                       IMP
+  000593      1                GO TO A-GAIN.                                                      611
+  000594
+  000595                    Initialize HCT1MAPI.                                                  462
+  000596                    Initialize HCT1MAPO.                                                  504
+  000597                    Initialize COMM-AREA.                                                 522
+  000598                    MOVE LOW-VALUES To HCT1PNOO                                           IMP 511
+  000599
+  000600                    MOVE -1 TO HCT1PNOL                                                   474
+  000601
+  000602                    PERFORM SETUP-SCREEN.                                                 732
+  000603
+  000604                    EXEC CICS SEND MAP ('HCT1MAP')
+  000605                              FROM(HCT1MAPO)
+  000606                              MAPSET ('HCMAPS')
+  000607                              ERASE
+  000608                              CURSOR
+  000609                              RESP(WS-RESP)
+  000610                              END-EXEC.                                                   EXT 19
+  000611                A-GAIN.
+  000612
+  000613                    EXEC CICS HANDLE AID
+  000614                              CLEAR(CLEARIT)
+  000615                              PF3(ENDIT)
+  000616                              PF12(CANCELIT)
+  000617                              END-EXEC.                                                   EXT IMP
+  000618                    EXEC CICS HANDLE CONDITION
+  000619                              MAPFAIL(ENDIT)
+  000620                              END-EXEC.                                                   EXT IMP
+  000621
+  000622                    EXEC CICS RECEIVE MAP('HCT1MAP')
+  000623                              INTO(HCT1MAPI) ASIS TERMINAL
+  000624                              MAPSET('HCMAPS') END-EXEC.                                  EXT IMP
+  000625
+  000626                    PERFORM GET-PATIENT                                                   743PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    14
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000627
+  000628               *---------------------------------------------------------------*
+  000629               * Handle the Inquiry request
+  000630                    IF EIBTRNID EQUAL INQ-TRANS                                           IMP 15
+  000631      1                   Move '01ITHR'   To CA-REQUEST-ID                                525
+  000632      1                   Move HCT1PNOI   To CA-PATIENT-ID                                478 527
+  000633               * Link to business logic
+  000634      1                   EXEC CICS LINK PROGRAM('HCT1BI01')
+  000635      1                             COMMAREA(COMM-AREA)
+  000636      1                             LENGTH(32500)
+  000637      1                   END-EXEC                                                        EXT IMP
+  000638
+  000639      1                   IF CA-RETURN-CODE > 0                                           526
+  000640      2                     GO TO NO-DATA                                                 770
+  000641      1                   END-IF
+  000642
+  000643      1                   Move CA-HR-THRESHOLD  To HCT1HRTHO                              572 517
+  000644      1                   Move CA-BP-THRESHOLD  To HCT1BPTHO                              573 519
+  000645
+  000646      1                   EXEC CICS SEND MAP ('HCT1MAP')
+  000647      1                             FROM(HCT1MAPO)
+  000648      1                             MAPSET ('HCMAPS')
+  000649      1                   END-EXEC                                                        EXT IMP
+  000650      1                   GO TO ENDIT-STARTIT                                             696
+  000651                      END-IF.
+  000652
+  000653               *---------------------------------------------------------------*
+  000654               * Handle the Add request
+  000655                    IF EIBTRNID EQUAL ADD-TRANS                                           IMP 16
+  000656      1                IF (HCT1HRTHI EQUAL ZEROS OR SPACES OR LOW-VALUES) OR              493 IMP IMP IMP
+  000657      1                   (HCT1BPTHI EQUAL ZEROS OR SPACES OR LOW-VALUES)                 498 IMP IMP IMP
+  000658      2                   Move 'Enter threshold information'
+  000659      2                         To  HCT1MSGO                                              521
+  000660      2                   MOVE -1 TO HCT1HRTHL                                            489
+  000661      1                ELSE
+  000662      2                   Move '01ATHR'   To CA-REQUEST-ID                                525
+  000663
+  000664      2                   Move HCT1PNOI   To CA-PATIENT-ID                                478 527
+  000665      2                   Move HCT1HRTHI  To CA-HR-THRESHOLD                              493 572
+  000666      2                   Move HCT1BPTHI  To CA-BP-THRESHOLD                              498 573
+  000667
+  000668               * Link to business logic
+  000669      2                   EXEC CICS LINK PROGRAM('HCT1BA01')
+  000670      2                             COMMAREA(COMM-AREA)
+  000671      2                             LENGTH(32500)
+  000672      2                   END-EXEC                                                        EXT IMP
+  000673      2                   IF CA-RETURN-CODE > 0                                           526
+  000674      3                     Exec CICS Syncpoint Rollback End-Exec                         EXT
+  000675      3                     GO TO NO-ADD                                                  765
+  000676      2                   END-IF
+  000677
+  000678      2                   Move CA-PATIENT-ID           To HCT1PNOO                        527 511
+  000679      2                   Move 'New Thresholds added'  To  HCT1MSGO                       521
+  000680      1                END-IF
+  000681      1                PERFORM SETUP-SCREEN                                               732
+  000682
+  000683      1                EXEC CICS SEND MAP ('HCT1MAP')PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    15
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000684      1                          FROM(HCT1MAPO)
+  000685      1                          MAPSET ('HCMAPS')
+  000686      1                          CURSOR
+  000687      1                END-EXEC                                                           EXT IMP
+  000688      1                GO TO ENDIT-STARTIT                                                696
+  000689                      END-IF.
+  000690
+  000691               *    Send message to terminal and return
+  000692
+  000693                    EXEC CICS RETURN
+  000694                    END-EXEC.                                                             EXT
+  000695
+  000696                ENDIT-STARTIT.
+  000697                    EXEC CICS RETURN
+  000698                         TRANSID(EIBTRNID)
+  000699                         COMMAREA(COMM-AREA)
+  000700                         END-EXEC.                                                        EXT IMP
+  000701
+  000702                ENDIT.
+  000703                    EXEC CICS SEND TEXT
+  000704                              FROM(MSGEND)
+  000705                              LENGTH(LENGTH OF MSGEND)
+  000706                              ERASE
+  000707                              FREEKB
+  000708                    END-EXEC                                                              EXT IMP
+  000709                    EXEC CICS RETURN
+  000710                    END-EXEC.                                                             EXT
+  000711
+  000712                CLEARIT.
+  000713
+  000714                    Initialize HCT1MAPI.                                                  462
+  000715                    EXEC CICS SEND MAP ('HCT1MAP')
+  000716                              MAPSET ('HCMAPS')
+  000717                              MAPONLY
+  000718                    END-EXEC                                                              EXT IMP
+  000719
+  0          EXEC CICS RETURN END-EXEC.                                            EXT
+  000245
+  000246                MAINLINE-EXIT.
+  000247                    EXIT.
+  000248               *----------------------------------------------------------------*
+  000249
+  000250                GET-THRESHOLD-INFO.
+  000251                    display 'in get threshold info'
+  000252                    display DB2-PATIENT-ID                                                47
+  000253                    EXEC SQL
+  000254                        SELECT HEARTRATE,
+  000255                               BLOODPRESSURE
+  000256               *               MENTALSTATE
+  000257                        INTO  :CA-HR-THRESHOLD,                                           169
+  000258                              :CA-BP-THRESHOLD                                            170
+  000259               *              :CA-MS-THRESHOLD
+  000260                        FROM THRESHOLD
+  000261                        WHERE PATIENTID = :DB2-PATIENT-ID                                 47
+  000262                        END-EXEC.                                                         EXT IMP
+  000263
+  000264                    MOVE SPACES to CA-MS-THRESHOLD                                        IMP 171
+  000265
+  000266                    display sqlcode                                                       87
+  000267                    Evaluate SQLCODE                                                      87
+  000268                      When 0
+  000269      1                 MOVE '00' TO CA-RETURN-CODE                                       123
+  000270                      When 100
+  000271      1                 MOVE '01' TO CA-RETURN-CODE                                       123
+  000272                      When -913
+  000273      1                 MOVE '01' TO CA-RETURN-CODE                                       123
+  000274                      When Other
+  000275      1                 MOVE '90' TO CA-RETURN-CODE                                       123
+  000276      1                 PERFORM WRITE-ERROR-MESSAGE                                       289
+  000277      1                 EXEC CICS RETURN END-EXEC                                         EXT
+  000278                    END-Evaluate.
+  000279
+  000280                    EXIT.
+  000281
+  000282               *----------------------------------------------------------------*
+  000283                COPY HCERRSPD.
+  000284C              *================================================================*PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page     9
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000285C              * Procedure to write error message to Queues                     *
+  000286C              *   message will include Date, Time, Program Name, Patient Id,   *
+  000287C              *   Medication Id and SQLCODE.                                   *
+  000288C              *================================================================*
+  000289C               WRITE-ERROR-MESSAGE.
+  000290C              * Obtain and format current time and date
+  000291C                   EXEC CICS ASKTIME ABSTIME(WS-ABSTIME)
+  000292C                   END-EXEC                                                              EXT 55
+  000293C                   EXEC CICS FORMATTIME ABSTIME(WS-ABSTIME)
+  000294C                             MMDDYYYY(WS-DATE)
+  000295C                             TIME(WS-TIME)
+  000296C                   END-EXEC                                                              EXT 57
+  000297C                   MOVE WS-DATE TO EM-DATE                                               57 61
+  000298C                   MOVE WS-TIME TO EM-TIME                                               56 63
+  000299C              * Write output message to TDQ
+  000300C                   EXEC CICS LINK PROGRAM(HCAZERRS)
+  000301C                             COMMAREA(ERROR-MSG)
+  000302C                             LENGTH(LENGTH OF ERROR-MSG)
+  000303C                   END-EXEC.                                                             EXT IMP
+  000304C              * Write 90 bytes or as much as we have of commarea to TDQ
+  000305C                   IF EIBCALEN > 0 THEN                                                  IMP
+  000306C     1               IF EIBCALEN < 91 THEN                                               IMP
+  000307C     2                 MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA                           115 IMP 76
+  000308C     2                 EXEC CICS LINK PROGRAM(HCAZERRS)
+  000309C     2                           COMMAREA(CA-ERROR-MSG)
+  000310C     2                           LENGTH(LENGTH OF CA-ERROR-MSG)
+  000311C     2                 END-EXEC                                                          EXT IMP
+  000312C     1               ELSE
+  000313C     2                 MOVE DFHCOMMAREA(1:90) TO CA-DATA                                 115 76
+  000314C     2                 EXEC CICS LINK PROGRAM(HCAZERRS)
+  000315C     2                           COMMAREA(CA-ERROR-MSG)
+  000316C     2                           LENGTH(LENGTH OF CA-ERROR-MSG)
+  000317C     2                 END-EXEC                                                          EXT IMP
+  000318C     1               END-IF
+  000319C                   END-IF.
+  000320C                   EXIT.
+
+==000320==> IGYSC0208-I DSNH050I DSNHPSRV  WARNINGS HAVE BEEN SUPPRESSED DUE TO LACK OF TABLE
+                        DECLARATIONS
+
+*/ HCITDB01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    10
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+     139   CA-ADDITIONAL-DATA
+     145   CA-ADDITIONAL-DATA
+     158   CA-ADDITIONAL-DATA
+     166   CA-ADDITIONAL-DATA
+     172   CA-ADDITIONAL-DATA
+     180   CA-ADDITIONAL-DATA
+     133   CA-ADDRESS
+     150   CA-AMOUNT
+     154   CA-BIOMED-TYPE
+     178   CA-BLOOD-PRESSURE
+     170   CA-BP-THRESHOLD. . . . . . . .  258
+     134   CA-CITY
+      76   CA-DATA. . . . . . . . . . . .  M307 M313
+     132   CA-DOB
+     148   CA-DRUG-NAME
+     137   CA-EMAIL-ADDRESS
+     156   CA-END-DATE
+      74   CA-ERROR-MSG
+     130   CA-FIRST-NAME
+     152   CA-FREQUENCY
+     177   CA-HEART-RATE
+     165   CA-HOW-OFTEN
+     169   CA-HR-THRESHOLD. . . . . . . .  257
+     153   CA-IDENTIFIER
+     128   CA-INS-CARD-NUM
+     131   CA-LAST-NAME
+     147   CA-MEDICATION-REQUEST
+     161   CA-MEDITATION-NAME
+     160   CA-MEDITATION-REQUEST
+     162   CA-MEDITATION-TYPE
+     179   CA-MENTAL-STATE
+     171   CA-MS-THRESHOLD. . . . . . . .  M264
+     124   CA-PATIENT-ID. . . . . . . . .  229 231
+     127   CA-PATIENT-REQUEST
+     142   CA-PATIENT-USER-REQUEST
+     136   CA-PHONE-MOBILE
+     135   CA-POSTCODE
+     164   CA-POSTURE
+     157   CA-PRESCRIPTION-ID
+     163   CA-RELIEF
+     122   CA-REQUEST-ID
+     125   CA-REQUEST-SPECIFIC. . . . . .  127 142 147 160 168 174
+     123   CA-RETURN-CODE . . . . . . . .  M212 M224 M269 M271 M273 M275
+     151   CA-ROUTE
+     155   CA-START-DATE
+     149   CA-STRENGTH
+     168   CA-THRESHOLD-REQUEST
+     138   CA-USERID
+     143   CA-USERNAME
+     144   CA-USERPASSWORD
+     175   CA-VISIT-DATE
+     174   CA-VISIT-REQUEST
+     176   CA-VISIT-TIME
+      46   DB2-INPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    11
+
+ Defined   Cross-reference of data names   References
+
+
+      47   DB2-PATIENT-ID . . . . . . . .  M229 252 261
+       0   DFHB0020 . . . . . . . . . . .  303 311 317
+     115   DFHCOMMAREA. . . . . . . . . .  185 214 307 313
+       0   DFHC0040 . . . . . . . . . . .  208
+       0   EIBCALEN . . . . . . . . . . .  205 213 223 305 306 307
+       0   EIBTASKN . . . . . . . . . . .  198
+       0   EIBTRMID . . . . . . . . . . .  197
+       0   EIBTRNID . . . . . . . . . . .  196
+      61   EM-DATE. . . . . . . . . . . .  M297
+      69   EM-MEDNUM
+      67   EM-PATNUM. . . . . . . . . . .  M231
+      72   EM-SQLRC
+      70   EM-SQLREQ
+      63   EM-TIME. . . . . . . . . . . .  M298
+      65   EM-VARIABLE. . . . . . . . . .  M206
+      60   ERROR-MSG
+      52   HCAZERRS
+       0   SQL---PLIST. . . . . . . . . .  262
+      84   SQLCA
+      86   SQLCABC
+      85   SQLCAID
+      87   SQLCODE. . . . . . . . . . . .  266 267
+      92   SQLERRD
+      88   SQLERRM
+      90   SQLERRMC
+      89   SQLERRML
+      91   SQLERRP
+     103   SQLEXT
+     107   SQLSTATE
+      94   SQLWARN
+     106   SQLWARNA
+      95   SQLWARN0
+      96   SQLWARN1
+      97   SQLWARN2
+      98   SQLWARN3
+      99   SQLWARN4
+     100   SQLWARN5
+     101   SQLWARN6
+     102   SQLWARN7
+     104   SQLWARN8
+     105   SQLWARN9
+      55   WS-ABSTIME . . . . . . . . . .  292
+      28   WS-ADDR-DFHCOMMAREA. . . . . .  M214
+      34   WS-CA-HEADERTRAILER-LEN. . . .  221
+      29   WS-CALEN . . . . . . . . . . .  M213
+      33   WS-COMMAREA-LENGTHS
+      57   WS-DATE. . . . . . . . . . . .  296 297
+      22   WS-EYECATCHER
+      27   WS-FILLER
+      21   WS-HEADER. . . . . . . . . . .  M194
+      35   WS-REQUIRED-CA-LEN . . . . . .  M221 223
+      26   WS-TASKNUM . . . . . . . . . .  M198
+      25   WS-TERMID. . . . . . . . . . .  M197
+      56   WS-TIME. . . . . . . . . . . .  298
+      24   WS-TRANSID . . . . . . . . . .  M196PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    12
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (proce00720                    EXEC CICS RETURN
+  000721                         TRANSID(EIBTRNID)
+  000722                         COMMAREA(COMM-AREA)
+  000723                         END-EXEC.                                                        EXT IMP
+  000724
+  000725                CANCELIT.
+  000726
+  000727                    EXEC CICS RETURN
+  000728                         TRANSID('HCAZ')
+  000729                         IMMEDIATE
+  000730                         END-EXEC.                                                        EXT IMP
+  000731
+  000732                SETUP-SCREEN.
+  000733               * Determine appropriate heading
+  000734                    IF EIBTRNID EQUAL INQ-TRANS                                           IMP 15
+  000735      1                MOVE INQ-TRANS TO HCT1TRNO                                         15 507
+  000736      1                MOVE 'Inquire Threshold Information' to HCT1TITO                   509
+  000737                    ELSE
+  000738      1             IF EIBTRNID EQUAL ADD-TRANS                                           IMP 16
+  000739      2                MOVE ADD-TRANS TO HCT1TRNO                                         16 507
+  000740      2                MOVE 'Add Threshold Information' to HCT1TITO                       509PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    16
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000741      1             END-IF.
+  000742
+  000743                GET-PATIENT.
+  000744               * Get patient name
+  000745                    Move '01IPAT'   To CA-REQUEST-ID                                      525
+  000746                    Move HCT1PNOI   To CA-PATIENT-ID                                      478 527
+  000747                    EXEC CICS LINK PROGRAM('HCP1BI01')
+  000748                              COMMAREA(COMM-AREA)
+  000749                              LENGTH(32500)
+  000750                    END-EXEC                                                              EXT IMP
+  000751
+  000752                    IF CA-RETURN-CODE > 0                                                 526
+  000753      1                GO TO NO-PATIENT-DATA                                              775
+  000754                    END-IF
+  000755
+  000756                    Move CA-FIRST-NAME to HCT1FNAI                                        532 483
+  000757                    Move CA-LAST-NAME  to HCT1LNAI.                                       534 488
+  000758
+  000759
+  000760                NO-UPD.
+  000761                    MOVE -1 TO HCT1HRTHL                                                  489
+  000762                    Move 'Error Updating Threshold'          To  HCT1MSGO.                521
+  000763                    Go To ERROR-OUT.                                                      779
+  000764
+  000765                NO-ADD.
+  000766                    MOVE -1 TO HCT1HRTHL                                                  489
+  000767                    Move 'Error Adding Threshold'            To  HCT1MSGO.                521
+  000768                    Go To ERROR-OUT.                                                      779
+  000769
+  000770                NO-DATA.
+  000771                    MOVE -1 TO HCT1PNOL                                                   474
+  000772                    Move 'No Threshold data was returned.'   To  HCT1MSGO.                521
+  000773                    Go To ERROR-OUT.                                                      779
+  000774
+  000775                NO-PATIENT-DATA.
+  000776                    Move 'No patient data was returned.'  To  HCT1MSGO                    521
+  000777                    Go To ERROR-OUT.                                                      779
+  000778
+  000779                ERROR-OUT.
+  000780                    PERFORM SETUP-SCREEN.                                                 732
+  000781                    EXEC CICS SEND MAP ('HCT1MAP')
+  000782                              FROM(HCT1MAPO)
+  000783                              MAPSET ('HCMAPS')
+  000784                              CURSOR
+  000785                    END-EXEC.                                                             EXT IMP
+  000786
+  000787                    Initialize HCT1MAPI.                                                  462
+  000788                    Initialize HCT1MAPO.                                                  504
+  000789                    Initialize COMM-AREA.                                                 522
+  000790
+  000791                    GO TO ENDIT-STARTIT.                                                  696
+*/ HCT1PL01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    17
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+      16   ADD-TRANS. . . . . . . . . . .  655 738 739
+     543   CA-ADDITIONAL-DATA
+     548   CA-ADDITIONAL-DATA
+     561   CA-ADDITIONAL-DATA
+     569   CA-ADDITIONAL-DATA
+     575   CA-ADDITIONAL-DATA
+     583   CA-ADDITIONAL-DATA
+     536   CA-ADDRESS
+     553   CA-AMOUNT
+     557   CA-BIOMED-TYPE
+     581   CA-BLOOD-PRESSURE
+     573   CA-BP-THRESHOLD. . . . . . . .  644 M666
+     537   CA-CITY
+     535   CA-DOB
+     551   CA-DRUG-NAME
+     540   CA-EMAIL-ADDRESS
+     559   CA-END-DATE
+     532   CA-FIRST-NAME. . . . . . . . .  756
+     555   CA-FREQUENCY
+     580   CA-HEART-RATE
+     568   CA-HOW-OFTEN
+     572   CA-HR-THRESHOLD. . . . . . . .  643 M665
+     556   CA-IDENTIFIER
+     531   CA-INS-CARD-NUM
+     534   CA-LAST-NAME . . . . . . . . .  757
+     550   CA-MEDICATION-REQUEST
+     564   CA-MEDITATION-NAME
+     563   CA-MEDITATION-REQUEST
+     565   CA-MEDITATION-TYPE
+     582   CA-MENTAL-STATE
+     574   CA-MS-THRESHOLD
+     527   CA-PATIENT-ID. . . . . . . . .  M632 M664 678 M746
+     530   CA-PATIENT-REQUEST
+     545   CA-PATIENT-USER-REQUEST
+     539   CA-PHONE-MOBILE
+     538   CA-POSTCODE
+     567   CA-POSTURE
+     560   CA-PRESCRIPTION-ID
+     566   CA-RELIEF
+     525   CA-REQUEST-ID. . . . . . . . .  M631 M662 M745
+     528   CA-REQUEST-SPECIFIC. . . . . .  530 545 550 563 571 577
+     526   CA-RETURN-CODE . . . . . . . .  639 673 752
+     554   CA-ROUTE
+     558   CA-START-DATE
+     552   CA-STRENGTH
+     571   CA-THRESHOLD-REQUEST
+     541   CA-USERID
+     546   CA-USERNAME
+     547   CA-USERPASSWORD
+     578   CA-VISIT-DATE
+     577   CA-VISIT-REQUEST
+     579   CA-VISIT-TIME
+     522   COMM-AREA. . . . . . . . . . .  M597 M789
+       0   DFHB0020 . . . . . . . . . . .  637 672 700 708 723 750PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    18
+
+ Defined   Cross-reference of data names   References
+
+
+       0   DFHB0021 . . . . . . . . . . .  687 785
+       0   DFHCOMMAREA. . . . . . . . . .  587
+       0   DFHC0040 . . . . . . . . . . .  730
+       0   DFHC0071 . . . . . . . . . . .  624 649 718
+       0   DFHEIGDI . . . . . . . . . . .  617 620
+       0   EIBCALEN . . . . . . . . . . .  592
+       0   EIBTRNID . . . . . . . . . . .  630 655 734 738
+     284   HCMACNOA
+     282   HCMACNOF . . . . . . . . . . .  283
+     285   HCMACNOI
+     281   HCMACNOL
+     349   HCMACNOO
+     309   HCMADAMOA
+     307   HCMADAMOF. . . . . . . . . . .  308
+     310   HCMADAMOI
+     306   HCMADAMOL
+     359   HCMADAMOO
+     319   HCMADFREA
+     317   HCMADFREF. . . . . . . . . . .  318
+     320   HCMADFREI
+     316   HCMADFREL
+     363   HCMADFREO
+     299   HCMADNAMA
+     297   HCMADNAMF. . . . . . . . . . .  298
+     300   HCMADNAMI
+     296   HCMADNAML
+     355   HCMADNAMO
+     314   HCMADROUA
+     312   HCMADROUF. . . . . . . . . . .  313
+     315   HCMADROUI
+     311   HCMADROUL
+     361   HCMADROUO
+     304   HCMADSTRA
+     302   HCMADSTRF. . . . . . . . . . .  303
+     305   HCMADSTRI
+     301   HCMADSTRL
+     357   HCMADSTRO
+     339   HCMAEDTAA
+     337   HCMAEDTAF. . . . . . . . . . .  338
+     340   HCMAEDTAI
+     336   HCMAEDTAL
+     371   HCMAEDTAO
+     289   HCMAFNAA
+     287   HCMAFNAF . . . . . . . . . . .  288
+     290   HCMAFNAI
+     286   HCMAFNAL
+     351   HCMAFNAO
+     324   HCMAIDENA
+     322   HCMAIDENF. . . . . . . . . . .  323
+     325   HCMAIDENI
+     321   HCMAIDENL
+     365   HCMAIDENO
+     294   HCMALNAA
+     292   HCMALNAF . . . . . . . . . . .  293
+     295   HCMALNAIPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    19
+
+ Defined   Cross-reference of data names   References
+
+
+     291   HCMALNAL
+     353   HCMALNAO
+     279   HCMAMAPI . . . . . . . . . . .  346
+     346   HCMAMAPO
+     344   HCMAMSGA
+     342   HCMAMSGF . . . . . . . . . . .  343
+     345   HCMAMSGI
+     341   HCMAMSGL
+     373   HCMAMSGO
+     334   HCMASDTAA
+     332   HCMASDTAF. . . . . . . . . . .  333
+     335   HCMASDTAI
+     331   HCMASDTAL
+     369   HCMASDTAO
+     329   HCMATYPEA
+     327   HCMATYPEF. . . . . . . . . . .  328
+     330   HCMATYPEI
+     326   HCMATYPEL
+     367   HCMATYPEO
+     147   HCM1CNOA
+     145   HCM1CNOF . . . . . . . . . . .  146
+     148   HCM1CNOI
+     144   HCM1CNOL
+     242   HCM1CNOO
+     172   HCM1DAM1A
+     170   HCM1DAM1F. . . . . . . . . . .  171
+     173   HCM1DAM1I
+     169   HCM1DAM1L
+     252   HCM1DAM1O
+     197   HCM1DAM2A
+     195   HCM1DAM2F. . . . . . . . . . .  196
+     198   HCM1DAM2I
+     194   HCM1DAM2L
+     262   HCM1DAM2O
+     222   HCM1DAM3A
+     220   HCM1DAM3F. . . . . . . . . . .  221
+     223   HCM1DAM3I
+     219   HCM1DAM3L
+     272   HCM1DAM3O
+     182   HCM1DFR1A
+     180   HCM1DFR1F. . . . . . . . . . .  181
+     183   HCM1DFR1I
+     179   HCM1DFR1L
+     256   HCM1DFR1O
+     207   HCM1DFR2A
+     205   HCM1dure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     250   GET-THRESHOLD-INFO . . . . . .  P237
+     188   MAINLINE
+     242   MAINLINE-END
+     246   MAINLINE-EXIT
+     289   WRITE-ERROR-MESSAGE. . . . . .  P207 P276PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    13
+
+ Defined   Cross-reference of programs     References
+
+EXTERNAL   DFHEI1 . . . . . . . . . . . .  208 225 244 277 292 296 303 311 317
+EXTERNAL   DSNHLI . . . . . . . . . . . .  262
+       9   HCITDB01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    14
+
+
+         COPY/BASIS cross-reference of text-names, library names and dataset information
+
+ Text-name Library   File name                                    Concat   ISPF statistics
+ (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+ HCCMAREA  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+ HCERRSPD  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+ HCERRSWS  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCITDB01  Date 10/26/2020  Time 08:29:18   Page    15
+
+LineID  Message code  Message text
+
+        IGYDS0139-W   Diagnostic messages were issued during processing of compiler options.  These messages are located at the
+                      beginning of the listing.
+
+   320  IGYSC0208-I   DSNH050I DSNHPSRV  WARNINGS HAVE BEEN SUPPRESSED DUE TO LACK OF TABLE DECLARATIONS
+
+
+Messages    Total    Informational    Warning    Error    Severe    Terminating
+
+Printed:       7           4              3
+
+
+* Statistics for COBOL program HCITDB01:
+*    Source records = 716
+*    Data Division statements = 289
+*    Procedure Division statements = 45
+*    Generated COBOL statements = 53
+*    Program complexity factor = 105
+
+End of compilation 1,  program HCITDB01,  highest severity 4.
+
+Return code 4
+1z/OS V2 R2 BINDER     08:29:22 MONDAY OCTOBER 26, 2020
+ BATCH EMULATOR  JOB(DBBS4   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2278I B352 INVOCATION PARAMETERS - MAP,RENT,COMPAT(PM5)
+ IEW2322I 1220  1     INCLUDE OBJECT(HCITDB01)
+ IEW2322I 1220  2       INCLUDE SYSLIB(EQAD3CXT)
+
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  C_CODE            LENGTH =     1598  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT      1598  OBJECT    01  HCITDB01
+        0        0     HCITDB01#C         LABEL
+        0        0     HCITDB01           LABEL
+
+ ---------------
+ CLASS  C_@@PPA2          LENGTH =        8  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     1598 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001A      PART             8  HCITDB01
+
+ ---------------
+ CLASS  C_@@CSINIT        LENGTH =        4  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     15A0 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001B      PART             4  HCITDB01
+
+ ---------------
+ CLASS  B_TEXT            LENGTH =     12BA  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     15A8 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  EQA00CPM           CSECT        F0  SYSLIB    03  EQAD3CXT
+
+                F0  CEEBXITA           CSECT       5DC  SYSLIB    03  EQAD3CXT
+
+               6D0  IGZXBS61        *  CSECT        10  SYSLIB    02  IGZXBS61
+
+               6E0  CEESG004        *  CSECT        34  SYSLIB    02  CEESG004
+
+               718  IGZXRT1         *  CSECT        12  SYSLIB    02  IGZXRT1
+
+               730  IGZXDSP         *  CSECT        12  SYSLIB    02  IGZXDSP
+
+               748  IGZXVMO         *  CSECT        12  SYSLIB    02  IGZXVMO
+
+               760  IGZXCMSG        *  CSECT        12  SYSLIB    02  IGZXCMSG
+
+               778  IGZXPRS         *  CSECT        12  SYSLIB    02  IGZXPRS
+
+               790  DSNCLI          *  CSECT        6C  SYSLIB    04  DSNHLI
+        0      790     DSNHLI             LABEL
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+       30      7C0     DSNWLI             LABEL
+
+               800  DFHEAI          *  CSECT        28  SYSLIB    04  DFHEI1
+        8      808     DFHEI1             LABEL
+
+               828  IGZXBST2        *  CSECT       3FC  SYSLIB    02  IGZXBST2
+
+               C28  CEEBETBL        *  CSECT        28  SYSLIB    02  CEEBETBL
+
+               C50  CEESTART        *  CSECT        B0  SYSLIB    02  CEESTART
+
+               D00  CEEBPUBT        *  CSECT        70  SYSLIB    02  CEEBPUBT
+
+               D70  CEEBTRM         *  CSECT        A4  SYSLIB    02  CEEBTRM
+
+               E18  CEEBLLST        *  CSECT        5C  SYSLIB    02  CEEBLLST
+       10      E28     CEELLIST           LABEL
+
+               E78  CEEBINT         *  CSECT         8  SYSLIB    02  CEEBINT
+
+               E80  CEEARLU         *  CSECT        B8  SYSLIB    02  CEEARLU
+
+               F38  CEEBPIRA        *  CSECT       2A0  SYSLIB    02  CEEINT
+        0      F38     CEEINT             LABEL
+        0      F38     CEEBPIRB           LABEL
+        0      F38     CEEBPIRC           LABEL
+
+              11D8  CEECPYRT        *  CSECT        E2  SYSLIB    02  CEEINT
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  B_LIT             LENGTH =      100  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     2868 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  IEWBLIT            CSECT       100                **NULL**
+        0        0     IEWBLIT            LABEL
+
+ ---------------
+ CLASS  C_WSA             LENGTH =       B4  ATTRIBUTES = MRG, DEFER , RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 002     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001C      PART            10
+                10  HCITDB01#S       PART            A4  HCITDB01
+
+ ---------------
+ CLASS  C_CEESG003        LENGTH =        0  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT         0  OBJECT    01  HCITDB01
+
+ ---------------
+ CLASS  D_INFO            LENGTH =     251A  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT      251A  OBJECT    01  HCITDB01
+        0        0     $PRIV000010        LABEL
+
+ ---------------
+ CLASS  D_LINE            LENGTH =      2F6  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT       2F6  OBJECT    01  HCITDB01
+        0        0     $PRIV000011        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_ABREV           LENGTH =      25E  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT       25E  OBJECT    01  HCITDB01
+        0        0     $PRIV000012        LABEL
+
+ ---------------
+ CLASS  D_ARNGE           LENGTH =       20  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT        20  OBJECT    01  HCITDB01
+        0        0     $PRIV000013        LABEL
+
+ ---------------
+ CLASS  D_PBNMS           LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT        1F  OBJECT    01  HCITDB01
+        0        0     $PRIV000014        LABEL
+
+ ---------------
+ CLASS  D_PPA             LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT        1F  OBJECT    01  HCITDB01
+        0        0     $PRIV000015        LABEL
+
+ ---------------
+ CLASS  D_SRCF            LENGTH =DFR2F. . . . . . . . . . .  206
+     208   HCM1DFR2I
+     204   HCM1DFR2L
+     266   HCM1DFR2O
+     232   HCM1DFR3A
+     230   HCM1DFR3F. . . . . . . . . . .  231
+     233   HCM1DFR3I
+     229   HCM1DFR3L
+     276   HCM1DFR3O
+     162   HCM1DNA1APP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    20
+
+ Defined   Cross-reference of data names   References
+
+
+     160   HCM1DNA1F. . . . . . . . . . .  161
+     163   HCM1DNA1I
+     159   HCM1DNA1L
+     248   HCM1DNA1O
+     187   HCM1DNA2A
+     185   HCM1DNA2F. . . . . . . . . . .  186
+     188   HCM1DNA2I
+     184   HCM1DNA2L
+     258   HCM1DNA2O
+     212   HCM1DNA3A
+     210   HCM1DNA3F. . . . . . . . . . .  211
+     213   HCM1DNA3I
+     209   HCM1DNA3L
+     268   HCM1DNA3O
+     177   HCM1DRO1A
+     175   HCM1DRO1F. . . . . . . . . . .  176
+     178   HCM1DRO1I
+     174   HCM1DRO1L
+     254   HCM1DRO1O
+     202   HCM1DRO2A
+     200   HCM1DRO2F. . . . . . . . . . .  201
+     203   HCM1DRO2I
+     199   HCM1DRO2L
+     264   HCM1DRO2O
+     227   HCM1DRO3A
+     225   HCM1DRO3F. . . . . . . . . . .  226
+     228   HCM1DRO3I
+     224   HCM1DRO3L
+     274   HCM1DRO3O
+     167   HCM1DST1A
+     165   HCM1DST1F. . . . . . . . . . .  166
+     168   HCM1DST1I
+     164   HCM1DST1L
+     250   HCM1DST1O
+     192   HCM1DST2A
+     190   HCM1DST2F. . . . . . . . . . .  191
+     193   HCM1DST2I
+     189   HCM1DST2L
+     260   HCM1DST2O
+     217   HCM1DST3A
+     215   HCM1DST3F. . . . . . . . . . .  216
+     218   HCM1DST3I
+     214   HCM1DST3L
+     270   HCM1DST3O
+     152   HCM1FNAA
+     150   HCM1FNAF . . . . . . . . . . .  151
+     153   HCM1FNAI
+     149   HCM1FNAL
+     244   HCM1FNAO
+     157   HCM1LNAA
+     155   HCM1LNAF . . . . . . . . . . .  156
+     158   HCM1LNAI
+     154   HCM1LNAL
+     246   HCM1LNAO
+     142   HCM1MAPI . . . . . . . . . . .  239PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    21
+
+ Defined   Cross-reference of data names   References
+
+
+     239   HCM1MAPO
+     237   HCM1MSGA
+     235   HCM1MSGF . . . . . . . . . . .  236
+     238   HCM1MSGI
+     234   HCM1MSGL
+     278   HCM1MSGO
+      75   HCP1ADDRA
+      73   HCP1ADDRF. . . . . . . . . . .  74
+      76   HCP1ADDRI
+      72   HCP1ADDRL
+     127   HCP1ADDRO
+      80   HCP1CITYA
+      78   HCP1CITYF. . . . . . . . . . .  79
+      81   HCP1CITYI
+      77   HCP1CITYL
+     129   HCP1CITYO
+      70   HCP1DOBA
+      68   HCP1DOBF . . . . . . . . . . .  69
+      71   HCP1DOBI
+      67   HCP1DOBL
+     125   HCP1DOBO
+      60   HCP1FNAA
+      58   HCP1FNAF . . . . . . . . . . .  59
+      61   HCP1FNAI
+      57   HCP1FNAL
+     121   HCP1FNAO
+      95   HCP1HMOA
+      93   HCP1HMOF . . . . . . . . . . .  94
+      96   HCP1HMOI
+      92   HCP1HMOL
+     135   HCP1HMOO
+      85   HCP1HPCA
+      83   HCP1HPCF . . . . . . . . . . .  84
+      86   HCP1HPCI
+      82   HCP1HPCL
+     131   HCP1HPCO
+      90   HCP1HP2A
+      88   HCP1HP2F . . . . . . . . . . .  89
+      91   HCP1HP2I
+      87   HCP1HP2L
+     133   HCP1HP2O
+     100   HCP1INOA
+      98   HCP1INOF . . . . . . . . . . .  99
+     101   HCP1INOI
+      97   HCP1INOL
+     137   HCP1INOO
+      65   HCP1LNAA
+      63   HCP1LNAF . . . . . . . . . . .  64
+      66   HCP1LNAI
+      62   HCP1LNAL
+     123   HCP1LNAO
+      40   HCP1MAPI . . . . . . . . . . .  112
+     112   HCP1MAPO
+     110   HCP1MSGA
+     108   HCP1MSGF . . . . . . . . . . .  109PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    22
+
+ Defined   Cross-reference of data names   References
+
+
+     111   HCP1MSGI
+     107   HCP1MSGL
+     141   HCP1MSGO
+      55   HCP1PNOA
+      53   HCP1PNOF . . . . . . . . . . .  54
+      56   HCP1PNOI
+      52   HCP1PNOL
+     119   HCP1PNOO
+      50   HCP1TITA
+      48   HCP1TITF . . . . . . . . . . .  49
+      51   HCP1TITI
+      47   HCP1TITL
+     117   HCP1TITO
+      45   HCP1TRNA
+      43   HCP1TRNF . . . . . . . . . . .  44
+      46   HCP1TRNI
+      42   HCP1TRNL
+     115   HCP1TRNO
+     105   HCP1UIDA
+     103   HCP1UIDF . . . . . . . . . . .  104
+     106   HCP1UIDI
+     102   HCP1UIDL
+     139   HCP1UIDO
+     497   HCT1BPTHA
+     495   HCT1BPTHF. . . . . . . . . . .  496
+     498   HCT1BPTHI. . . . . . . . . . .  657 666
+     494   HCT1BPTHL
+     519   HCT1BPTHO. . . . . . . . . . .  M644
+     482   HCT1FNAA
+     480   HCT1FNAF . . . . . . . . . . .  481
+     483   HCT1FNAI . . . . . . . . . . .  M756
+     479   HCT1FNAL
+     513   HCT1FNAO
+     492   HCT1HRTHA
+     490   HCT1HRTHF. . . . . . . . . . .  491
+     493   HCT1HRTHI. . . . . . . . . . .  656 665
+     489   HCT1HRTHL. . . . . . . . . . .  M660 M761 M766
+     517   HCT1HRTHO. . . . . . . . . . .  M643
+     487   HCT1LNAA
+     485   HCT1LNAF . . . . . . . . . . .  486
+     488   HCT1LNAI . . . . . . . . . . .  M757
+     484   HCT1LNAL
+     515   HCT1LNAO
+     462   HCT1MAPI . . . . . . . . . . .  504 M595 M714 M787
+     504   HCT1MAPO . . . . . . . . . . .  M596 M788
+     502   HCT1MSGA
+     500   HCT1MSGF . . . . . . . . . . .  501
+     503   HCT1MSGI
+     499   HCT1MSGL
+     521   HCT1MSGO . . . . . . . . . . .  M659 M679 M762 M767 M772 M776
+     477   HCT1PNOA
+     475   HCT1PNOF . . . . . . . . . . .  476
+     478   HCT1PNOI . . . . . . . . . . .  632 664 746
+     474   HCT1PNOL . . . . . . . . . . .  M600 M771
+     511   HCT1PNOO . . . . . . . . . . .  M598 M678PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    23
+
+ Defined   Cross-reference of data names   References
+
+
+     472   HCT1TITA
+     470   HCT1TITF . . . . . . . . . . .  471
+     473   HCT1TITI
+     469   HCT1TITL
+     509   HCT1TITO . . . . . . . . . . .  M736 M740
+     467   HCT1TRNA
+     465   HCT1TRNF . . . . . . . . . . .  466
+     468   HCT1TRNI
+     464   HCT1TRNL
+     507   HCT1TRNO . . . . . . . . . . .  M735 M739
+     424   HCV1BLPRA
+     422   HCV1BLPRF. . . . . . . . . . .  423
+     425   HCV1BLPRI
+     421   HCV1BLPRL
+     457   HCV1BLPRO
+     429   HCV1BPTHA
+     427   HCV1BPTHF. . . . . . . . . . .  428
+     430   HCV1BPTHI
+     426   HCV1BPTHL
+     459   HCV1BPTHO
+     404   HCV1DATEA
+     402   HCV1DATEF. . . . . . . . . . .  403
+     405   HCV1DATEI
+     401   HCV1DATEL
+     449   HCV1DATEO
+     394   HCV1FNAA
+     392   HCV1FNAF . . . . . . . . . . .  393
+     395   HCV1FNAI
+     391   HCV1FNAL
+     445   HCV1FNAO
+     414   HCV1HRATEA
+     412   HCV1HRATEF . . . . . . . . . .  413
+     415   HCV1HRATEI
+     411   HCV1HRATEL
+     453   HCV1HRATEO
+     419   HCV1HRTHA
+     417   HCV1HRTHF. . . . . . . . . . .  418
+     420   HCV1HRTHI
+     416   HCV1HRTHL
+     455   HCV1HRTHO
+     399   HCV1LNAA
+     397   HCV1LNAF . . . . . . . . . . .  398
+     400   HCV1LNAI
+     396   HCV1LNAL
+     447   HCV1LNAO
+     374   HCV1MAPI . . . . . . . . . . .  436
+     436   HCV1MAPO
+     434   HCV1MSGA
+     432   HCV1MSGF . . . . . . . . . . .  433
+     435   HCV1MSGI
+     431   HCV1MSGL
+     461   HCV1MSGO
+     389   HCV1PNOA
+     387   HCV1PNOF . . . . . . . . . . .  388
+     390   HCV1PNOIPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    24
+
+ Defined   Cross-reference of data names   References
+
+
+     386   HCV1PNOL
+     443   HCV1PNOO
+     409   HCV1TIMEA
+     407   HCV1TIMEF. . . . . . . . . . .  408
+     410   HCV1TIMEI
+     406   HCV1TIMEL
+     451   HCV1TIMEO
+     384   HCV1TITA
+     382   HCV1TITF . . . . . . . . . . .  383
+     385   HCV1TITI
+     381   HCV1TITL
+     441   HCV1TITO
+     379   HCV1TRNA
+     377   HCV1TRNF . . . . . . . . . . .  378
+     380   HCV1TRNI
+     376   HCV1TRNL
+     439   HCV1TRNO
+      27   HCZINPUTA
+      25   HCZINPUTF. . . . . . . . . . .  26
+      28   HCZINPUTI
+      24   HCZINPUTL
+      37   HCZINPUTO
+      22   HCZMENUI . . . . . . . . . . .  34
+      34   HCZMENUO
+      32   HCZMSGA
+      30   HCZMSGF. . . . . . . . . . . .  31
+      33   HCZMSGI
+      29   HCZMSGL
+      39   HCZMSGO
+      15   INQ-TRANS. . . . . . . . . . .  630 734 735
+      17   MSGEND
+      19   WS-RESP. . . . . . . . . . . .  M610PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    25
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     611   A-GAIN . . . . . . . . . . . .  G593
+     725   CANCELIT
+     712   CLEARIT
+     702   ENDIT
+     696   ENDIT-STARTIT. . . . . . . . .  G650 G688 G791
+     779   ERROR-OUT. . . . . . . . . . .  G763 G768 G773 G777
+     743   GET-PATIENT. . . . . . . . . .  P626
+     590   MAINLINE
+     765   NO-ADD . . . . . . . . . . . .  G675
+     770   NO-DATA. . . . . . . . . . . .  G640
+     775   NO-PATIENT-DATA. . . . . . . .  G753
+     760   NO-UPD
+     732   SETUP-SCREEN . . . . . . . . .  P602 P681 P780PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    26
+
+ Defined   Cross-reference of programs     References
+
+EXTERNAL   DFHEI1 . . . . . . . . . . . .  610 617 620 624 637 649 672 674 687 694 700 708 710 718 723 730 750 785
+       8   HCT1PL01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1PL01  Date 10/23/2020  Time 16:00:32   Page    27
+
+
+         COPY/BASIS cross-reference of text-names, library names and dataset information
+
+ Text-name Library   File name                                    Concat   ISPF statistics
+ (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+ HCCMAREA  S       46  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT        46  OBJECT    01  HCITDB01
+        0        0     $PRIV000016        LABEL
+        0        0     HCITDB01#D_SRCF    LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_SRCTXT          LENGTH =      CE7  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT       CE7  OBJECT    01  HCITDB01
+        0        0     $PRIV000017        LABEL
+
+ ---------------
+ CLASS  D_SRCATR          LENGTH =       7C  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT        7C  OBJECT    01  HCITDB01
+        0        0     $PRIV000018        LABEL
+
+ ---------------
+ CLASS  D_XREF            LENGTH =      40D  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCITDB01           CSECT       40D  OBJECT    01  HCITDB01
+        0        0     $PRIV000019        LABEL
+1          ***  DATA SET SUMMARY  ***
+
+ DDNAME    CONCAT   FILE IDENTIFICATION
+
+ OBJECT      01     EMPOT.ZMOBILE.TEST.OBJ
+ SYSLIB      02     CEE.SCEELKED
+ SYSLIB      03     EQAE10.SEQAMOD
+ SYSLIB      04     DFH540.CICS.SDFHLOAD
+1          *** SYMBOL REFERENCES NOT ASSOCIATED WITH ANY ADCON ***
+
+ TYPE   SCOPE   NAME
+
+
+           *** E N D  O F  M O D U L E  M A P ***
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              ZOSV1R8
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 YES
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         REENTRANT
+    RMODE               UNSPECIFIED
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         HCITDB01
+    LOAD LIBRARY        EMPOT.ZMOBILE.TEST.LOAD
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 5 OS COMPAT LEVEL z/OS V1R8 )
+    VOLUME SERIAL       USER04
+    DISPOSITION         REPLACED
+    TIME OF SAVE        08.29.23  OCT 26, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         BINDER DATA
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                YES
+    REUS                YES
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00002A1C
+    DASD SIZE (HEX)     0000D000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  HCITDB01          MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R2 BINDER     08:29:22 MONDAY OCTOBER 26, 2020
+ BATCH EMULATOR  JOB(DBBS4   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008  2278  2322
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
+YSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+ HCMAPS    SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+
+
+
+Messages    Total    Informational    Warning    Error    Severe    Terminating
+
+Printed:       1           1
+
+
+* Statistics for COBOL program HCT1PL01:
+*    Source records = 1005
+*    Data Division statements = 514
+*    Procedure Division statements = 78
+*    Generated COBOL statements = 52
+*    Program complexity factor = 131
+
+End of compilation 1,  program HCT1PL01,  highest severity 0.
+
+Return code 0
+1z/OS V2 R2 BINDER     16:00:36 FRIDAY OCTOBER 23, 2020
+ BATCH EMULATOR  JOB(DBBS3   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2278I B352 INVOCATION PARAMETERS - MAP,RENT,COMPAT(PM5)
+ IEW2322I 1220  1     INCLUDE OBJECT(HCT1PL01)
+ IEW2322I 1220  2       INCLUDE SYSLIB(EQAD3CXT)
+
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  C_CODE            LENGTH =     1B78  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT      1B78  OBJECT    01  HCT1PL01
+        0        0     HCT1PL01#C         LABEL
+        0        0     HCT1PL01           LABEL
+
+ ---------------
+ CLASS  C_@@PPA2          LENGTH =        8  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     1B78 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001A      PART             8  HCT1PL01
+
+ ---------------
+ CLASS  C_@@CSINIT        LENGTH =        4  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     1B80 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001B      PART             4  HCT1PL01
+
+ ---------------
+ CLASS  B_TEXT            LENGTH =     121A  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     1B88 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  EQA00CPM           CSECT        F0  SYSLIB    03  EQAD3CXT
+
+                F0  CEEBXITA           CSECT       5DC  SYSLIB    03  EQAD3CXT
+
+               6D0  IGZXBS61        *  CSECT        10  SYSLIB    02  IGZXBS61
+
+               6E0  CEESG004        *  CSECT        34  SYSLIB    02  CEESG004
+
+               718  IGZXRT1         *  CSECT        12  SYSLIB    02  IGZXRT1
+
+               730  IGZXCMSG        *  CSECT        12  SYSLIB    02  IGZXCMSG
+
+               748  IGZXPRS         *  CSECT        12  SYSLIB    02  IGZXPRS
+
+               760  DFHEAI          *  CSECT        28  SYSLIB    04  DFHEI1
+        8      768     DFHEI1             LABEL
+
+               788  IGZXBST2        *  CSECT       3FC  SYSLIB    02  IGZXBST2
+
+               B88  CEEBETBL        *  CSECT        28  SYSLIB    02  CEEBETBL
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+
+               BB0  CEESTART        *  CSECT        B0  SYSLIB    02  CEESTART
+
+               C60  CEEBPUBT        *  CSECT        70  SYSLIB    02  CEEBPUBT
+
+               CD0  CEEBTRM         *  CSECT        A4  SYSLIB    02  CEEBTRM
+
+               D78  CEEBLLST        *  CSECT        5C  SYSLIB    02  CEEBLLST
+       10      D88     CEELLIST           LABEL
+
+               DD8  CEEBINT         *  CSECT         8  SYSLIB    02  CEEBINT
+
+               DE0  CEEARLU         *  CSECT        B8  SYSLIB    02  CEEARLU
+
+               E98  CEEBPIRA        *  CSECT       2A0  SYSLIB    02  CEEINT
+        0      E98     CEEINT             LABEL
+        0      E98     CEEBPIRB           LABEL
+        0      E98     CEEBPIRC           LABEL
+
+              1138  CEECPYRT        *  CSECT        E2  SYSLIB    02  CEEINT
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  B_LIT             LENGTH =      100  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     2DA8 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  IEWBLIT            CSECT       100                **NULL**
+        0        0     IEWBLIT            LABEL
+
+ ---------------
+ CLASS  C_WSA             LENGTH =       98  ATTRIBUTES = MRG, DEFER , RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 002     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001C      PART            10
+                10  HCT1PL01#S       PART            88  HCT1PL01
+
+ ---------------
+ CLASS  C_CEESG003        LENGTH =        0  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT         0  OBJECT    01  HCT1PL01
+
+ ---------------
+ CLASS  D_INFO            LENGTH =     3F85  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT      3F85  OBJECT    01  HCT1PL01
+        0        0     $PRIV000010        LABEL
+
+ ---------------
+ CLASS  D_LINE            LENGTH =      4CC  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT       4CC  OBJECT    01  HCT1PL01
+        0        0     $PRIV000011        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_ABREV           LENGTH =      235  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT       235  OBJECT    01  HCT1PL01
+        0        0     $PRIV000012        LABEL
+
+ ---------------
+ CLASS  D_ARNGE           LENGTH =       20  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT        20  OBJECT    01  HCT1PL01
+        0        0     $PRIV000013        LABEL
+
+ ---------------
+ CLASS  D_PBNMS           LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT        1F  OBJECT    01  HCT1PL01
+        0        0     $PRIV000014        LABEL
+
+ ---------------
+ CLASS  D_PPA             LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT        1F  OBJECT    01  HCT1PL01
+        0        0     $PRIV000015        LABEL
+
+ ---------------
+ CLASS  D_SRCF            LENGTH =       46  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT        46  OBJECT    01  HCT1PL01
+        0        0     $PRIV000016        LABEL
+        0        0     HCT1PL01#D_SRCF    LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_SRCTXT          LENGTH =     11CD  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT      11CD  OBJECT    01  HCT1PL01
+        0        0     $PRIV000017        LABEL
+
+ ---------------
+ CLASS  D_SRCATR          LENGTH =      12C  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT       12C  OBJECT    01  HCT1PL01
+        0        0     $PRIV000018        LABEL
+
+ ---------------
+ CLASS  D_XREF            LENGTH =      516  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1PL01           CSECT       516  OBJECT    01  HCT1PL01
+        0        0     $PRIV000019        LABEL
+1          ***  DATA SET SUMMARY  ***
+
+ DDNAME    CONCAT   FILE IDENTIFICATION
+
+ OBJECT      01     EMPOT.ZMOBILE.TEST.OBJ
+ SYSLIB      02     CEE.SCEELKED
+ SYSLIB      03     EQAE10.SEQAMOD
+ SYSLIB      04     DFH540.CICS.SDFHLOAD
+1          *** SYMBOL REFERENCES NOT ASSOCIATED WITH ANY ADCON ***
+
+ TYPE   SCOPE   NAME
+
+
+           *** E N D  O F  M O D U L E  M A P ***
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              ZOSV1R8
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 YES
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         REENTRANT
+    RMODE               UNSPECIFIED
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         HCT1PL01
+    LOAD LIBRARY        EMPOT.ZMOBILE.TEST.LOAD
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 5 OS COMPAT LEVEL z/OS V1R8 )
+    VOLUME SERIAL       USER04
+    DISPOSITION         REPLACED
+    TIME OF SAVE        16.00.37  OCT 23, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         BINDER DATA
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                YES
+    REUS                YES
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00002F40
+    DASD SIZE (HEX)     0000F000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  HCT1PL01          MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R2 BINDER     16:00:36 FRIDAY OCTOBER 23, 2020
+ BATCH EMULATOR  JOB(DBBS3   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008  2278  2322
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+

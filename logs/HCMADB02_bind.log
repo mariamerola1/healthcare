@@ -1,0 +1,102 @@
+INPUT_FILE =  /S0W1/tmp/ispfinput4493164005297422821.xml
+<?xml version="1.0"?>
+<ISPF-OUTPUT>
+ <SERVICE-REQUEST>
+<service>TSO</service>
+<session>NONE</session>
+<command>EXEC 'IBMUSER.GIT.ZMOBILE.DBRM.ISPFGWY.EXEC'</command>
+ </SERVICE-REQUEST>
+ <SERVICE-RESPONSE>
+  <TSO>
+  <![CDATA[
+   DSNT254I  -DBBG DSNTBCM2 BIND OPTIONS FOR
+              PACKAGE = DALLASB.HCZMSA1.HCMADB02.()
+              ACTION        REPLACE
+              OWNER         IBMUSER
+              QUALIFIER     HCZMSA1
+              VALIDATE      RUN
+              EXPLAIN       NO
+              ISOLATION     CS
+              RELEASE
+              COPY
+              APREUSE
+              APCOMPARE
+              APRETAINDUP
+              BUSTIMESENSITIVE YES
+              SYSTIMESENSITIVE YES
+              ARCHIVESENSITIVE YES
+              APPLCOMPAT V11R1
+   DSNT255I  -DBBG DSNTBCM2 BIND OPTIONS FOR
+              PACKAGE = DALLASB.HCZMSA1.HCMADB02.()
+              SQLERROR      NOPACKAGE
+              CURRENTDATA   NO
+              DEGREE        1
+              DYNAMICRULES
+              DEFER
+              NOREOPT       VARS
+              KEEPDYNAMIC   NO
+              IMMEDWRITE    INHERITFROMPLAN
+              DBPROTOCOL    DRDA
+              OPTHINT
+              ENCODING      UNICODE(01208)
+              PLANMGMT      OFF
+              PLANMGMTSCOPE STATIC
+              CONCURRENTACCESSRESOLUTION
+              EXTENDEDINDICATOR
+              PATH
+   DSNT275I  -DBBG DSNTBCM2 BIND OPTIONS FOR
+              PACKAGE = DALLASB.HCZMSA1.HCMADB02.()
+              QUERYACCELERATION
+              GETACCELARCHIVE
+   DSNT232I  -DBBG SUCCESSFUL BIND FOR
+              PACKAGE = DALLASB.HCZMSA1.HCMADB02.()
+   ISPF_RETURN_CODE = 0
+  ]]>
+  </TSO>
+ </SERVICE-RESPONSE>
+ <OPERATIONS-LOG>
+ <![CDATA[
+  Content-type: text/plain
+  
+  Entering ISPZINT (Service initialization)
+  Host driver level : z/OS V2R2 15FEB16 OA49935
+  Legacy TSO/ISPF Gateway
+  Effective UID/GID = 0/0
+  About to read from fileno(stdin) = 0
+  Data read from STDIN is TSO EXEC 'IBMUSER.GIT.ZMOBILE.DBRM.ISPFGWY.EXEC'
+  EPOCH secs = 1603370096
+  Local Date & time: Thu Oct 22 12:34:56 2020 
+  Hour: 12 Min: 34 Sec 56
+  Function ID timestamp = ID045337
+  Environment variables (first 1024 bytes):
+  0 PATH=/bin:.:/usr/lpp/ispf/bin
+  1 CGI_CEATSO=FALSE
+  2 _EDC_PTHREAD_YIELD=-2
+  3 _=/usr/lpp/ispf/bin/ISPZINT
+  4 STEPLIB=ISP.SISPLPA:ISP.SISPLOAD:DSNB10.SDSNLOAD
+  5 LOGNAME=IBMUSER
+  6 LANG=C
+  7 LIBPATH=/Z22C/usr/lpp/java/J8.0_64/lib/s390x/compressedrefs:/Z22C/usr/lpp/java/J8.0_64/lib/s390x/j9vm:/Z22C/usr/lpp/java/J8.0_64/lib/s390x:/Z22C/usr/lpp/java/J8.0_64/../lib/s390x:/Z22C/usr/lpp/java/J8.0_64/lib/s390x::/Z22C/usr/lpp/java/J8.0_64/lib/s390x/compressedrefs:/Z22C/usr/lpp/java/J8.0_64/lib/s390x
+  8 CGI_ISPCONF=/etc/ispf
+  9 HOME=/u/ibmuser
+  10 CGI_ISPWORK=/var/ispf
+  11 JAVA_HOME=/usr/lpp/java/J8.0_64
+  12 CGI_ISPPREF=&SYSPREF..ISPF.VCMISPF
+  13 IBM_JAVA_COMMAND_LINE=/usr/lpp/java/J8.0_64/bin/java -classpath /var/dbb/v.1.0.6/lib/*:/var/dbb/v.1.0.6/groovy-2.4.12/lib/*:/usr/include/java_classes/isfjcall.jar -Djava.library.path=/var/dbb/v.1.0.6/lib/:/usr/lib/java_runtime64/ com.ibm.dbb.build.ext.buildprocess.GroovyBuildProcess
+  Number of environment variables is 14
+  Connection Protocol = 
+  CGI_ISPCONF = /etc/ispf
+  CGI_ISPWORK = /var/ispf
+  Server PATH = /bin:.:/usr/lpp/ispf/bin
+  Funcid: Enqueue being requested
+  About to spawn task for ISPZTSO using spawnp
+  Parameters passed to ISPZTSO - EXEC 'IBMUSER.GIT.ZMOBILE.DBRM.ISPFGWY.EXEC'
+  Return code from ISPZTSO is 0
+  About to open /var/ispf/WORKAREA/IBMUSER.ID045337.ISPF.SYSTSPRT
+  *** XML-NOTE *** Reference tagged SERVICE-RESPONSE 
+  Cleanup
+  Funcid: Enqueue released
+ ]]>
+ </OPERATIONS-LOG>
+</ISPF-OUTPUT>
+

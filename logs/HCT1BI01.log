@@ -1,0 +1,867 @@
+PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/26/2020  Time 08:42:58   Page     1
+
+Invocation parameters:
+ LIB,CICS,ADATA,EX(ADX(ELAXMGUX)),TEST
+
+        IGYOS4090-I   The "LIB" option specification is no longer required.  COBOL library processing is always in effect.
+
+
+Options in effect:
+   ADATA
+   ADV
+   AFP(VOLATILE)
+   QUOTE
+   ARCH(7)
+   ARITH(COMPAT)
+ NOAWO
+ NOBLOCK0
+   BUFSIZE(4096)
+   CICS
+   CODEPAGE(1140)
+ NOCOMPILE(S)
+ NOCOPYRIGHT
+ NOCURRENCY
+   DATA(31)
+   DBCS
+ NODECK
+ NODIAGTRUNC
+   DISPSIGN(COMPAT)
+ NODLL
+ NODUMP
+ NODYNAM
+   EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(ELAXMGUX),NOMSGEXIT)
+ NOEXPORTALL
+ NOFASTSRT
+   FLAG(I,I)
+ NOFLAGSTD
+   HGPR(PRESERVE)
+   INTDATE(ANSI)
+   LANGUAGE(EN)
+   LINECOUNT(60)
+ NOLIST
+ NOMAP
+   MAXPCF(60000)
+ NOMDECK
+ NONAME
+   NSYMBOL(NATIONAL)
+ NONUMBER
+   NUMPROC(NOPFD)
+   OBJECT
+ NOOFFSET
+   OPTIMIZE(0)
+   OUTDD(SYSOUT)
+   PGMNAME(COMPAT)
+   QUALIFY(COMPAT)
+   RENT
+   RMODE(AUTO)
+ NORULES
+ NOSERVICE
+   SEQUENCE
+   SOURCEPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603                 Date 10/26/2020  Time 08:42:58   Page     2
+
+   SPACE(1)
+ NOSQL
+   SQLCCSID
+ NOSQLIMS
+ NOSSRANGE
+ NOSTGOPT
+   SUPPRESS
+ NOTERM
+   TEST(NOEJPD,SOURCE)
+ NOTHREAD
+   TRUNC(STD)
+ NOVBREF
+   VLR(STANDARD)
+   VSAMOPENFS(COMPAT)
+ NOWORD
+   XMLPARSE(XMLSS)
+   XREF(FULL)
+ NOZONECHECK
+   ZONEDATA(PFD)
+   ZWB
+
+
+CICS Options in effect:
+ CICS
+ DEBUG
+ EDF
+ NATLANG(EN)
+ APOST
+ NOSYSEIB
+ NOFEPI
+ NOCPSM
+ LINKAGE
+ LENGTH
+ COBOL2PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     3
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+/* HCT1BI01
+  000001               * Chnaged Oct 26 - 10:40 - Regi
+  000002               *                    Inquire Threshold                           *
+  000003               *                                                                *
+  000004               *   Business Logic to obtain patient threshold                   *
+  000005               *                                                                *
+  000006               ******************************************************************
+  000007                IDENTIFICATION DIVISION.
+  000008                PROGRAM-ID. HCT1BI01.
+  000009                ENVIRONMENT DIVISION.
+  000010                CONFIGURATION SECTION.
+  000011               *
+  000012                DATA DIVISION.
+  000013
+  000014                WORKING-STORAGE SECTION.
+  000015
+  000016               *----------------------------------------------------------------*
+  000017               * Common defintions                                              *
+  000018               *----------------------------------------------------------------*
+  000019               * Run time (debug) infomation for this invocation
+  000020                 01  WS-HEADER.
+  000021                    03 WS-EYECATCHER            PIC X(16)
+  000022                                                 VALUE 'HCT1BI01------WS'.
+  000023                    03 WS-TRANSID               PIC X(4).
+  000024                    03 WS-TERMID                PIC X(4).
+  000025                    03 WS-TASKNUM               PIC 9(7).
+  000026                    03 WS-FILLER                PIC X.
+  000027                    03 WS-ADDR-DFHCOMMAREA      USAGE is POINTER.
+  000028                    03 WS-CALEN                 PIC S9(4) COMP.
+  000029
+  000030                01 HCITDB01                  PIC x(8) Value 'HCITDB01'.
+  000031               *----------------------------------------------------------------*
+  000032               * Fields to be used to calculate if commarea is large enough
+  000033                01  WS-COMMAREA-LENGTHS.
+  000034                    03 WS-CA-HEADERTRAILER-LEN  PIC S9(4) COMP VALUE +18.
+  000035                    03 WS-REQUIRED-CA-LEN       PIC S9(4)      VALUE +0.
+  000036
+  000037                01  WS-Resp                     PIC S9(8) Comp.
+  000038               *----------------------------------------------------------------*
+  000039                COPY HCERRSWS.
+  000040C              * Error handler - changed April 29 2020 1:50PM
+  000041C               01 HCAZERRS           PIC x(8) Value 'HCAZERRS'.
+  000042C
+  000043C              * Variables for time/date processing
+  000044C               01  WS-ABSTIME                  PIC S9(8) COMP VALUE +0.
+  000045C               01  WS-TIME                     PIC X(8)  VALUE SPACES.                   IMP
+  000046C               01  WS-DATE                     PIC X(10) VALUE SPACES.                   IMP
+  000047C
+  000048C              * Error Message structure
+  000049C               01  ERROR-MSG.
+  000050C                   03 EM-DATE                  PIC X(8)  VALUE SPACES.                   IMP
+  000051C                   03 FILLER                   PIC X     VALUE SPACES.                   IMP
+  000052C                   03 EM-TIME                  PIC X(6)  VALUE SPACES.                   IMP
+  000053C                   03 FILLER                   PIC X(9)  VALUE ' HCP1BI01'.
+  000054C                   03 EM-VARIABLE.
+  000055C                     05 FILLER                 PIC X(6)  VALUE ' PNUM='.
+  000056C                     05 EM-PATNUM              PIC X(10)  VALUE SPACES.                  IMPPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     4
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000057C                     05 FILLER                 PIC X(6)  VALUE ' MNUM='.
+  000058C                     05 EM-MEDNUM              PIC X(10)  VALUE SPACES.                  IMP
+  000059C                     05 EM-SQLREQ              PIC X(16) VALUE SPACES.                   IMP
+  000060C                     05 FILLER                 PIC X(9)  VALUE ' SQLCODE='.
+  000061C                     05 EM-SQLRC               PIC +9(5) USAGE DISPLAY.
+  000062C
+  000063C               01 CA-ERROR-MSG.
+  000064C                   03 FILLER                PIC X(9)  VALUE 'COMMAREA='.
+  000065C                   03 CA-DATA               PIC X(90) VALUE SPACES.                      IMP
+  000066               ******************************************************************
+  000067               *    L I N K A G E     S E C T I O N
+  000068               ******************************************************************
+  000069                LINKAGE SECTION.
+  000070
+  000071                01  DFHCOMMAREA.
+  000072                      COPY HCCMAREA.
+  000073C              ******************************************************************
+  000074C              * Modificado em Oct 26 - 09:40   Regi *
+  000075C              ******************************************************************
+  000076C                   03 CA-REQUEST-ID            PIC X(6).
+  000077C                   03 CA-RETURN-CODE           PIC 9(2).
+  000078C                   03 CA-PATIENT-ID            PIC 9(10).
+  000079C                   03 CA-REQUEST-SPECIFIC      PIC X(32482).
+  000080C              *    Fields used in INQ All and ADD patient
+  000081C                   03 CA-PATIENT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                  79
+  000082C                      05 CA-INS-CARD-NUM       PIC X(10).
+  000083C              *        05 CA-FIRST-NAME         PIC X(12).
+  000084C                      05 CA-FIRST-NAME         PIC X(10).
+  000085C                      05 CA-LAST-NAME          PIC X(20).
+  000086C                      05 CA-DOB                PIC X(10).
+  000087C                      05 CA-ADDRESS            PIC X(20).
+  000088C                      05 CA-CITY               PIC X(20).
+  000089C                      05 CA-POSTCODE           PIC X(10).
+  000090C                      05 CA-PHONE-MOBILE       PIC X(20).
+  000091C                      05 CA-EMAIL-ADDRESS      PIC X(50).
+  000092C                      05 CA-USERID             PIC X(10).
+  000093C                      05 CA-ADDITIONAL-DATA    PIC X(32302).
+  000094C              *        05 CA-ADDITIONAL-DATA    PIC X(32300).
+  000095C              *    Fields used in Add Patient User
+  000096C                   03 CA-PATIENT-USER-REQUEST REDEFINES CA-REQUEST-SPECIFIC.             79
+  000097C                      05 CA-USERNAME           PIC X(10).
+  000098C                      05 CA-USERPASSWORD       PIC X(14).
+  000099C                      05 CA-ADDITIONAL-DATA    PIC X(32458).
+  000100C              *     Fields used in UPD, ADD & DELETE medication
+  000101C                   03 CA-MEDICATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               79
+  000102C                      05 CA-DRUG-NAME          PIC X(50).
+  000103C                      05 CA-STRENGTH           PIC X(20).
+  000104C                      05 CA-AMOUNT             PIC 9(03).
+  000105C                      05 CA-ROUTE              PIC X(20).
+  000106C                      05 CA-FREQUENCY          PIC X(20).
+  000107C                      05 CA-IDENTIFIER         PIC X(20).
+  000108C                      05 CA-BIOMED-TYPE        PIC X(2).
+  000109C                      05 CA-START-DATE         PIC X(10).
+  000110C                      05 CA-END-DATE           PIC X(10).
+  000111C                      05 CA-PRESCRIPTION-ID    PIC 9(10).
+  000112C                      05 CA-ADDITIONAL-DATA    PIC X(32317).
+  000113C              *    Fields used in UPD, ADD & DELETE meditationPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     5
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000114C                   03 CA-MEDITATION-REQUEST REDEFINES CA-REQUEST-SPECIFIC.               79
+  000115C                      05 CA-MEDITATION-NAME    PIC X(50).
+  000116C                      05 CA-MEDITATION-TYPE    PIC X(20).
+  000117C                      05 CA-RELIEF             PIC X(20).
+  000118C                      05 CA-POSTURE            PIC X(20).
+  000119C                      05 CA-HOW-OFTEN          PIC X(20).
+  000120C                      05 CA-ADDITIONAL-DATA    PIC X(32352).
+  000121C              *    Fields used in INQ, UPD, ADD & DELETE thresholds
+  000122C                   03 CA-THRESHOLD-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                79
+  000123C                      05 CA-HR-THRESHOLD       PIC X(10).
+  000124C                      05 CA-BP-THRESHOLD       PIC X(10).
+  000125C                      05 CA-MS-THRESHOLD       PIC X(10).
+  000126C                      05 CA-ADDITIONAL-DATA    PIC X(32452).
+  000127C              *    Fields used in INQ, UPD, ADD & DELETE visit data
+  000128C                   03 CA-VISIT-REQUEST REDEFINES CA-REQUEST-SPECIFIC.                    79
+  000129C                      05 CA-VISIT-DATE         PIC X(10).
+  000130C                      05 CA-VISIT-TIME         PIC X(10).
+  000131C                      05 CA-HEART-RATE         PIC X(10).
+  000132C                      05 CA-BLOOD-PRESSURE     PIC X(10).
+  000133C                      05 CA-MENTAL-STATE       PIC X(10).
+  000134C                      05 CA-ADDITIONAL-DATA    PIC X(32432).
+  000135
+  000136               ******************************************************************
+  000137               *    P R O C E D U R E S
+  000138               ******************************************************************
+  000139                PROCEDURE DIVISION.                                                       71
+  000140
+  000141               *----------------------------------------------------------------*
+  000142                MAINLINE SECTION.
+  000143               *
+  000144                    INITIALIZE WS-HEADER.                                                 20
+  000145               *
+  000146                    MOVE EIBTRNID TO WS-TRANSID.                                          IMP 23
+  000147                    MOVE EIBTRMID TO WS-TERMID.                                           IMP 24
+  000148                    MOVE EIBTASKN TO WS-TASKNUM.                                          IMP 25
+  000149               *----------------------------------------------------------------*
+  000150               * Check commarea and obtain required details                     *
+  000151               *----------------------------------------------------------------*
+  000152                    IF EIBCALEN IS EQUAL TO ZERO                                          IMP IMP
+  000153      1                 MOVE ' NO COMMAREA RECEIVED' TO EM-VARIABLE                       54
+  000154      1                 PERFORM WRITE-ERROR-MESSAGE                                       202
+  000155      1                 EXEC CICS ABEND ABCODE('HCCA') NODUMP END-EXEC                    EXT IMP
+  000156                    END-IF
+  000157
+  000158                    MOVE '00' TO CA-RETURN-CODE                                           77
+  000159                    MOVE EIBCALEN TO WS-CALEN.                                            IMP 28
+  000160                    SET WS-ADDR-DFHCOMMAREA TO ADDRESS OF DFHCOMMAREA.                    27 IMP 71
+  000161
+  000162               *----------------------------------------------------------------*
+  000163               * Process incoming commarea                                      *
+  000164               *----------------------------------------------------------------*
+  000165               * check commarea length
+  000166               *    MOVE WS-CUSTOMER-LEN        TO WS-REQUIRED-CA-LEN
+  000167                    ADD WS-CA-HEADERTRAILER-LEN TO WS-REQUIRED-CA-LEN                     34 35
+  000168                    IF EIBCALEN IS LESS THAN WS-REQUIRED-CA-LEN                           IMP 35
+  000169      1               MOVE '98' TO CA-RETURN-CODE                                         77
+  000170      1               EXEC CICS RETURN END-EXEC                                           EXTPP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     6
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000171                    END-IF
+  000172
+  000173                    MOVE CA-PATIENT-ID TO EM-PATNUM                                       78 56
+  000174
+  000175                    PERFORM GET-THRESHOLD-INFO.                                           186
+  000176
+  000177               *----------------------------------------------------------------*
+  000178               * END PROGRAM and return to caller                               *
+  000179               *----------------------------------------------------------------*
+  000180                MAINLINE-END.
+  000181                    EXEC CICS RETURN END-EXEC.                                            EXT
+  000182
+  000183                MAINLINE-EXIT.
+  000184                    EXIT.
+  000185               *----------------------------------------------------------------*
+  000186                GET-THRESHOLD-INFO.
+  000187               *----------------------------------------------------------------*
+  000188               *
+  000189                      EXEC CICS LINK Program(HCITDB01)
+  000190                          Commarea(DFHCOMMAREA)
+  000191                          LENGTH(32500)
+  000192                      END-EXEC.                                                           EXT IMP
+  000193                    EXIT.
+  000194               *----------------------------------------------------------------*
+  000195               *
+  000196                COPY HCERRSPD.
+  000197C              *================================================================*
+  000198C              * Procedure to write error message to Queues                     *
+  000199C              *   message will include Date, Time, Program Name, Patient Id,   *
+  000200C              *   Medication Id and SQLCODE.                                   *
+  000201C              *================================================================*
+  000202C               WRITE-ERROR-MESSAGE.
+  000203C              * Obtain and format current time and date
+  000204C                   EXEC CICS ASKTIME ABSTIME(WS-ABSTIME)
+  000205C                   END-EXEC                                                              EXT 44
+  000206C                   EXEC CICS FORMATTIME ABSTIME(WS-ABSTIME)
+  000207C                             MMDDYYYY(WS-DATE)
+  000208C                             TIME(WS-TIME)
+  000209C                   END-EXEC                                                              EXT 46
+  000210C                   MOVE WS-DATE TO EM-DATE                                               46 50
+  000211C                   MOVE WS-TIME TO EM-TIME                                               45 52
+  000212C              * Write output message to TDQ
+  000213C                   EXEC CICS LINK PROGRAM(HCAZERRS)
+  000214C                             COMMAREA(ERROR-MSG)
+  000215C                             LENGTH(LENGTH OF ERROR-MSG)
+  000216C                   END-EXEC.                                                             EXT IMP
+  000217C              * Write 90 bytes or as much as we have of commarea to TDQ
+  000218C                   IF EIBCALEN > 0 THEN                                                  IMP
+  000219C     1               IF EIBCALEN < 91 THEN                                               IMP
+  000220C     2                 MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA                           71 IMP 65
+  000221C     2                 EXEC CICS LINK PROGRAM(HCAZERRS)
+  000222C     2                           COMMAREA(CA-ERROR-MSG)
+  000223C     2                           LENGTH(LENGTH OF CA-ERROR-MSG)
+  000224C     2                 END-EXEC                                                          EXT IMP
+  000225C     1               ELSE
+  000226C     2                 MOVE DFHCOMMAREA(1:90) TO CA-DATA                                 71 65
+  000227C     2                 EXEC CICS LINK PROGRAM(HCAZERRS)PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     7
+  LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+
+  000228C     2                           COMMAREA(CA-ERROR-MSG)
+  000229C     2                           LENGTH(LENGTH OF CA-ERROR-MSG)
+  000230C     2                 END-EXEC                                                          EXT IMP
+  000231C     1               END-IF
+  000232C                   END-IF.
+  000233C                   EXIT.
+*/ HCT1BI01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     8
+
+An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+ Defined   Cross-reference of data names   References
+
+      93   CA-ADDITIONAL-DATA
+      99   CA-ADDITIONAL-DATA
+     112   CA-ADDITIONAL-DATA
+     120   CA-ADDITIONAL-DATA
+     126   CA-ADDITIONAL-DATA
+     134   CA-ADDITIONAL-DATA
+      87   CA-ADDRESS
+     104   CA-AMOUNT
+     108   CA-BIOMED-TYPE
+     132   CA-BLOOD-PRESSURE
+     124   CA-BP-THRESHOLD
+      88   CA-CITY
+      65   CA-DATA. . . . . . . . . . . .  M220 M226
+      86   CA-DOB
+     102   CA-DRUG-NAME
+      91   CA-EMAIL-ADDRESS
+     110   CA-END-DATE
+      63   CA-ERROR-MSG
+      84   CA-FIRST-NAME
+     106   CA-FREQUENCY
+     131   CA-HEART-RATE
+     119   CA-HOW-OFTEN
+     123   CA-HR-THRESHOLD
+     107   CA-IDENTIFIER
+      82   CA-INS-CARD-NUM
+      85   CA-LAST-NAME
+     101   CA-MEDICATION-REQUEST
+     115   CA-MEDITATION-NAME
+     114   CA-MEDITATION-REQUEST
+     116   CA-MEDITATION-TYPE
+     133   CA-MENTAL-STATE
+     125   CA-MS-THRESHOLD
+      78   CA-PATIENT-ID. . . . . . . . .  173
+      81   CA-PATIENT-REQUEST
+      96   CA-PATIENT-USER-REQUEST
+      90   CA-PHONE-MOBILE
+      89   CA-POSTCODE
+     118   CA-POSTURE
+     111   CA-PRESCRIPTION-ID
+     117   CA-RELIEF
+      76   CA-REQUEST-ID
+      79   CA-REQUEST-SPECIFIC. . . . . .  81 96 101 114 122 128
+      77   CA-RETURN-CODE . . . . . . . .  M158 M169
+     105   CA-ROUTE
+     109   CA-START-DATE
+     103   CA-STRENGTH
+     122   CA-THRESHOLD-REQUEST
+      92   CA-USERID
+      97   CA-USERNAME
+      98   CA-USERPASSWORD
+     129   CA-VISIT-DATE
+     128   CA-VISIT-REQUEST
+     130   CA-VISIT-TIME
+       0   DFHB0020 . . . . . . . . . . .  192 216 224 230PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page     9
+
+ Defined   Cross-reference of data names   References
+
+
+      71   DFHCOMMAREA. . . . . . . . . .  139 160 220 226
+       0   DFHC0040 . . . . . . . . . . .  155
+       0   EIBCALEN . . . . . . . . . . .  152 159 168 218 219 220
+       0   EIBTASKN . . . . . . . . . . .  148
+       0   EIBTRMID . . . . . . . . . . .  147
+       0   EIBTRNID . . . . . . . . . . .  146
+      50   EM-DATE. . . . . . . . . . . .  M210
+      58   EM-MEDNUM
+      56   EM-PATNUM. . . . . . . . . . .  M173
+      61   EM-SQLRC
+      59   EM-SQLREQ
+      52   EM-TIME. . . . . . . . . . . .  M211
+      54   EM-VARIABLE. . . . . . . . . .  M153
+      49   ERROR-MSG
+      41   HCAZERRS
+      30   HCITDB01
+      44   WS-ABSTIME . . . . . . . . . .  205
+      27   WS-ADDR-DFHCOMMAREA. . . . . .  M160
+      34   WS-CA-HEADERTRAILER-LEN. . . .  167
+      28   WS-CALEN . . . . . . . . . . .  M159
+      33   WS-COMMAREA-LENGTHS
+      46   WS-DATE. . . . . . . . . . . .  209 210
+      21   WS-EYECATCHER
+      26   WS-FILLER
+      20   WS-HEADER. . . . . . . . . . .  M144
+      35   WS-REQUIRED-CA-LEN . . . . . .  M167 168
+      37   WS-RESP
+      25   WS-TASKNUM . . . . . . . . . .  M148
+      24   WS-TERMID. . . . . . . . . . .  M147
+      45   WS-TIME. . . . . . . . . . . .  211
+      23   WS-TRANSID . . . . . . . . . .  M146PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page    10
+
+Context usage is indicated by the letter preceding a procedure-name reference.
+These letters and their meanings are:
+    A = ALTER (procedure-name)
+    D = GO TO (procedure-name) DEPENDING ON
+    E = End of range of (PERFORM) through (procedure-name)
+    G = GO TO (procedure-name)
+    P = PERFORM (procedure-name)
+    T = (ALTER) TO PROCEED TO (procedure-name)
+    U = USE FOR DEBUGGING (procedure-name)
+
+ Defined   Cross-reference of procedures   References
+
+     186   GET-THRESHOLD-INFO . . . . . .  P175
+     142   MAINLINE
+     180   MAINLINE-END
+     183   MAINLINE-EXIT
+     202   WRITE-ERROR-MESSAGE. . . . . .  P154PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page    11
+
+ Defined   Cross-reference of programs     References
+
+EXTERNAL   DFHEI1 . . . . . . . . . . . .  155 170 181 192 205 209 216 224 230
+       8   HCT1BI01PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.1.0 P160603       HCT1BI01  Date 10/26/2020  Time 08:42:58   Page    12
+
+
+         COPY/BASIS cross-reference of text-names, library names and dataset information
+
+ Text-name Library   File name                                    Concat   ISPF statistics
+ (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+ HCCMAREA  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+ HCERRSPD  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+ HCERRSWS  SYSLIB    EMPOT.ZMOBILE.TEST.COPY                        0
+
+
+
+Messages    Total    Informational    Warning    Error    Severe    Terminating
+
+Printed:       1           1
+
+
+* Statistics for COBOL program HCT1BI01:
+*    Source records = 385
+*    Data Division statements = 185
+*    Procedure Division statements = 33
+*    Generated COBOL statements = 14
+*    Program complexity factor = 51
+
+End of compilation 1,  program HCT1BI01,  highest severity 0.
+
+Return code 0
+1z/OS V2 R2 BINDER     08:43:02 MONDAY OCTOBER 26, 2020
+ BATCH EMULATOR  JOB(DBBS4   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2278I B352 INVOCATION PARAMETERS - MAP,RENT,COMPAT(PM5)
+ IEW2322I 1220  1     INCLUDE OBJECT(HCT1BI01)
+ IEW2322I 1220  2       INCLUDE SYSLIB(EQAD3CXT)
+
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  C_CODE            LENGTH =     10F8  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT      10F8  OBJECT    01  HCT1BI01
+        0        0     HCT1BI01#C         LABEL
+        0        0     HCT1BI01           LABEL
+
+ ---------------
+ CLASS  C_@@PPA2          LENGTH =        8  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     10F8 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001A      PART             8  HCT1BI01
+
+ ---------------
+ CLASS  C_@@CSINIT        LENGTH =        4  ATTRIBUTES = MRG,   LOAD, RMODE=ANY
+                          OFFSET =     1100 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001B      PART             4  HCT1BI01
+
+ ---------------
+ CLASS  B_TEXT            LENGTH =     1232  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     1108 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  EQA00CPM           CSECT        F0  SYSLIB    03  EQAD3CXT
+
+                F0  CEEBXITA           CSECT       5DC  SYSLIB    03  EQAD3CXT
+
+               6D0  IGZXBS61        *  CSECT        10  SYSLIB    02  IGZXBS61
+
+               6E0  CEESG004        *  CSECT        34  SYSLIB    02  CEESG004
+
+               718  IGZXRT1         *  CSECT        12  SYSLIB    02  IGZXRT1
+
+               730  IGZXVMO         *  CSECT        12  SYSLIB    02  IGZXVMO
+
+               748  IGZXCMSG        *  CSECT        12  SYSLIB    02  IGZXCMSG
+
+               760  IGZXPRS         *  CSECT        12  SYSLIB    02  IGZXPRS
+
+               778  DFHEAI          *  CSECT        28  SYSLIB    04  DFHEI1
+        8      780     DFHEI1             LABEL
+
+               7A0  IGZXBST2        *  CSECT       3FC  SYSLIB    02  IGZXBST2
+1                         *** M O D U L E  M A P ***
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+
+               BA0  CEEBETBL        *  CSECT        28  SYSLIB    02  CEEBETBL
+
+               BC8  CEESTART        *  CSECT        B0  SYSLIB    02  CEESTART
+
+               C78  CEEBPUBT        *  CSECT        70  SYSLIB    02  CEEBPUBT
+
+               CE8  CEEBTRM         *  CSECT        A4  SYSLIB    02  CEEBTRM
+
+               D90  CEEBLLST        *  CSECT        5C  SYSLIB    02  CEEBLLST
+       10      DA0     CEELLIST           LABEL
+
+               DF0  CEEBINT         *  CSECT         8  SYSLIB    02  CEEBINT
+
+               DF8  CEEARLU         *  CSECT        B8  SYSLIB    02  CEEARLU
+
+               EB0  CEEBPIRA        *  CSECT       2A0  SYSLIB    02  CEEINT
+        0      EB0     CEEINT             LABEL
+        0      EB0     CEEBPIRB           LABEL
+        0      EB0     CEEBPIRC           LABEL
+
+              1150  CEECPYRT        *  CSECT        E2  SYSLIB    02  CEEINT
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  B_LIT             LENGTH =      100  ATTRIBUTES = CAT,   LOAD, RMODE=ANY
+                          OFFSET =     2340 IN SEGMENT 001     ALIGN = DBLWORD
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  IEWBLIT            CSECT       100                **NULL**
+        0        0     IEWBLIT            LABEL
+
+ ---------------
+ CLASS  C_WSA             LENGTH =       9C  ATTRIBUTES = MRG, DEFER , RMODE=ANY
+                          OFFSET =        0 IN SEGMENT 002     ALIGN = DBLWORD
+ ---------------
+
+             CLASS
+            OFFSET  NAME                TYPE    LENGTH   SECTION
+                 0  $PRIV00001C      PART            10
+                10  HCT1BI01#S       PART            8C  HCT1BI01
+
+ ---------------
+ CLASS  C_CEESG003        LENGTH =        0  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT         0  OBJECT    01  HCT1BI01
+
+ ---------------
+ CLASS  D_INFO            LENGTH =     17CF  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT      17CF  OBJECT    01  HCT1BI01
+        0        0     $PRIV000010        LABEL
+
+ ---------------
+ CLASS  D_LINE            LENGTH =      27D  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT       27D  OBJECT    01  HCT1BI01
+        0        0     $PRIV000011        LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_ABREV           LENGTH =      1FC  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT       1FC  OBJECT    01  HCT1BI01
+        0        0     $PRIV000012        LABEL
+
+ ---------------
+ CLASS  D_ARNGE           LENGTH =       20  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT        20  OBJECT    01  HCT1BI01
+        0        0     $PRIV000013        LABEL
+
+ ---------------
+ CLASS  D_PBNMS           LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT        1F  OBJECT    01  HCT1BI01
+        0        0     $PRIV000014        LABEL
+
+ ---------------
+ CLASS  D_PPA             LENGTH =       1F  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT        1F  OBJECT    01  HCT1BI01
+        0        0     $PRIV000015        LABEL
+
+ ---------------
+ CLASS  D_SRCF            LENGTH =       46  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT        46  OBJECT    01  HCT1BI01
+        0        0     $PRIV000016        LABEL
+        0        0     HCT1BI01#D_SRCF    LABEL
+1                         *** M O D U L E  M A P ***
+
+ ---------------
+ CLASS  D_SRCTXT          LENGTH =      9D4  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT       9D4  OBJECT    01  HCT1BI01
+        0        0     $PRIV000017        LABEL
+
+ ---------------
+ CLASS  D_SRCATR          LENGTH =       66  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT        66  OBJECT    01  HCT1BI01
+        0        0     $PRIV000018        LABEL
+
+ ---------------
+ CLASS  D_XREF            LENGTH =      33C  ATTRIBUTES = CAT, NOLOAD
+
+ ---------------
+
+  SECTION    CLASS                                      ------- SOURCE --------
+   OFFSET   OFFSET  NAME                TYPE    LENGTH  DDNAME   SEQ  MEMBER
+
+                 0  HCT1BI01           CSECT       33C  OBJECT    01  HCT1BI01
+        0        0     $PRIV000019        LABEL
+1          ***  DATA SET SUMMARY  ***
+
+ DDNAME    CONCAT   FILE IDENTIFICATION
+
+ OBJECT      01     EMPOT.ZMOBILE.TEST.OBJ
+ SYSLIB      02     CEE.SCEELKED
+ SYSLIB      03     EQAE10.SEQAMOD
+ SYSLIB      04     DFH540.CICS.SDFHLOAD
+1          *** SYMBOL REFERENCES NOT ASSOCIATED WITH ANY ADCON ***
+
+ TYPE   SCOPE   NAME
+
+
+           *** E N D  O F  M O D U L E  M A P ***
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              ZOSV1R8
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 YES
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         REENTRANT
+    RMODE               UNSPECIFIED
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         HCT1BI01
+    LOAD LIBRARY        EMPOT.ZMOBILE.TEST.LOAD
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 5 OS COMPAT LEVEL z/OS V1R8 )
+    VOLUME SERIAL       USER04
+    DISPOSITION         REPLACED
+    TIME OF SAVE        08.43.03  OCT 26, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         BINDER DATA
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                YES
+    REUS                YES
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   000024DC
+    DASD SIZE (HEX)     0000B000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  HCT1BI01          MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R2 BINDER     08:43:02 MONDAY OCTOBER 26, 2020
+ BATCH EMULATOR  JOB(DBBS4   ) STEP(*OMVSEX ) PGM= IEWBLINK
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008  2278  2322
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
