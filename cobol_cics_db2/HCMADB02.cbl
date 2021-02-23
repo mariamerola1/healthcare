@@ -177,7 +177,7 @@
 
            MOVE WS-END-NUM-DATE TO  WS-WORKING-DATE
       * =%regi ========= Below must be comments to have the abend
-      * =added to fix abend #2 END DATE
+      * ==added to fix abend #2 END DATE 
            IF WS-WORKING-DATE < 16010101 or
               WS-WORKING-DATE > 99991231
               MOVE FUNCTION CURRENT-DATE (1:8) TO WS-WORKING-DATE
