@@ -168,7 +168,7 @@
              MOVE FUNCTION CURRENT-DATE (1:8) TO WS-WORKING-DATE
             COMPUTE WS-WORKING-DATE = WS-WORKING-DATE - 1
             COMPUTE WS-WORKING-DATE = 20170901
-          END-IF
+     END-IF
       *  ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
            COMPUTE WS-INTEGER-START-DATE =
